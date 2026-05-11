@@ -23,11 +23,45 @@ OUTPUT_FILE = Path(__file__).parent.parent / "data" / "labor_market.json"
 # BLS Series IDs for Baltimore Metro (CBSA 12580)
 # Replace with real series from https://www.bls.gov/oes/
 OCCUPATION_SERIES = {
-    "15-1212": "OEUM125801512200000000003",
-    "13-1111": "OEUM125801311100000000003",
-    "11-9111": "OEUM125801191100000000003",
-    "13-1071": "OEUM125801307100000000003",
-    "25-9031": "OEUM125802509300000000003",
+    "11-1021": "OEUM212113111021003",  # General and Operations Managers
+    "13-2011": "OEUM212113132011003",  # Accountants and Auditors
+    "15-1212": "OEUM212113151212003",  # Information Security Analysts
+    "15-1211": "OEUM212113151211003",  # Computer Systems Analysts
+    "13-1111": "OEUM212113131111003",  # Management Analysts
+    "13-2051": "OEUM212113132051003",  # Financial and Investment Analysts
+    "11-3031": "OEUM212113113031003",  # Financial Managers
+    "11-1011": "OEUM212113111011003",  # Chief Executives
+    "25-1011": "OEUM212113251011003",  # Business Teachers, Postsecondary
+    "33-1011": "OEUM212113331011003",  # First-Line Supervisors of Police
+    "23-1011": "OEUM212113231011003",  # Lawyers
+    "33-3021": "OEUM212113333021003",  # Detectives and Criminal Investigators
+    "19-4092": "OEUM212113194092003",  # Forensic Science Technicians
+    "11-1031": "OEUM212113111031003",  # Legislators
+    "13-1041": "OEUM212113131041003",  # Compliance Officers
+    "11-9111": "OEUM212113119111003",  # Medical and Health Services Managers
+    "11-9151": "OEUM212113119151003",  # Social and Community Service Managers
+    "21-1099": "OEUM212113211099003",  # Community and Social Service Specialists
+    "11-9199": "OEUM212113119199003",  # Managers, All Other (Intl Affairs)
+    "13-1071": "OEUM212113131071003",  # Human Resources Specialists
+    "23-1022": "OEUM212113231022003",  # Arbitrators, Mediators, Conciliators
+    "15-1244": "OEUM212113151244003",  # Network and Computer Systems Admins
+    "15-2051": "OEUM212113152051003",  # Data Scientists
+    "27-3031": "OEUM212113273031003",  # Public Relations Specialists
+    "11-2011": "OEUM212113112011003",  # Advertising and Promotions Managers
+    "27-3043": "OEUM212113273043003",  # Writers and Authors
+    "27-3041": "OEUM212113273041003",  # Editors
+    "19-2041": "OEUM212113192041003",  # Environmental Scientists and Specialists
+    "25-4031": "OEUM212113254031003",  # Library Technicians / Archivists
+    "27-1019": "OEUM212113271019003",  # Artists and Related Workers
+    "23-2011": "OEUM212113232011003",  # Paralegals and Legal Assistants
+    "19-3031": "OEUM212113193031003",  # Clinical and Counseling Psychologists
+    "15-1251": "OEUM212113151251003",  # Computer Programmers
+    "27-1014": "OEUM212113271014003",  # Special Effects Artists and Animators
+    "21-1014": "OEUM212113211014003",  # Mental Health Counselors
+    "19-3032": "OEUM212113193032003",  # Industrial-Organizational Psychologists
+    "11-3121": "OEUM212113113121003",  # Human Resources Managers
+    "15-1255": "OEUM212113151255003",  # Web and Digital Interface Designers
+    "27-1024": "OEUM212113271024003",  # Graphic Designers
 }
 
 OCCUPATION_META = {
