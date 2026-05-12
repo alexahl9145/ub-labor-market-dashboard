@@ -291,74 +291,149 @@
     /* ── Occupation cards ───────────────────────────────────── */
     .occ-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 14px; margin-bottom: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px; margin-bottom: 32px;
     }
     .occ-card {
       background: #fff;
       border: 1px solid var(--rule);
       border-radius: var(--radius-lg);
-      padding: 20px 22px;
+      padding: 0;
       box-shadow: var(--shadow-card);
       position: relative; overflow: hidden;
       transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
     }
     .occ-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-    .occ-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    .occ-card-top {
+      padding: 20px 22px 0;
+      border-top: 3px solid var(--rule);
     }
-    .occ-card.demand-high::before { background: var(--teal); }
-    .occ-card.demand-strategic::before { background: var(--indigo); }
-    .occ-card.demand-moderate::before { background: var(--amber); }
+    .occ-card.demand-High    .occ-card-top { border-top-color: var(--teal); }
+    .occ-card.demand-Moderate .occ-card-top { border-top-color: var(--amber); }
+    .occ-card.demand-Low      .occ-card-top { border-top-color: var(--ink-3); }
+
+    /* Bright Outlook badge */
+    .bright-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #6B3800; background: #FFF0D9;
+      border: 1px solid #F5C07A;
+      border-radius: 10px; padding: 2px 8px; margin-bottom: 8px;
+    }
 
     .occ-title {
       font-size: 15px; font-weight: 600; color: var(--navy);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
-    .occ-industry {
-      font-size: 12px; color: var(--ink-3);
+    .occ-industry { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
+    .occ-desc {
+      font-size: 13px; color: var(--ink-2); line-height: 1.65;
       margin-bottom: 14px;
     }
     .occ-wages {
-      display: flex; gap: 16px; margin-bottom: 14px;
-      padding: 12px 14px;
+      display: flex; gap: 0; margin: 0 22px 14px;
       background: var(--cream);
       border-radius: var(--radius-md);
+      overflow: hidden; border: 1px solid var(--rule-lt);
     }
-    .wage-item { text-align: center; flex: 1; }
+    .wage-item { text-align: center; flex: 1; padding: 10px 6px; }
+    .wage-item + .wage-item { border-left: 1px solid var(--rule-lt); }
     .wage-item-label {
       font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
-      text-transform: uppercase; color: var(--ink-3);
-      margin-bottom: 3px;
+      text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px;
     }
     .wage-item-val {
-      font-family: var(--font-serif);
-      font-size: 18px; color: var(--navy);
+      font-family: var(--font-serif); font-size: 17px; color: var(--navy);
     }
-    .wage-divider {
-      width: 1px; background: var(--rule); align-self: stretch;
+
+    /* O*NET skills pills */
+    .occ-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; color: var(--ink-3);
+      padding: 0 22px; margin-bottom: 6px;
     }
+    .pill-row {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      padding: 0 22px; margin-bottom: 12px;
+    }
+    .skill-pill {
+      font-size: 11px; font-weight: 500; color: var(--ub-blue-dk);
+      background: var(--ub-blue-lt); border: 1px solid rgba(0,118,168,0.2);
+      border-radius: 12px; padding: 3px 9px;
+    }
+    .tech-pill {
+      font-size: 11px; font-weight: 500; color: #3B1A6B;
+      background: #F0E8FB; border: 1px solid rgba(90,40,160,0.2);
+      border-radius: 12px; padding: 3px 9px;
+    }
+    .tech-pill.hot::before { content: "🔥 "; }
+
+    /* Tasks */
+    .occ-tasks {
+      padding: 0 22px; margin-bottom: 14px;
+    }
+    .occ-tasks li {
+      font-size: 12px; color: var(--ink-2); line-height: 1.6;
+      padding: 3px 0; border-bottom: 1px solid var(--rule-lt);
+      list-style: none; display: flex; gap: 6px;
+    }
+    .occ-tasks li::before { content: "›"; color: var(--ub-blue); font-weight: 700; }
+
+    /* Stats chips */
     .occ-stats {
-      display: flex; gap: 8px; flex-wrap: wrap;
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 0 22px; margin-bottom: 16px;
     }
     .stat-chip {
       display: flex; align-items: center; gap: 4px;
       font-size: 11px; font-weight: 500;
-      padding: 4px 9px; border-radius: 20px;
-      border: 1px solid;
+      padding: 4px 9px; border-radius: 20px; border: 1px solid;
     }
-    .stat-chip.growth  { color: var(--teal);   border-color: rgba(15,110,86,0.25);  background: var(--teal-lt); }
-    .stat-chip.posting { color: var(--indigo);  border-color: rgba(62,58,158,0.2);   background: var(--indigo-lt); }
-    .stat-chip.gap     { color: var(--amber);   border-color: rgba(184,122,20,0.25); background: var(--amber-lt); }
-    .stat-chip svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
-    .occ-edu {
-      margin-top: 12px; font-size: 12px; color: var(--ink-3);
-      display: flex; align-items: center; gap: 5px;
+    .stat-chip.growth   { color: var(--teal);   border-color: rgba(0,122,110,0.25); background: var(--teal-lt); }
+    .stat-chip.gap      { color: var(--amber);   border-color: rgba(138,92,0,0.25);  background: var(--amber-lt); }
+    .stat-chip.outlook  { color: #3B3899;        border-color: rgba(59,56,153,0.25); background: var(--indigo-lt); }
+
+    /* Job posting links footer */
+    .occ-jobs-bar {
+      margin-top: auto;
+      border-top: 1px solid var(--rule-lt);
+      padding: 12px 22px;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
     }
-    .occ-skills {
-      margin-top: 8px; font-size: 12px; color: var(--ink-2);
-      line-height: 1.6;
+    .occ-jobs-label {
+      font-size: 11px; font-weight: 600; color: var(--ink-3);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-right: 2px;
+    }
+    .job-link {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px;
+      text-decoration: none; transition: background .15s, color .15s;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .job-link:focus-visible { outline: 2px solid var(--ub-blue); outline-offset: 2px; }
+    .job-link.primary {
+      background: var(--ub-blue); color: #fff;
+    }
+    .job-link.primary:hover { background: var(--ub-blue-dk); }
+    .job-link.secondary {
+      background: var(--cream); color: var(--ub-blue);
+      border: 1px solid rgba(0,118,168,0.25);
+    }
+    .job-link.secondary:hover { background: var(--ub-blue-lt); }
+    .occ-meta-row {
+      padding: 0 22px 14px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .occ-edu-badge {
+      font-size: 11px; color: var(--ink-2);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .occ-onet-link {
+      font-size: 11px; color: var(--ub-blue); font-weight: 500;
+      text-decoration: underline; margin-left: auto;
     }
 
     /* ── Charts ─────────────────────────────────────────────── */
@@ -446,7 +521,7 @@
     .prog-link strong { color: var(--navy); }
     .prog-stats {
       display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 8px;
+      gap: 8px; margin-bottom: 14px;
     }
     .prog-stat { text-align: center; }
     .prog-stat-val {
@@ -456,6 +531,13 @@
     .prog-stat-lbl {
       font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
       text-transform: uppercase; color: var(--ink-3);
+    }
+    .prog-skills-row {
+      display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;
+    }
+    .prog-job-links {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding-top: 10px; border-top: 1px solid var(--rule-lt);
     }
     .fit-badge {
       display: inline-block; font-size: 11px; font-weight: 600;
@@ -631,7 +713,7 @@
       <div class="nav-mark" aria-hidden="true">UB</div>
       <div>
         <div class="nav-name">Career &amp; Internship Center</div>
-        <div class="nav-sub">University of Baltimore · 1420 N. Charles St. Baltimore, MD 21201</div>
+        <div class="nav-sub">University of Baltimore · College of Public Affairs</div>
       </div>
     </div>
     <div class="nav-tabs" role="tablist">
@@ -897,6 +979,7 @@ output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <s
       <div class="footer-ub-mark" aria-hidden="true">UB</div>
       <div>
         <div class="footer-unit">Career &amp; Internship Center</div>
+        <div class="footer-college">College of Public Affairs</div>
         <div class="footer-university">University of Baltimore</div>
       </div>
     </div>
@@ -906,7 +989,7 @@ output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <s
       <div class="footer-nav-heading">Quick links</div>
       <ul class="footer-links-list">
         <li>
-          <a href="https://www.ubalt.edu/student-life/student-support/career-and-internship-center/" class="footer-link">
+          <a href="https://www.ubalt.edu/cpa/career-and-internship-center/" class="footer-link">
             Career &amp; Internship Center
           </a>
         </li>
@@ -916,8 +999,8 @@ output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <s
           </a>
         </li>
         <li>
-          <a href="https://www.ubalt.edu/academics/index.cfm" class="footer-link">
-            University of Baltimore Academics
+          <a href="https://www.ubalt.edu/cpa/" class="footer-link">
+            College of Public Affairs
           </a>
         </li>
       </ul>
@@ -938,7 +1021,7 @@ output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <s
 
   <!-- Bottom bar -->
   <div class="footer-bottom">
-    <span id="footer-copy">© 2026 University of Baltimore Career &amp; Internship Center . All rights reserved.</span>
+    <span id="footer-copy">© 2026 University of Baltimore. All rights reserved.</span>
     <span class="footer-bottom-divider" aria-hidden="true">·</span>
     <span>Labor market data sourced from public BLS APIs. Updated weekly every Monday.</span>
     <span class="footer-bottom-divider" aria-hidden="true">·</span>
@@ -958,109 +1041,2650 @@ output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <s
    const DATA = await fetch('./data/labor_market.json').then(r => r.json());
    Your weekly Python script writes that JSON file automatically.
 ─────────────────────────────────────────────────────────────────────────── */
-const DATA = {
-  refreshed: new Date().toISOString(),
-  region: "Baltimore Metro",
-  dataWindow: "2021–2026",
 
-  occupations: [
+// ── Load from live JSON if available, else fall back to sample data ───────
+async function loadData() {
+  try {
+    const r = await fetch('./data/labor_market.json');
+    if (r.ok) return await r.json();
+  } catch(e) {}
+  return SAMPLE_DATA;
+}
+
+// ── LIVE DATA — UB_Labor_Market_Report_POPULATED.xlsx · May 12 2026 ──────
+// Refreshed automatically every Monday by weekly_refresh.py
+const SAMPLE_DATA = {
+  "refreshed": "2026-05-12T00:00:00Z",
+  "region": "Baltimore Metro",
+  "dataWindow": "2022\u20132024",
+  "occupations": [
     {
-      title: "Information Security Analysts",
-      industry: "Computer Systems Design & Related Services",
-      entry: 85000, median: 123000, future: 132000,
-      projGrowth: 0.250, postIntensity: 0.272, talentGap: 480,
-      demand: "High", education: "Bachelor's degree",
-      skills: "Cybersecurity · Risk management · Cloud security",
-      naics: "5415", soc: "15-1212"
+      "soc": "15-1212",
+      "title": "Information Security Analysts",
+      "industry": "Computer Systems Design",
+      "naics": "5415",
+      "entry": 78400,
+      "median": 112000,
+      "future": 128799,
+      "projGrowth": 0.33,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Cybersecurity",
+        "IT"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/15-1212.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/15-1212.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1212&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Information+Security+Analysts&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Information%20Security%20Analysts&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Information%20Security%20Analysts&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Information+Security+Analysts&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
     },
     {
-      title: "Management Analysts",
-      industry: "Mgmt, Scientific & Technical Consulting",
-      entry: 72000, median: 104000, future: 109000,
-      projGrowth: 0.115, postIntensity: 0.230, talentGap: 500,
-      demand: "High", education: "Bachelor's degree",
-      skills: "Data analysis · Process improvement · Project management",
-      naics: "5416", soc: "13-1111"
+      "soc": "15-1252",
+      "title": "Software Developers",
+      "industry": "Software Publishers",
+      "naics": "5112",
+      "entry": 84000,
+      "median": 120000,
+      "future": 138000,
+      "projGrowth": 0.27,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Software",
+        "Development"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/15-1252.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/15-1252.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Software+Developers&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Software%20Developers&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Software%20Developers&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Software+Developers&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
     },
     {
-      title: "Medical & Health Services Managers",
-      industry: "General Medical & Surgical Hospitals",
-      entry: 79000, median: 118000, future: 124000,
-      projGrowth: 0.233, postIntensity: 0.207, talentGap: 320,
-      demand: "High", education: "Bachelor's degree",
-      skills: "Healthcare operations · Budgeting · Compliance",
-      naics: "6221", soc: "11-9111"
+      "soc": "23-1011",
+      "title": "Lawyers",
+      "industry": "Colleges, Universities, Professional Schools",
+      "naics": "6113",
+      "entry": 94500,
+      "median": 135000,
+      "future": 155250,
+      "projGrowth": 0.32,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Law",
+        "Legal Research"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/23-1011.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/23-1011.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-1011&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Lawyers&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Lawyers&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Lawyers&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Lawyers&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
     },
     {
-      title: "Human Resources Specialists",
-      industry: "Administration of Human Resource Programs",
-      entry: 52000, median: 75000, future: 79000,
-      projGrowth: 0.058, postIntensity: 0.163, talentGap: 100,
-      demand: "High", education: "Bachelor's degree",
-      skills: "Recruiting · Employee relations · HRIS",
-      naics: "9231", soc: "13-1071"
+      "soc": "11-9199",
+      "title": "Managers, All Other",
+      "industry": "Management, Scientific Consulting",
+      "naics": "5416",
+      "entry": 77000,
+      "median": 110000,
+      "future": 126499,
+      "projGrowth": 0.33,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Management",
+        "Leadership"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/11-9199.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/11-9199.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-9199&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Managers,+All+Other&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Managers,%20All%20Other&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Managers,%20All%20Other&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Managers,+All+Other&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
     },
     {
-      title: "Instructional Coordinators",
-      industry: "Colleges, Universities & Professional Schools",
-      entry: 58000, median: 82000, future: 85000,
-      projGrowth: 0.060, postIntensity: 0.144, talentGap: 40,
-      demand: "High", education: "Master's degree",
-      skills: "Curriculum design · Assessment · Training",
-      naics: "6113", soc: "25-9031"
+      "soc": "11-1021",
+      "title": "General and Operations Managers",
+      "industry": "Management, Scientific Consulting",
+      "naics": "5416",
+      "entry": 73500,
+      "median": 105000,
+      "future": 120749,
+      "projGrowth": 0.05,
+      "talentGap": 50,
+      "demand": "Low",
+      "brightOutlook": false,
+      "outlook": "Average",
+      "description": "",
+      "topSkills": [
+        "Management",
+        "Operations"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/11-1021.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/11-1021.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=General+and+Operations+Managers&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=General%20and%20Operations%20Managers&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=General%20and%20Operations%20Managers&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=General+and+Operations+Managers&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "13-2011",
+      "title": "Accountants and Auditors",
+      "industry": "Accounting, Tax Prep, Bookkeeping",
+      "naics": "5412",
+      "entry": 53900,
+      "median": 77000,
+      "future": 88550,
+      "projGrowth": 0.3,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Accounting",
+        "Finance"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/13-2011.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/13-2011.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2011&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Accountants+and+Auditors&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Accountants%20and%20Auditors&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Accountants%20and%20Auditors&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Accountants+and+Auditors&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "13-1111",
+      "title": "Management Analysts",
+      "industry": "Management, Scientific Consulting",
+      "naics": "5416",
+      "entry": 66500,
+      "median": 95000,
+      "future": 109249,
+      "projGrowth": 0.31,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Analysis",
+        "Consulting"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/13-1111.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/13-1111.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-1111&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Management+Analysts&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Management%20Analysts&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Management%20Analysts&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Management+Analysts&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "19-3051",
+      "title": "Urban and Regional Planners",
+      "industry": "Community Food and Housing Services",
+      "naics": "6242",
+      "entry": 54600,
+      "median": 78000,
+      "future": 89700,
+      "projGrowth": 0.27,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Planning",
+        "Policy"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/19-3051.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/19-3051.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Urban+and+Regional+Planners&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Urban%20and%20Regional%20Planners&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Urban%20and%20Regional%20Planners&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Urban+and+Regional+Planners&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "21-1021",
+      "title": "Child, Family, School Social Workers",
+      "industry": "Community Food and Housing Services",
+      "naics": "6242",
+      "entry": 35000,
+      "median": 50000,
+      "future": 57499,
+      "projGrowth": 0.26,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/21-1021.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/21-1021.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Child,+Family,+School+Social+Workers&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Child,%20Family,%20School%20Social%20Workers&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Child,%20Family,%20School%20Social%20Workers&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Child,+Family,+School+Social+Workers&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "33-1012",
+      "title": "First-Line Supervisors of Police",
+      "industry": "Justice, Public Order, Safety Activities",
+      "naics": "9221",
+      "entry": 64399,
+      "median": 92000,
+      "future": 105799,
+      "projGrowth": 0.32,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "Law Enforcement",
+        "Leadership"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/33-1012.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/33-1012.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-1012&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=First-Line+Supervisors+of+Police&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=First-Line%20Supervisors%20of%20Police&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=First-Line%20Supervisors%20of%20Police&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=First-Line+Supervisors+of+Police&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "27-3031",
+      "title": "Public Relations Specialists",
+      "industry": "Advertising, PR, and Related",
+      "naics": "5418",
+      "entry": 43400,
+      "median": 62000,
+      "future": 71300,
+      "projGrowth": 0.07,
+      "talentGap": 50,
+      "demand": "Low",
+      "brightOutlook": false,
+      "outlook": "Average",
+      "description": "",
+      "topSkills": [
+        "PR",
+        "Communications"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/27-3031.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/27-3031.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Public+Relations+Specialists&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Public%20Relations%20Specialists&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Public%20Relations%20Specialists&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Public+Relations+Specialists&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "29-1171",
+      "title": "Nurse Practitioners",
+      "industry": "General Medical and Surgical Hospitals",
+      "naics": "6221",
+      "entry": 84000,
+      "median": 120000,
+      "future": 138000,
+      "projGrowth": 0.18,
+      "talentGap": 150,
+      "demand": "Moderate",
+      "brightOutlook": false,
+      "outlook": "Average",
+      "description": "",
+      "topSkills": [
+        "Healthcare",
+        "Advanced Practice"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/29-1171.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/29-1171.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=29-1171&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Nurse+Practitioners&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Nurse%20Practitioners&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Nurse%20Practitioners&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Nurse+Practitioners&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "13-2051",
+      "title": "Financial Analysts",
+      "industry": "Accounting, Tax Prep, Bookkeeping",
+      "naics": "5412",
+      "entry": 66500,
+      "median": 95000,
+      "future": 109249,
+      "projGrowth": 0.23,
+      "talentGap": 150,
+      "demand": "Moderate",
+      "brightOutlook": false,
+      "outlook": "Average",
+      "description": "",
+      "topSkills": [
+        "Finance",
+        "Analysis"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/13-2051.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/13-2051.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2051&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Financial+Analysts&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Financial%20Analysts&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Financial%20Analysts&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Financial+Analysts&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "15-1211",
+      "title": "Computer Systems Analysts",
+      "industry": "Computer Systems Design",
+      "naics": "5415",
+      "entry": 69300,
+      "median": 99000,
+      "future": 113849,
+      "projGrowth": 0.33,
+      "talentGap": 350,
+      "demand": "High",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
+      "description": "",
+      "topSkills": [
+        "IT",
+        "Systems Analysis"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/15-1211.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/15-1211.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1211&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Computer+Systems+Analysts&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Computer%20Systems%20Analysts&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Computer%20Systems%20Analysts&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Computer+Systems+Analysts&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
+    },
+    {
+      "soc": "11-3031",
+      "title": "Financial Managers",
+      "industry": "Professional Services",
+      "naics": "",
+      "entry": 94500,
+      "median": 135000,
+      "future": 155250,
+      "projGrowth": 0.07,
+      "talentGap": 50,
+      "demand": "Low",
+      "brightOutlook": false,
+      "outlook": "Average",
+      "description": "",
+      "topSkills": [
+        "Finance",
+        "Analysis"
+      ],
+      "techSkills": [],
+      "tasks": [],
+      "education": "Bachelor's degree",
+      "onetUrl": "https://www.onetonline.org/link/summary/11-3031.00",
+      "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/11-3031.00",
+      "jobPostings": {
+        "careeronestop": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-3031&location=Baltimore%2C+MD&radius=25",
+        "usajobs": "https://www.usajobs.gov/Search/Results?k=Financial+Managers&l=Baltimore+MD",
+        "linkedin": "https://www.linkedin.com/jobs/search/?keywords=Financial%20Managers&location=Baltimore%2C+Maryland",
+        "indeed": "https://www.indeed.com/jobs?q=Financial%20Managers&l=Baltimore%2C+MD",
+        "idealist": "https://www.idealist.org/en/jobs?q=Financial+Managers&location=Baltimore+MD",
+        "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
+      }
     }
   ],
-
-  industries: [
-    { name: "Computer Systems Design", naics: "5415", lq: 0.81, regGrowth: 23.3, natGrowth: 20.0, empEnd: 18500 },
-    { name: "General Medical Hospitals", naics: "6221", lq: 0.96, regGrowth: 8.3,  natGrowth: 5.6,  empEnd: 45500 },
-    { name: "Admin of HR Programs",     naics: "9231", lq: 1.21, regGrowth: 9.8,  natGrowth: 5.9,  empEnd: 9000  },
-    { name: "Mgmt & Tech Consulting",   naics: "5416", lq: 1.59, regGrowth: 19.0, natGrowth: 18.8, empEnd: 25000 },
-    { name: "Colleges & Universities",  naics: "6113", lq: 1.23, regGrowth: -2.2, natGrowth: 1.2,  empEnd: 17600 }
+  "industries": [
+    {
+      "naics": "5112",
+      "name": "Software Publishers",
+      "lq": 1.66,
+      "natGrowth": 3.3,
+      "regGrowth": 0.9,
+      "empEnd": 9591,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "6113",
+      "name": "Colleges, Universities, Professional Schools",
+      "lq": 1.64,
+      "natGrowth": 6.5,
+      "regGrowth": 13.4,
+      "empEnd": 47081,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "9221",
+      "name": "Justice, Public Order, Safety Activities",
+      "lq": 1.56,
+      "natGrowth": 10.6,
+      "regGrowth": 8.1,
+      "empEnd": 11493,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "5111",
+      "name": "Book and Directory Publishers",
+      "lq": 1.47,
+      "natGrowth": 7.3,
+      "regGrowth": -1.8,
+      "empEnd": 4045,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "9211",
+      "name": "Executive, Legislative, General Government",
+      "lq": 1.47,
+      "natGrowth": 4.3,
+      "regGrowth": -2.1,
+      "empEnd": 10992,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "5416",
+      "name": "Management, Scientific Consulting",
+      "lq": 1.39,
+      "natGrowth": 9.1,
+      "regGrowth": -0.0,
+      "empEnd": 17191,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "6221",
+      "name": "General Medical and Surgical Hospitals",
+      "lq": 1.38,
+      "natGrowth": 2.2,
+      "regGrowth": 1.6,
+      "empEnd": 26556,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "6242",
+      "name": "Community Food and Housing Services",
+      "lq": 1.38,
+      "natGrowth": 4.3,
+      "regGrowth": 15.1,
+      "empEnd": 2741,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "5221",
+      "name": "Depository Credit Intermediation",
+      "lq": 1.29,
+      "natGrowth": 11.5,
+      "regGrowth": 10.7,
+      "empEnd": 8067,
+      "lqCat": "Strong"
+    },
+    {
+      "naics": "9281",
+      "name": "National Security and International Affairs",
+      "lq": 1.24,
+      "natGrowth": 7.4,
+      "regGrowth": -2.4,
+      "empEnd": 10929,
+      "lqCat": "Moderate"
+    },
+    {
+      "naics": "5412",
+      "name": "Accounting, Tax Prep, Bookkeeping",
+      "lq": 1.17,
+      "natGrowth": 6.2,
+      "regGrowth": -3.4,
+      "empEnd": 14410,
+      "lqCat": "Moderate"
+    },
+    {
+      "naics": "5414",
+      "name": "Specialized Design Services",
+      "lq": 1.09,
+      "natGrowth": 11.3,
+      "regGrowth": 0.4,
+      "empEnd": 6559,
+      "lqCat": "Moderate"
+    },
+    {
+      "naics": "5500",
+      "name": "Management of Companies",
+      "lq": 1.09,
+      "natGrowth": 5.7,
+      "regGrowth": 7.8,
+      "empEnd": 16554,
+      "lqCat": "Moderate"
+    },
+    {
+      "naics": "5418",
+      "name": "Advertising, PR, and Related",
+      "lq": 1.03,
+      "natGrowth": 12.0,
+      "regGrowth": 4.4,
+      "empEnd": 14539,
+      "lqCat": "Moderate"
+    },
+    {
+      "naics": "5411",
+      "name": "Legal Services",
+      "lq": 0.89,
+      "natGrowth": 4.7,
+      "regGrowth": -2.3,
+      "empEnd": 13619,
+      "lqCat": "Below Average"
+    },
+    {
+      "naics": "9241",
+      "name": "Environmental Quality Programs",
+      "lq": 0.83,
+      "natGrowth": 8.7,
+      "regGrowth": -1.5,
+      "empEnd": 13577,
+      "lqCat": "Below Average"
+    },
+    {
+      "naics": "9231",
+      "name": "Administration of Human Resource Programs",
+      "lq": 0.73,
+      "natGrowth": 7.1,
+      "regGrowth": 10.6,
+      "empEnd": 6316,
+      "lqCat": "Below Average"
+    },
+    {
+      "naics": "5415",
+      "name": "Computer Systems Design",
+      "lq": 0.71,
+      "natGrowth": 9.3,
+      "regGrowth": 8.0,
+      "empEnd": 34096,
+      "lqCat": "Below Average"
+    },
+    {
+      "naics": "6211",
+      "name": "Offices of Physicians",
+      "lq": 0.67,
+      "natGrowth": 4.2,
+      "regGrowth": 10.0,
+      "empEnd": 8373,
+      "lqCat": "Below Average"
+    },
+    {
+      "naics": "7111",
+      "name": "Performing Arts Companies",
+      "lq": 0.67,
+      "natGrowth": 2.1,
+      "regGrowth": -2.0,
+      "empEnd": 2821,
+      "lqCat": "Below Average"
+    }
   ],
-
-  programs: [
-    { name: "B.S. Business Administration",         cred: "Bachelor's", college: "Merrick School of Business",
-      industry: "Mgmt & Tech Consulting",           occ: "Management Analysts",
-      lq: 1.59, indGrowth: 19.0, occGrowth: 11.5,  fit: "High" },
-    { name: "B.S. Information Systems & Technology", cred: "Bachelor's", college: "College of Arts & Sciences",
-      industry: "Computer Systems Design",           occ: "Information Security Analysts",
-      lq: 0.81, indGrowth: 23.3, occGrowth: 25.0,  fit: "Strategic" },
-    { name: "M.P.A.",                               cred: "Master's",  college: "College of Public Affairs",
-      industry: "Admin of HR Programs",             occ: "Human Resources Specialists",
-      lq: 1.21, indGrowth: 9.8,  occGrowth: 5.8,   fit: "Moderate" },
-    { name: "M.S. Health Systems Management",       cred: "Master's",  college: "College of Public Affairs",
-      industry: "General Medical Hospitals",        occ: "Medical & Health Services Managers",
-      lq: 0.96, indGrowth: 8.3,  occGrowth: 23.3,  fit: "High" }
+  "programs": [
+    {
+      "school": "Merrick School of Business",
+      "program": "Accounting (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "13-2011",
+      "secondary_soc": "13-2051",
+      "primary_title": "Accountants and Auditors",
+      "primary_median": 77000,
+      "primary_growth": -3.4,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Accounting",
+        "Finance"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/13-2011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.17,
+      "lq_maryland": 0.69,
+      "lq_dc": 1.44,
+      "lq_virginia": 1.63
+    },
+    {
+      "school": "Merrick School of Business",
+      "program": "Business Administration (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-1021",
+      "secondary_soc": "13-1111",
+      "primary_title": "General and Operations Managers",
+      "primary_median": 105000,
+      "primary_growth": -0.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Management",
+        "Operations"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.39,
+      "lq_maryland": 0.72,
+      "lq_dc": 1.39,
+      "lq_virginia": 1.28
+    },
+    {
+      "school": "Merrick School of Business",
+      "program": "Entrepreneurship (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-1011",
+      "secondary_soc": "11-1021",
+      "primary_title": "Chief Executives",
+      "primary_median": 185000,
+      "primary_growth": -0.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Leadership",
+        "Strategic Planning"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-1011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.39,
+      "lq_maryland": 0.72,
+      "lq_dc": 1.39,
+      "lq_virginia": 1.28
+    },
+    {
+      "school": "Merrick School of Business",
+      "program": "Finance (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "13-2051",
+      "secondary_soc": "13-2052",
+      "primary_title": "Financial Analysts",
+      "primary_median": 95000,
+      "primary_growth": 10.7,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Finance",
+        "Analysis"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/13-2051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.29,
+      "lq_maryland": 1.16,
+      "lq_dc": 1.54,
+      "lq_virginia": 0.68
+    },
+    {
+      "school": "Merrick School of Business",
+      "program": "Management (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-1021",
+      "secondary_soc": "11-9199",
+      "primary_title": "General and Operations Managers",
+      "primary_median": 105000,
+      "primary_growth": -0.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Management",
+        "Operations"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.39,
+      "lq_maryland": 0.72,
+      "lq_dc": 1.39,
+      "lq_virginia": 1.28
+    },
+    {
+      "school": "Merrick School of Business",
+      "program": "Marketing (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "13-1161",
+      "secondary_soc": "41-3099",
+      "primary_title": "Market Research Analysts",
+      "primary_median": 68000,
+      "primary_growth": 4.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Research",
+        "Data Analysis"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/13-1161.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-1161&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.03,
+      "lq_maryland": 1.38,
+      "lq_dc": 1.18,
+      "lq_virginia": 1.29
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Applied Psychology (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "21-1021",
+      "secondary_soc": "19-3051",
+      "primary_title": "Child, Family, School Social Workers",
+      "primary_median": 50000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Community Studies (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "21-1021",
+      "secondary_soc": "21-1091",
+      "primary_title": "Child, Family, School Social Workers",
+      "primary_median": 50000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Criminal Justice (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "33-3051",
+      "secondary_soc": "33-1012",
+      "primary_title": "Police and Sheriff Patrol Officers",
+      "primary_median": 67000,
+      "primary_growth": 8.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Law Enforcement",
+        "Public Safety"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/33-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.56,
+      "lq_maryland": 1.64,
+      "lq_dc": 1.17,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Forensic Studies (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "33-3051",
+      "secondary_soc": "19-3051",
+      "primary_title": "Police and Sheriff Patrol Officers",
+      "primary_median": 67000,
+      "primary_growth": 8.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Law Enforcement",
+        "Public Safety"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/33-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.56,
+      "lq_maryland": 1.64,
+      "lq_dc": 1.17,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Government and Public Policy (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "19-3051",
+      "secondary_soc": "13-1111",
+      "primary_title": "Urban and Regional Planners",
+      "primary_median": 78000,
+      "primary_growth": -2.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Planning",
+        "Policy"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 1.18,
+      "lq_dc": 0.66,
+      "lq_virginia": 1.4
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Health Systems Management (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-9199",
+      "secondary_soc": "29-1141",
+      "primary_title": "Managers, All Other",
+      "primary_median": 110000,
+      "primary_growth": 1.6,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Management",
+        "Leadership"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-9199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-9199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 1.5,
+      "lq_dc": 1.48,
+      "lq_virginia": 1.28
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Human Services Administration (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "21-1021",
+      "secondary_soc": "11-9199",
+      "primary_title": "Child, Family, School Social Workers",
+      "primary_median": 50000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Jurisprudence (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "23-2011",
+      "secondary_soc": "19-3051",
+      "primary_title": "Paralegals and Legal Assistants",
+      "primary_median": 56000,
+      "primary_growth": -2.3,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Legal",
+        "Research"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/23-2011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-2011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.89,
+      "lq_maryland": 1.65,
+      "lq_dc": 0.94,
+      "lq_virginia": 0.68
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Nonprofit Management (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-9199",
+      "secondary_soc": "13-1111",
+      "primary_title": "Managers, All Other",
+      "primary_median": 110000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Management",
+        "Leadership"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-9199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-9199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Public Administration (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "11-1021",
+      "secondary_soc": "19-3051",
+      "primary_title": "General and Operations Managers",
+      "primary_median": 105000,
+      "primary_growth": -2.1,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Management",
+        "Operations"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 1.18,
+      "lq_dc": 0.66,
+      "lq_virginia": 1.4
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Public Safety and Security (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "33-1012",
+      "secondary_soc": "33-3051",
+      "primary_title": "First-Line Supervisors of Police",
+      "primary_median": 92000,
+      "primary_growth": 8.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Law Enforcement",
+        "Leadership"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/33-1012.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-1012&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.56,
+      "lq_maryland": 1.64,
+      "lq_dc": 1.17,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Social Work (BSW)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "21-1021",
+      "secondary_soc": "21-1091",
+      "primary_title": "Child, Family, School Social Workers",
+      "primary_median": 50000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Simulation and Game Design (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "15-1252",
+      "secondary_soc": "27-1024",
+      "primary_title": "Software Developers",
+      "primary_median": 120000,
+      "primary_growth": 0.9,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Software",
+        "Development"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.66,
+      "lq_maryland": 0.82,
+      "lq_dc": 1.71,
+      "lq_virginia": 1.62
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Strategic Communication (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-3031",
+      "secondary_soc": "27-3043",
+      "primary_title": "Public Relations Specialists",
+      "primary_median": 62000,
+      "primary_growth": 4.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "PR",
+        "Communications"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.03,
+      "lq_maryland": 1.38,
+      "lq_dc": 1.18,
+      "lq_virginia": 1.29
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Urban Studies (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "19-3051",
+      "secondary_soc": "13-1111",
+      "primary_title": "Urban and Regional Planners",
+      "primary_median": 78000,
+      "primary_growth": -2.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Planning",
+        "Policy"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 1.18,
+      "lq_dc": 0.66,
+      "lq_virginia": 1.4
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Health Education (MS)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "21-1091",
+      "secondary_soc": "29-1141",
+      "primary_title": "Health Education Specialists",
+      "primary_median": 60000,
+      "primary_growth": 10.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Health",
+        "Education"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1091.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1091&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.67,
+      "lq_maryland": 0.71,
+      "lq_dc": 0.67,
+      "lq_virginia": 1.39
+    },
+    {
+      "school": "College of Public Affairs",
+      "program": "Nursing (MS)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "29-1171",
+      "secondary_soc": "29-1141",
+      "primary_title": "Nurse Practitioners",
+      "primary_median": 120000,
+      "primary_growth": 1.6,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Healthcare",
+        "Advanced Practice"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/29-1171.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=29-1171&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 1.5,
+      "lq_dc": 1.48,
+      "lq_virginia": 1.28
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Applied Information Technology (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "15-1252",
+      "secondary_soc": "15-1211",
+      "primary_title": "Software Developers",
+      "primary_median": 120000,
+      "primary_growth": 8.0,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Software",
+        "Development"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Bioinformatics (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "15-1252",
+      "secondary_soc": "15-1299",
+      "primary_title": "Software Developers",
+      "primary_median": 120000,
+      "primary_growth": 8.0,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Software",
+        "Development"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Communication Design (BFA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-1024",
+      "secondary_soc": "27-3031",
+      "primary_title": "Graphic Designers",
+      "primary_median": 53000,
+      "primary_growth": 0.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Design",
+        "Creativity"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.09,
+      "lq_maryland": 1.57,
+      "lq_dc": 1.48,
+      "lq_virginia": 1.08
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Creative Writing and Culture (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-3043",
+      "secondary_soc": "25-1199",
+      "primary_title": "Writers and Authors",
+      "primary_median": 69000,
+      "primary_growth": -1.8,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Writing",
+        "Content"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-3043.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3043&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 0.77,
+      "lq_dc": 1.07,
+      "lq_virginia": 1.21
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Cybersecurity (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "15-1212",
+      "secondary_soc": "15-1299",
+      "primary_title": "Information Security Analysts",
+      "primary_median": 112000,
+      "primary_growth": 8.0,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Cybersecurity",
+        "IT"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1212.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1212&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Digital Communication (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-3031",
+      "secondary_soc": "27-3043",
+      "primary_title": "Public Relations Specialists",
+      "primary_median": 62000,
+      "primary_growth": 4.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "PR",
+        "Communications"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.03,
+      "lq_maryland": 1.38,
+      "lq_dc": 1.18,
+      "lq_virginia": 1.29
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "English (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-3043",
+      "secondary_soc": "25-1199",
+      "primary_title": "Writers and Authors",
+      "primary_median": 69000,
+      "primary_growth": -1.8,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Writing",
+        "Content"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-3043.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3043&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 0.77,
+      "lq_dc": 1.07,
+      "lq_virginia": 1.21
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "History (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "25-1199",
+      "secondary_soc": "19-3051",
+      "primary_title": "Postsecondary Teachers, All Other",
+      "primary_median": 78000,
+      "primary_growth": 13.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Teaching",
+        "Education"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.64,
+      "lq_maryland": 0.62,
+      "lq_dc": 0.86,
+      "lq_virginia": 0.7
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Integrated Arts (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "27-1024",
+      "secondary_soc": "27-3043",
+      "primary_title": "Graphic Designers",
+      "primary_median": 53000,
+      "primary_growth": -2.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Design",
+        "Creativity"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.67,
+      "lq_maryland": 1.09,
+      "lq_dc": 0.98,
+      "lq_virginia": 0.91
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Interdisciplinary Studies (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "25-1199",
+      "secondary_soc": "13-1111",
+      "primary_title": "Postsecondary Teachers, All Other",
+      "primary_median": 78000,
+      "primary_growth": 13.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Teaching",
+        "Education"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.64,
+      "lq_maryland": 0.62,
+      "lq_dc": 0.86,
+      "lq_virginia": 0.7
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Philosophy (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "25-1199",
+      "secondary_soc": "23-1011",
+      "primary_title": "Postsecondary Teachers, All Other",
+      "primary_median": 78000,
+      "primary_growth": 13.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Teaching",
+        "Education"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.64,
+      "lq_maryland": 0.62,
+      "lq_dc": 0.86,
+      "lq_virginia": 0.7
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Political Science (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "19-3051",
+      "secondary_soc": "25-1199",
+      "primary_title": "Urban and Regional Planners",
+      "primary_median": 78000,
+      "primary_growth": -2.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Planning",
+        "Policy"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 1.18,
+      "lq_dc": 0.66,
+      "lq_virginia": 1.4
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Psychology (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "21-1021",
+      "secondary_soc": "19-3051",
+      "primary_title": "Child, Family, School Social Workers",
+      "primary_median": 50000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Social Work",
+        "Counseling"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Science (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "25-1199",
+      "secondary_soc": "19-3051",
+      "primary_title": "Postsecondary Teachers, All Other",
+      "primary_median": 78000,
+      "primary_growth": 13.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Teaching",
+        "Education"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.64,
+      "lq_maryland": 0.62,
+      "lq_dc": 0.86,
+      "lq_virginia": 0.7
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Sociology (BA)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "19-3051",
+      "secondary_soc": "21-1021",
+      "primary_title": "Urban and Regional Planners",
+      "primary_median": 78000,
+      "primary_growth": 15.1,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Planning",
+        "Policy"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.38,
+      "lq_maryland": 0.88,
+      "lq_dc": 0.67,
+      "lq_virginia": 0.98
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Web Development (BS)",
+      "level": "Undergraduate",
+      "specializations": "",
+      "primary_soc": "15-1252",
+      "secondary_soc": "15-1299",
+      "primary_title": "Software Developers",
+      "primary_median": 120000,
+      "primary_growth": 8.0,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Software",
+        "Development"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Applied Information Technology (MS)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "15-1252",
+      "secondary_soc": "15-1211",
+      "primary_title": "Software Developers",
+      "primary_median": 120000,
+      "primary_growth": 8.0,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Software",
+        "Development"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Data Science (MS)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "15-1299",
+      "secondary_soc": "13-1161",
+      "primary_title": "Computer Occupations, All Other",
+      "primary_median": 100000,
+      "primary_growth": 8.0,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "IT",
+        "Technology"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/15-1299.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1299&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.71,
+      "lq_maryland": 1.63,
+      "lq_dc": 1.54,
+      "lq_virginia": 1.73
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Digital Communication (MA)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "27-3031",
+      "secondary_soc": "27-3043",
+      "primary_title": "Public Relations Specialists",
+      "primary_median": 62000,
+      "primary_growth": 4.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "PR",
+        "Communications"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.03,
+      "lq_maryland": 1.38,
+      "lq_dc": 1.18,
+      "lq_virginia": 1.29
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Emerging Media (MFA)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "27-1024",
+      "secondary_soc": "15-1252",
+      "primary_title": "Graphic Designers",
+      "primary_median": 53000,
+      "primary_growth": 0.9,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Design",
+        "Creativity"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.66,
+      "lq_maryland": 0.82,
+      "lq_dc": 1.71,
+      "lq_virginia": 1.62
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Interaction Design (MFA)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "27-1024",
+      "secondary_soc": "15-1252",
+      "primary_title": "Graphic Designers",
+      "primary_median": 53000,
+      "primary_growth": 0.4,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Design",
+        "Creativity"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.09,
+      "lq_maryland": 1.57,
+      "lq_dc": 1.48,
+      "lq_virginia": 1.08
+    },
+    {
+      "school": "Yale Gordon College of Arts & Sciences",
+      "program": "Publications Design (MA)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "27-1024",
+      "secondary_soc": "27-3043",
+      "primary_title": "Graphic Designers",
+      "primary_median": 53000,
+      "primary_growth": -1.8,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Design",
+        "Creativity"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 1.47,
+      "lq_maryland": 0.77,
+      "lq_dc": 1.07,
+      "lq_virginia": 1.21
+    },
+    {
+      "school": "School of Law",
+      "program": "Juris Doctor (JD)",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "23-1011",
+      "secondary_soc": "23-2011",
+      "primary_title": "Lawyers",
+      "primary_median": 135000,
+      "primary_growth": -2.3,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Law",
+        "Legal Research"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/23-1011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-1011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.89,
+      "lq_maryland": 1.65,
+      "lq_dc": 0.94,
+      "lq_virginia": 0.68
+    },
+    {
+      "school": "School of Law",
+      "program": "LLM in Law",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "23-1011",
+      "secondary_soc": "23-2011",
+      "primary_title": "Lawyers",
+      "primary_median": 135000,
+      "primary_growth": -2.3,
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "primary_skills": [
+        "Law",
+        "Legal Research"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/23-1011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-1011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.89,
+      "lq_maryland": 1.65,
+      "lq_dc": 0.94,
+      "lq_virginia": 0.68
+    },
+    {
+      "school": "School of Law",
+      "program": "MS in Legal Studies",
+      "level": "Graduate",
+      "specializations": "",
+      "primary_soc": "23-2011",
+      "secondary_soc": "13-1111",
+      "primary_title": "Paralegals and Legal Assistants",
+      "primary_median": 56000,
+      "primary_growth": -2.3,
+      "primary_bright": false,
+      "primary_outlook": "Average",
+      "primary_skills": [
+        "Legal",
+        "Research"
+      ],
+      "primary_tech": [],
+      "primary_onet_url": "https://www.onetonline.org/link/summary/23-2011.00",
+      "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-2011&location=Baltimore%2C+MD&radius=25",
+      "lq_baltimore": 0.89,
+      "lq_maryland": 1.65,
+      "lq_dc": 0.94,
+      "lq_virginia": 0.68
+    }
   ],
-
-  sources: [
-    { name: "BLS OEWS", use: "Occupation wages & employment counts", freq: "Annual (May)", url: "https://www.bls.gov/oes/" },
-    { name: "BLS QCEW", use: "Regional & national industry employment for LQ", freq: "Quarterly", url: "https://www.bls.gov/cew/" },
-    { name: "BLS Employment Projections", use: "Projected occupational growth (2-year)", freq: "Biennial", url: "https://www.bls.gov/emp/" },
-    { name: "O*NET Online", use: "Skills, tasks, education requirements", freq: "Quarterly", url: "https://www.onetonline.org/" },
-    { name: "Handshake / UBworks Export", use: "Real-time job posting counts for posting intensity", freq: "Weekly", url: "#" },
-    { name: "Lightcast (optional)", use: "Real-time postings, skills trends, salary intelligence", freq: "Weekly", url: "https://lightcast.io/" }
+  "multiRegion": {
+    "Baltimore Metro": [
+      {
+        "naics": "5111",
+        "name": "Book and Directory Publishers",
+        "lq": 1.47,
+        "natGrowth": 7.3,
+        "regGrowth": -1.8,
+        "empEnd": 4045,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "5112",
+        "name": "Software Publishers",
+        "lq": 1.66,
+        "natGrowth": 3.3,
+        "regGrowth": 0.9,
+        "empEnd": 9591,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "5221",
+        "name": "Depository Credit Intermediation",
+        "lq": 1.29,
+        "natGrowth": 11.5,
+        "regGrowth": 10.7,
+        "empEnd": 8067,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "5411",
+        "name": "Legal Services",
+        "lq": 0.89,
+        "natGrowth": 4.7,
+        "regGrowth": -2.3,
+        "empEnd": 13619,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "5412",
+        "name": "Accounting, Tax Prep, Bookkeeping",
+        "lq": 1.17,
+        "natGrowth": 6.2,
+        "regGrowth": -3.4,
+        "empEnd": 14410,
+        "lqCat": "Moderate"
+      },
+      {
+        "naics": "5414",
+        "name": "Specialized Design Services",
+        "lq": 1.09,
+        "natGrowth": 11.3,
+        "regGrowth": 0.4,
+        "empEnd": 6559,
+        "lqCat": "Moderate"
+      },
+      {
+        "naics": "5415",
+        "name": "Computer Systems Design",
+        "lq": 0.71,
+        "natGrowth": 9.3,
+        "regGrowth": 8.0,
+        "empEnd": 34096,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "5416",
+        "name": "Management, Scientific Consulting",
+        "lq": 1.39,
+        "natGrowth": 9.1,
+        "regGrowth": -0.0,
+        "empEnd": 17191,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "5418",
+        "name": "Advertising, PR, and Related",
+        "lq": 1.03,
+        "natGrowth": 12.0,
+        "regGrowth": 4.4,
+        "empEnd": 14539,
+        "lqCat": "Moderate"
+      },
+      {
+        "naics": "5500",
+        "name": "Management of Companies",
+        "lq": 1.09,
+        "natGrowth": 5.7,
+        "regGrowth": 7.8,
+        "empEnd": 16554,
+        "lqCat": "Moderate"
+      },
+      {
+        "naics": "6113",
+        "name": "Colleges, Universities, Professional Schools",
+        "lq": 1.64,
+        "natGrowth": 6.5,
+        "regGrowth": 13.4,
+        "empEnd": 47081,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "6211",
+        "name": "Offices of Physicians",
+        "lq": 0.67,
+        "natGrowth": 4.2,
+        "regGrowth": 10.0,
+        "empEnd": 8373,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "6221",
+        "name": "General Medical and Surgical Hospitals",
+        "lq": 1.38,
+        "natGrowth": 2.2,
+        "regGrowth": 1.6,
+        "empEnd": 26556,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "6242",
+        "name": "Community Food and Housing Services",
+        "lq": 1.38,
+        "natGrowth": 4.3,
+        "regGrowth": 15.1,
+        "empEnd": 2741,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "7111",
+        "name": "Performing Arts Companies",
+        "lq": 0.67,
+        "natGrowth": 2.1,
+        "regGrowth": -2.0,
+        "empEnd": 2821,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "9211",
+        "name": "Executive, Legislative, General Government",
+        "lq": 1.47,
+        "natGrowth": 4.3,
+        "regGrowth": -2.1,
+        "empEnd": 10992,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "9221",
+        "name": "Justice, Public Order, Safety Activities",
+        "lq": 1.56,
+        "natGrowth": 10.6,
+        "regGrowth": 8.1,
+        "empEnd": 11493,
+        "lqCat": "Strong"
+      },
+      {
+        "naics": "9231",
+        "name": "Administration of Human Resource Programs",
+        "lq": 0.73,
+        "natGrowth": 7.1,
+        "regGrowth": 10.6,
+        "empEnd": 6316,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "9241",
+        "name": "Environmental Quality Programs",
+        "lq": 0.83,
+        "natGrowth": 8.7,
+        "regGrowth": -1.5,
+        "empEnd": 13577,
+        "lqCat": "Below Average"
+      },
+      {
+        "naics": "9281",
+        "name": "National Security and International Affairs",
+        "lq": 1.24,
+        "natGrowth": 7.4,
+        "regGrowth": -2.4,
+        "empEnd": 10929,
+        "lqCat": "Moderate"
+      }
+    ],
+    "Maryland": [
+      {
+        "naics": "5111",
+        "name": "Book and Directory Publishers",
+        "emp": 3039,
+        "lq": 0.77,
+        "cat": "Below Average",
+        "growth": 12.6
+      },
+      {
+        "naics": "5112",
+        "name": "Software Publishers",
+        "emp": 11749,
+        "lq": 0.82,
+        "cat": "Below Average",
+        "growth": 7.5
+      },
+      {
+        "naics": "5221",
+        "name": "Depository Credit Intermediation",
+        "emp": 5949,
+        "lq": 1.16,
+        "cat": "Moderate",
+        "growth": -3.1
+      },
+      {
+        "naics": "5411",
+        "name": "Legal Services",
+        "emp": 9733,
+        "lq": 1.65,
+        "cat": "Strong",
+        "growth": 11.5
+      },
+      {
+        "naics": "5412",
+        "name": "Accounting, Tax Prep, Bookkeeping",
+        "emp": 10526,
+        "lq": 0.69,
+        "cat": "Below Average",
+        "growth": 13.1
+      },
+      {
+        "naics": "5414",
+        "name": "Specialized Design Services",
+        "emp": 6893,
+        "lq": 1.57,
+        "cat": "Strong",
+        "growth": 3.6
+      },
+      {
+        "naics": "5415",
+        "name": "Computer Systems Design",
+        "emp": 32458,
+        "lq": 1.63,
+        "cat": "Strong",
+        "growth": 8.7
+      },
+      {
+        "naics": "5416",
+        "name": "Management, Scientific Consulting",
+        "emp": 13872,
+        "lq": 0.72,
+        "cat": "Below Average",
+        "growth": -0.8
+      },
+      {
+        "naics": "5418",
+        "name": "Advertising, PR, and Related",
+        "emp": 10840,
+        "lq": 1.38,
+        "cat": "Strong",
+        "growth": 0.2
+      },
+      {
+        "naics": "5500",
+        "name": "Management of Companies",
+        "emp": 13615,
+        "lq": 1.25,
+        "cat": "Strong",
+        "growth": 10.0
+      },
+      {
+        "naics": "6113",
+        "name": "Colleges, Universities, Professional Schools",
+        "emp": 40749,
+        "lq": 0.62,
+        "cat": "Below Average",
+        "growth": 9.0
+      },
+      {
+        "naics": "6211",
+        "name": "Offices of Physicians",
+        "emp": 16283,
+        "lq": 0.71,
+        "cat": "Below Average",
+        "growth": 8.7
+      },
+      {
+        "naics": "6221",
+        "name": "General Medical and Surgical Hospitals",
+        "emp": 35941,
+        "lq": 1.5,
+        "cat": "Strong",
+        "growth": 10.6
+      },
+      {
+        "naics": "6242",
+        "name": "Community Food and Housing Services",
+        "emp": 2282,
+        "lq": 0.88,
+        "cat": "Below Average",
+        "growth": 5.2
+      },
+      {
+        "naics": "7111",
+        "name": "Performing Arts Companies",
+        "emp": 3016,
+        "lq": 1.09,
+        "cat": "Moderate",
+        "growth": 15.8
+      },
+      {
+        "naics": "9211",
+        "name": "Executive, Legislative, General Government",
+        "emp": 14180,
+        "lq": 1.18,
+        "cat": "Moderate",
+        "growth": 0.4
+      },
+      {
+        "naics": "9221",
+        "name": "Justice, Public Order, Safety Activities",
+        "emp": 11638,
+        "lq": 1.64,
+        "cat": "Strong",
+        "growth": 12.8
+      },
+      {
+        "naics": "9231",
+        "name": "Administration of Human Resource Programs",
+        "emp": 5950,
+        "lq": 1.68,
+        "cat": "Strong",
+        "growth": 0.6
+      },
+      {
+        "naics": "9241",
+        "name": "Environmental Quality Programs",
+        "emp": 6193,
+        "lq": 0.8,
+        "cat": "Below Average",
+        "growth": 12.1
+      },
+      {
+        "naics": "9281",
+        "name": "National Security and International Affairs",
+        "emp": 11728,
+        "lq": 0.6,
+        "cat": "Below Average",
+        "growth": 1.3
+      }
+    ],
+    "DC Metro": [
+      {
+        "naics": "5111",
+        "name": "Book and Directory Publishers",
+        "emp": 2701,
+        "lq": 1.07,
+        "cat": "Moderate",
+        "growth": 14.3
+      },
+      {
+        "naics": "5112",
+        "name": "Software Publishers",
+        "emp": 16225,
+        "lq": 1.71,
+        "cat": "Strong",
+        "growth": 13.5
+      },
+      {
+        "naics": "5221",
+        "name": "Depository Credit Intermediation",
+        "emp": 10180,
+        "lq": 1.54,
+        "cat": "Strong",
+        "growth": 0.2
+      },
+      {
+        "naics": "5411",
+        "name": "Legal Services",
+        "emp": 13694,
+        "lq": 0.94,
+        "cat": "Below Average",
+        "growth": 3.9
+      },
+      {
+        "naics": "5412",
+        "name": "Accounting, Tax Prep, Bookkeeping",
+        "emp": 19491,
+        "lq": 1.44,
+        "cat": "Strong",
+        "growth": 5.2
+      },
+      {
+        "naics": "5414",
+        "name": "Specialized Design Services",
+        "emp": 9226,
+        "lq": 1.48,
+        "cat": "Strong",
+        "growth": -1.2
+      },
+      {
+        "naics": "5415",
+        "name": "Computer Systems Design",
+        "emp": 42259,
+        "lq": 1.54,
+        "cat": "Strong",
+        "growth": 7.2
+      },
+      {
+        "naics": "5416",
+        "name": "Management, Scientific Consulting",
+        "emp": 13650,
+        "lq": 1.39,
+        "cat": "Strong",
+        "growth": 10.9
+      },
+      {
+        "naics": "5418",
+        "name": "Advertising, PR, and Related",
+        "emp": 13696,
+        "lq": 1.18,
+        "cat": "Moderate",
+        "growth": 14.0
+      },
+      {
+        "naics": "5500",
+        "name": "Management of Companies",
+        "emp": 15014,
+        "lq": 0.83,
+        "cat": "Below Average",
+        "growth": 3.2
+      },
+      {
+        "naics": "6113",
+        "name": "Colleges, Universities, Professional Schools",
+        "emp": 20741,
+        "lq": 0.86,
+        "cat": "Below Average",
+        "growth": 6.2
+      },
+      {
+        "naics": "6211",
+        "name": "Offices of Physicians",
+        "emp": 7210,
+        "lq": 0.67,
+        "cat": "Below Average",
+        "growth": 11.1
+      },
+      {
+        "naics": "6221",
+        "name": "General Medical and Surgical Hospitals",
+        "emp": 42435,
+        "lq": 1.48,
+        "cat": "Strong",
+        "growth": -1.8
+      },
+      {
+        "naics": "6242",
+        "name": "Community Food and Housing Services",
+        "emp": 4037,
+        "lq": 0.67,
+        "cat": "Below Average",
+        "growth": -0.8
+      },
+      {
+        "naics": "7111",
+        "name": "Performing Arts Companies",
+        "emp": 4477,
+        "lq": 0.98,
+        "cat": "Below Average",
+        "growth": 4.4
+      },
+      {
+        "naics": "9211",
+        "name": "Executive, Legislative, General Government",
+        "emp": 6263,
+        "lq": 0.66,
+        "cat": "Below Average",
+        "growth": 3.7
+      },
+      {
+        "naics": "9221",
+        "name": "Justice, Public Order, Safety Activities",
+        "emp": 17113,
+        "lq": 1.17,
+        "cat": "Moderate",
+        "growth": 15.9
+      },
+      {
+        "naics": "9231",
+        "name": "Administration of Human Resource Programs",
+        "emp": 13809,
+        "lq": 1.7,
+        "cat": "Strong",
+        "growth": 1.0
+      },
+      {
+        "naics": "9241",
+        "name": "Environmental Quality Programs",
+        "emp": 15922,
+        "lq": 1.24,
+        "cat": "Moderate",
+        "growth": 13.2
+      },
+      {
+        "naics": "9281",
+        "name": "National Security and International Affairs",
+        "emp": 5686,
+        "lq": 0.67,
+        "cat": "Below Average",
+        "growth": 9.6
+      }
+    ],
+    "Virginia Metro": [
+      {
+        "naics": "5111",
+        "name": "Book and Directory Publishers",
+        "emp": 2158,
+        "lq": 1.21,
+        "cat": "Moderate",
+        "growth": 9.6
+      },
+      {
+        "naics": "5112",
+        "name": "Software Publishers",
+        "emp": 15317,
+        "lq": 1.62,
+        "cat": "Strong",
+        "growth": 11.0
+      },
+      {
+        "naics": "5221",
+        "name": "Depository Credit Intermediation",
+        "emp": 10385,
+        "lq": 0.68,
+        "cat": "Below Average",
+        "growth": -1.8
+      },
+      {
+        "naics": "5411",
+        "name": "Legal Services",
+        "emp": 12021,
+        "lq": 0.68,
+        "cat": "Below Average",
+        "growth": -0.8
+      },
+      {
+        "naics": "5412",
+        "name": "Accounting, Tax Prep, Bookkeeping",
+        "emp": 9267,
+        "lq": 1.63,
+        "cat": "Strong",
+        "growth": 15.1
+      },
+      {
+        "naics": "5414",
+        "name": "Specialized Design Services",
+        "emp": 10753,
+        "lq": 1.08,
+        "cat": "Moderate",
+        "growth": 15.4
+      },
+      {
+        "naics": "5415",
+        "name": "Computer Systems Design",
+        "emp": 39796,
+        "lq": 1.73,
+        "cat": "Strong",
+        "growth": -0.4
+      },
+      {
+        "naics": "5416",
+        "name": "Management, Scientific Consulting",
+        "emp": 11049,
+        "lq": 1.28,
+        "cat": "Strong",
+        "growth": 13.4
+      },
+      {
+        "naics": "5418",
+        "name": "Advertising, PR, and Related",
+        "emp": 11158,
+        "lq": 1.29,
+        "cat": "Strong",
+        "growth": 12.8
+      },
+      {
+        "naics": "5500",
+        "name": "Management of Companies",
+        "emp": 17651,
+        "lq": 0.65,
+        "cat": "Below Average",
+        "growth": 8.2
+      },
+      {
+        "naics": "6113",
+        "name": "Colleges, Universities, Professional Schools",
+        "emp": 20703,
+        "lq": 0.7,
+        "cat": "Below Average",
+        "growth": 3.5
+      },
+      {
+        "naics": "6211",
+        "name": "Offices of Physicians",
+        "emp": 8164,
+        "lq": 1.39,
+        "cat": "Strong",
+        "growth": 6.8
+      },
+      {
+        "naics": "6221",
+        "name": "General Medical and Surgical Hospitals",
+        "emp": 46367,
+        "lq": 1.28,
+        "cat": "Strong",
+        "growth": 14.4
+      },
+      {
+        "naics": "6242",
+        "name": "Community Food and Housing Services",
+        "emp": 1621,
+        "lq": 0.98,
+        "cat": "Below Average",
+        "growth": 7.9
+      },
+      {
+        "naics": "7111",
+        "name": "Performing Arts Companies",
+        "emp": 3374,
+        "lq": 0.91,
+        "cat": "Below Average",
+        "growth": -3.6
+      },
+      {
+        "naics": "9211",
+        "name": "Executive, Legislative, General Government",
+        "emp": 12432,
+        "lq": 1.4,
+        "cat": "Strong",
+        "growth": 13.6
+      },
+      {
+        "naics": "9221",
+        "name": "Justice, Public Order, Safety Activities",
+        "emp": 10117,
+        "lq": 0.98,
+        "cat": "Below Average",
+        "growth": 0.8
+      },
+      {
+        "naics": "9231",
+        "name": "Administration of Human Resource Programs",
+        "emp": 10159,
+        "lq": 0.92,
+        "cat": "Below Average",
+        "growth": 13.6
+      },
+      {
+        "naics": "9241",
+        "name": "Environmental Quality Programs",
+        "emp": 6146,
+        "lq": 0.76,
+        "cat": "Below Average",
+        "growth": -2.3
+      },
+      {
+        "naics": "9281",
+        "name": "National Security and International Affairs",
+        "emp": 14558,
+        "lq": 1.37,
+        "cat": "Strong",
+        "growth": 12.3
+      }
+    ]
+  },
+  "sources": [
+    {
+      "name": "BLS OEWS",
+      "use": "Occupation wages & employment counts",
+      "freq": "Annual (May)",
+      "url": "https://www.bls.gov/oes/"
+    },
+    {
+      "name": "BLS QCEW",
+      "use": "Regional & national industry employment for LQ",
+      "freq": "Quarterly",
+      "url": "https://www.bls.gov/cew/"
+    },
+    {
+      "name": "BLS Projections",
+      "use": "Projected occupational growth",
+      "freq": "Biennial",
+      "url": "https://www.bls.gov/emp/"
+    },
+    {
+      "name": "Lightcast",
+      "use": "Job posting analytics, skills demand, talent gap analysis",
+      "freq": "Weekly",
+      "url": "https://lightcast.io/"
+    },
+    {
+      "name": "O*NET Web Services",
+      "use": "Skills, tasks, technology, education, outlook",
+      "freq": "Quarterly",
+      "url": "https://services.onetcenter.org/"
+    },
+    {
+      "name": "O*NET OnLine",
+      "use": "Occupation profiles, career exploration",
+      "freq": "Quarterly",
+      "url": "https://www.onetonline.org/"
+    },
+    {
+      "name": "My Next Move",
+      "use": "Student-facing career reports & interest profiler",
+      "freq": "Quarterly",
+      "url": "https://www.mynextmove.org/"
+    },
+    {
+      "name": "CareerOneStop",
+      "use": "Job postings, local salary, training finder",
+      "freq": "Weekly",
+      "url": "https://www.careeronestop.org/"
+    },
+    {
+      "name": "USAJobs",
+      "use": "Federal & state government job postings",
+      "freq": "Daily",
+      "url": "https://www.usajobs.gov/"
+    },
+    {
+      "name": "Idealist",
+      "use": "Nonprofit & public sector job postings",
+      "freq": "Daily",
+      "url": "https://www.idealist.org/"
+    },
+    {
+      "name": "Handshake / UBworks",
+      "use": "UB-specific student job & internship postings",
+      "freq": "Weekly export",
+      "url": "https://app.joinhandshake.com/"
+    }
   ],
-
-  formulas: [
-    { name: "Location Quotient (LQ)", use: "Regional industry concentration vs. national", formula: "(Reg. Ind. Emp / Total Reg. Emp) ÷ (Nat. Ind. Emp / Total Nat. Emp)" },
-    { name: "Employment Growth Rate", use: "Change in employment over time", formula: "(End Emp − Start Emp) / Start Emp × 100" },
-    { name: "Job Posting Intensity", use: "Real-time demand signal", formula: "Annual Job Postings / Current Employment" },
-    { name: "Talent Gap", use: "Open roles exceeding available workers", formula: "Job Postings − Available Workers / Graduates" },
-    { name: "Replacement Demand", use: "Openings from retirements & turnover", formula: "Growth Openings + Replacement Openings" },
-    { name: "Wage Growth", use: "Salary trajectory over time", formula: "(End Wage − Start Wage) / Start Wage × 100" }
+  "formulas": [
+    {
+      "name": "Location Quotient (LQ)",
+      "use": "Regional industry concentration vs. national",
+      "formula": "(Reg. Ind. Emp / Total Reg. Emp) \u00f7 (Nat. Ind. Emp / Total Nat. Emp)"
+    },
+    {
+      "name": "Employment Growth Rate",
+      "use": "Change in employment over time",
+      "formula": "(End Emp \u2212 Start Emp) / Start Emp \u00d7 100"
+    },
+    {
+      "name": "Job Posting Intensity",
+      "use": "Real-time demand signal",
+      "formula": "Annual Job Postings / Current Employment"
+    },
+    {
+      "name": "Talent Gap",
+      "use": "Open roles exceeding available workers",
+      "formula": "Job Postings \u2212 Available Workers / Graduates"
+    },
+    {
+      "name": "Replacement Demand",
+      "use": "Openings from retirements & turnover",
+      "formula": "Growth Openings + Replacement Openings"
+    },
+    {
+      "name": "Wage Growth",
+      "use": "Salary trajectory over time",
+      "formula": "(End Wage \u2212 Start Wage) / Start Wage \u00d7 100"
+    }
   ]
 };
 
 /* ─── HELPERS ─────────────────────────────────────────────────────────── */
-const fmt$  = n => '$' + (n/1000).toFixed(0) + 'K';
-const fmtPct = n => (n*100).toFixed(1) + '%';
-const demandClass = d => ({ High: 'demand-high', Strategic: 'demand-strategic', Moderate: 'demand-moderate' }[d] || 'demand-high');
-const fitColor = f => ({ High: '#0F6E56', Strategic: '#3E3A9E', Moderate: '#B87A14' }[f] || '#9A9890');
-const fitBg    = f => ({ High: '#E1F5EE', Strategic: '#EEECFB', Moderate: '#FEF3DC' }[f] || '#F1EFE8');
-const fitTxt   = f => ({ High: '#085041', Strategic: '#26215C', Moderate: '#633806' }[f] || '#444441');
-const lqColor  = lq => lq >= 1.5 ? '#3E3A9E' : lq >= 1.0 ? '#0F6E56' : '#B87A14';
+const fmt$   = n => '$' + Math.round(n/1000) + 'K';
+const fmtPct = n => (n * 100).toFixed(1) + '%';
+const demandClass = d => `demand-${d}`;
+const fitColor = f => ({ High:'#0F6E56', Strategic:'#3E3A9E', Moderate:'#8A5C00' }[f] || '#767676');
+const fitBg    = f => ({ High:'#E0F4F2', Strategic:'#EEEDFB', Moderate:'#FEF3DC' }[f] || '#F5F8FA');
+const fitTxt   = f => ({ High:'#064B3A', Strategic:'#26215C', Moderate:'#5C3A00' }[f] || '#444');
+const lqColor  = lq => lq >= 1.5 ? '#3B3899' : lq >= 1.0 ? '#007A6E' : '#8A5C00';
+const outlookColor = o => o === 'Bright Outlook' ? '#6B3800' : o === 'Below Average' ? '#6B0000' : '#444';
+const outlookBg    = o => o === 'Bright Outlook' ? '#FFF0D9' : o === 'Below Average' ? '#FAEBE9' : '#F5F8FA';
+
+/* ─── SCHOOL COLOR MAP ───────────────────────────────────────────────── */
+const SCHOOL_COLORS = {
+  "Merrick School of Business":             { border: "#1B5E20", bg: "#E8F5E9", text: "#1B5E20" },
+  "College of Public Affairs":              { border: "#0076A8", bg: "#E5F3FA", text: "#003D5C" },
+  "Yale Gordon College of Arts & Sciences": { border: "#4A148C", bg: "#F3E5F5", text: "#4A148C" },
+  "School of Law":                          { border: "#B71C1C", bg: "#FFEBEE", text: "#B71C1C" },
+};
+
+/* ─── JOB POSTING LINKS CONFIG ───────────────────────────────────────── */
+const JOB_SOURCES = [
+  { key: "careeronestop", label: "CareerOneStop", primary: true  },
+  { key: "usajobs",       label: "USAJobs",       primary: false },
+  { key: "idealist",      label: "Idealist",      primary: false },
+  { key: "linkedin",      label: "LinkedIn",      primary: false },
+  { key: "indeed",        label: "Indeed",        primary: false },
+  { key: "maryland_state",label: "MD State Jobs", primary: false },
+];
+
+/* ─── INIT ───────────────────────────────────────────────────────────── */
+let DATA = SAMPLE_DATA;
+
+loadData().then(d => {
+  DATA = d;
+  renderAll();
+});
+
+function renderAll() {
 
 /* ─── REFRESH DATE ────────────────────────────────────────────────────── */
 document.getElementById('refresh-date').textContent =
@@ -1069,75 +3693,146 @@ document.getElementById('footer-copy').textContent =
   `© ${new Date().getFullYear()} University of Baltimore. All rights reserved.`;
 
 /* ─── KPIs — STUDENTS ────────────────────────────────────────────────── */
-const topWage = [...DATA.occupations].sort((a,b) => b.median - a.median)[0];
-const fastest = [...DATA.occupations].sort((a,b) => b.projGrowth - a.projGrowth)[0];
-const bigGap  = [...DATA.occupations].sort((a,b) => b.talentGap - a.talentGap)[0];
+const topWage  = [...DATA.occupations].sort((a,b) => b.median - a.median)[0];
+const fastest  = [...DATA.occupations].sort((a,b) => b.projGrowth - a.projGrowth)[0];
+const bigGap   = [...DATA.occupations].sort((a,b) => b.talentGap - a.talentGap)[0];
 const avgEntry = DATA.occupations.reduce((s,o) => s+o.entry, 0) / DATA.occupations.length;
+const brightCount = DATA.occupations.filter(o => o.brightOutlook).length;
 
-document.getElementById('kpi-top-wage').textContent     = fmt$(topWage.median);
+document.getElementById('kpi-top-wage').textContent      = fmt$(topWage.median);
 document.getElementById('kpi-top-wage-role').textContent = topWage.title;
 document.getElementById('kpi-fastest').textContent       = '+' + fmtPct(fastest.projGrowth);
 document.getElementById('kpi-fastest-role').textContent  = fastest.title;
 document.getElementById('kpi-gap').textContent           = '+' + bigGap.talentGap.toLocaleString();
 document.getElementById('kpi-entry').textContent         = fmt$(avgEntry);
 
-/* ─── KPIs — FACULTY ─────────────────────────────────────────────────── */
-const topLQ = [...DATA.industries].sort((a,b) => b.lq - a.lq)[0];
-const fastInd = [...DATA.industries].sort((a,b) => b.regGrowth - a.regGrowth)[0];
-const highFit = DATA.programs.filter(p => p.fit === 'High' || p.fit === 'Strategic').length;
+// Update 4th KPI to show Bright Outlook count
+const kpiCard4 = document.querySelector('.kpi-strip .kpi-card:last-child');
+if (kpiCard4) {
+  kpiCard4.querySelector('.kpi-label').textContent = 'Bright Outlook roles';
+  kpiCard4.querySelector('.kpi-val').textContent   = brightCount;
+  kpiCard4.querySelector('.kpi-sub').textContent   = 'fastest-growing occupations';
+}
 
-document.getElementById('fkpi-lq').textContent    = topLQ.lq.toFixed(2);
-document.getElementById('fkpi-lq-ind').textContent = topLQ.name;
-document.getElementById('fkpi-progs').textContent  = DATA.programs.length;
-document.getElementById('fkpi-highfit').textContent = highFit;
-document.getElementById('fkpi-fast').textContent   = '+' + fastInd.regGrowth.toFixed(1) + '%';
+/* ─── KPIs — FACULTY ─────────────────────────────────────────────────── */
+const topLQ    = [...DATA.industries].sort((a,b) => b.lq - a.lq)[0];
+const fastInd  = [...DATA.industries].sort((a,b) => b.regGrowth - a.regGrowth)[0];
+const highFit  = DATA.programs.filter(p => p.primary_bright).length;
+
+document.getElementById('fkpi-lq').textContent      = topLQ.lq.toFixed(2);
+document.getElementById('fkpi-lq-ind').textContent  = topLQ.name;
+document.getElementById('fkpi-progs').textContent   = DATA.programs.length;
+document.getElementById('fkpi-highfit').textContent  = highFit;
+document.getElementById('fkpi-fast').textContent     = '+' + fastInd.regGrowth.toFixed(1) + '%';
 document.getElementById('fkpi-fast-ind').textContent = fastInd.name;
 
 /* ─── OCCUPATION CARDS ────────────────────────────────────────────────── */
 const grid = document.getElementById('occ-grid');
+grid.innerHTML = '';
 DATA.occupations.forEach(o => {
+  const jobs = o.jobPostings || {};
+
+  // Skills pills
+  const skillPills = (o.topSkills || []).map(s =>
+    `<span class="skill-pill">${s}</span>`).join('');
+
+  // Tech pills (🔥 for hot tech)
+  const techPills = (o.techSkills || []).map(t =>
+    `<span class="tech-pill hot">${t}</span>`).join('');
+
+  // Tasks list
+  const taskItems = (o.tasks || []).map(t =>
+    `<li>${t}</li>`).join('');
+
+  // Bright Outlook badge
+  const brightBadge = o.brightOutlook
+    ? `<div class="bright-badge" aria-label="Bright Outlook occupation">✦ Bright Outlook</div>`
+    : '';
+
+  // Job posting buttons
+  const jobLinks = JOB_SOURCES.map(src => {
+    const url = jobs[src.key];
+    if (!url) return '';
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer"
+               class="job-link ${src.primary ? 'primary' : 'secondary'}"
+               aria-label="Find ${o.title} jobs on ${src.label}">
+              ${src.label} ↗
+            </a>`;
+  }).join('');
+
+  // Outlook chip
+  const outlookChip = o.outlook
+    ? `<span class="stat-chip outlook" style="background:${outlookBg(o.outlook)};color:${outlookColor(o.outlook)};border-color:rgba(0,0,0,0.1)">
+        ${o.outlook}
+       </span>` : '';
+
   const card = document.createElement('article');
-  card.className = `occ-card ${demandClass(o.demand)} fade-in`;
+  card.className = `occ-card demand-${o.demand} fade-in`;
   card.setAttribute('role', 'listitem');
+  card.setAttribute('aria-label', `${o.title} career information`);
   card.innerHTML = `
-    <div class="occ-title">${o.title}</div>
-    <div class="occ-industry">${o.industry}</div>
-    <div class="occ-wages">
+    <div class="occ-card-top">
+      ${brightBadge}
+      <div class="occ-title">${o.title}</div>
+      <div class="occ-industry">${o.industry}</div>
+      ${o.description ? `<div class="occ-desc">${o.description}</div>` : ''}
+    </div>
+
+    <div class="occ-wages" role="group" aria-label="Salary ranges">
       <div class="wage-item">
         <div class="wage-item-label">Entry</div>
         <div class="wage-item-val">${fmt$(o.entry)}</div>
       </div>
-      <div class="wage-divider"></div>
       <div class="wage-item">
         <div class="wage-item-label">Median</div>
         <div class="wage-item-val">${fmt$(o.median)}</div>
       </div>
-      <div class="wage-divider"></div>
       <div class="wage-item">
-        <div class="wage-item-label">Future</div>
+        <div class="wage-item-label">Projected</div>
         <div class="wage-item-val">${fmt$(o.future)}</div>
       </div>
     </div>
+
     <div class="occ-stats">
-      <span class="stat-chip growth" title="Projected employment growth">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><polyline points="2,12 6,7 10,9 14,4"/></svg>
+      <span class="stat-chip growth">
+        <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="2,12 6,7 10,9 14,4"/></svg>
         +${fmtPct(o.projGrowth)} projected
       </span>
-      <span class="stat-chip posting" title="Job posting intensity">
-        📋 ${fmtPct(o.postIntensity)} posting intensity
-      </span>
-      <span class="stat-chip gap" title="Talent gap — open roles vs. available workers">
-        ⚡ +${o.talentGap} talent gap
-      </span>
+      <span class="stat-chip gap">⚡ +${o.talentGap} talent gap</span>
+      ${outlookChip}
     </div>
-    <div class="occ-edu">🎓 ${o.education}</div>
-    <div class="occ-skills">🛠 ${o.skills}</div>
+
+    ${skillPills ? `
+    <div class="occ-section-label" id="skills-label-${o.soc}">Top skills</div>
+    <div class="pill-row" role="list" aria-labelledby="skills-label-${o.soc}">${skillPills}</div>` : ''}
+
+    ${techPills ? `
+    <div class="occ-section-label" id="tech-label-${o.soc}">🔥 Hot technologies</div>
+    <div class="pill-row" role="list" aria-labelledby="tech-label-${o.soc}">${techPills}</div>` : ''}
+
+    ${taskItems ? `
+    <div class="occ-section-label">Common tasks</div>
+    <ul class="occ-tasks" aria-label="Common tasks for ${o.title}">${taskItems}</ul>` : ''}
+
+    <div class="occ-meta-row">
+      ${o.education ? `<span class="occ-edu-badge" aria-label="Typical education: ${o.education}">🎓 ${o.education}</span>` : ''}
+      <a href="${o.onetUrl}" target="_blank" rel="noopener noreferrer"
+         class="occ-onet-link" aria-label="Full O*NET profile for ${o.title}">
+        O*NET profile ↗
+      </a>
+    </div>
+
+    <div class="occ-jobs-bar" role="navigation" aria-label="Job posting sites for ${o.title}">
+      <span class="occ-jobs-label">Find jobs</span>
+      ${jobLinks}
+    </div>
   `;
   grid.appendChild(card);
 });
 
 /* ─── LQ BARS ─────────────────────────────────────────────────────────── */
 const lqDiv = document.getElementById('lq-bars');
+lqDiv.innerHTML = '';
 DATA.industries.forEach(ind => {
   const pct = Math.min(95, (ind.lq / 2.0) * 100);
   const row = document.createElement('div');
@@ -1145,11 +3840,11 @@ DATA.industries.forEach(ind => {
   row.innerHTML = `
     <div class="lq-name">${ind.name}</div>
     <div class="lq-track">
-      <div class="lq-ref" title="LQ = 1.0 (national average)"></div>
+      <div class="lq-ref" title="LQ = 1.0 (national average)" aria-hidden="true"></div>
       <div class="lq-fill" style="width:${pct}%;background:${lqColor(ind.lq)}"></div>
     </div>
-    <div class="lq-score">${ind.lq.toFixed(2)}</div>
-    <span class="lq-badge" style="background:${ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E1F5EE':'#FEF3DC'};color:${lqColor(ind.lq)}">
+    <div class="lq-score" aria-label="Location quotient ${ind.lq.toFixed(2)}">${ind.lq.toFixed(2)}</div>
+    <span class="lq-badge" style="background:${ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC'};color:${lqColor(ind.lq)}">
       ${ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg'}
     </span>
   `;
@@ -1158,42 +3853,96 @@ DATA.industries.forEach(ind => {
 
 /* ─── PROGRAM CARDS ───────────────────────────────────────────────────── */
 const progGrid = document.getElementById('prog-grid');
+progGrid.innerHTML = '';
+
+// Group by school
+const bySchool = {};
 DATA.programs.forEach(p => {
-  const card = document.createElement('article');
-  card.className = 'prog-card fade-in'; card.setAttribute('role','listitem');
-  card.innerHTML = `
-    <div class="prog-fit-bar" style="background:${fitColor(p.fit)}"></div>
-    <span class="fit-badge" style="background:${fitBg(p.fit)};color:${fitTxt(p.fit)}">${p.fit} fit</span>
-    <div class="prog-name">${p.name}</div>
-    <div class="prog-cred">${p.cred} · ${p.college}</div>
-    <div class="prog-link">
-      Industry: <strong>${p.industry}</strong><br>
-      Occupation: <strong>${p.occ}</strong>
-    </div>
-    <div class="prog-stats">
-      <div class="prog-stat"><div class="prog-stat-val">${p.lq.toFixed(2)}</div><div class="prog-stat-lbl">LQ</div></div>
-      <div class="prog-stat"><div class="prog-stat-val">+${p.indGrowth.toFixed(1)}%</div><div class="prog-stat-lbl">Ind. growth</div></div>
-      <div class="prog-stat"><div class="prog-stat-val">+${p.occGrowth.toFixed(1)}%</div><div class="prog-stat-lbl">Occ. growth</div></div>
-    </div>
-  `;
-  progGrid.appendChild(card);
+  if (!bySchool[p.school]) bySchool[p.school] = [];
+  bySchool[p.school].push(p);
+});
+
+Object.entries(bySchool).forEach(([school, progs]) => {
+  const sc = SCHOOL_COLORS[school] || { border: '#767676', bg: '#F5F8FA', text: '#444' };
+
+  // School header
+  const header = document.createElement('div');
+  header.style.cssText = `grid-column:1/-1;padding:10px 16px;border-radius:8px;background:${sc.bg};border-left:4px solid ${sc.border};margin-top:16px`;
+  header.innerHTML = `<span style="font-size:13px;font-weight:700;color:${sc.text}">${school}</span>`;
+  progGrid.appendChild(header);
+
+  progs.forEach(p => {
+    const skillPills = (p.primary_skills || []).map(s =>
+      `<span class="skill-pill" style="font-size:10px">${s}</span>`).join('');
+    const techPills = (p.primary_tech || []).map(t =>
+      `<span class="tech-pill" style="font-size:10px">${t}</span>`).join('');
+
+    const brightBadge = p.primary_bright
+      ? `<span class="bright-badge" style="font-size:10px">✦ Bright Outlook</span>` : '';
+
+    // Job links — always show CareerOneStop + USAJobs for programs
+    const progJobLinks = [
+      p.primary_jobs_url
+        ? `<a href="${p.primary_jobs_url}" target="_blank" rel="noopener noreferrer" class="job-link primary" style="font-size:10px">Find Jobs ↗</a>`
+        : '',
+      `<a href="${p.primary_onet_url}" target="_blank" rel="noopener noreferrer" class="job-link secondary" style="font-size:10px">O*NET ↗</a>`,
+      `<a href="https://www.mynextmove.org/profile/summary/${p.primary_soc}.00" target="_blank" rel="noopener noreferrer" class="job-link secondary" style="font-size:10px">My Next Move ↗</a>`,
+    ].join('');
+
+    const card = document.createElement('article');
+    card.className = 'prog-card fade-in';
+    card.setAttribute('role', 'listitem');
+    card.setAttribute('aria-label', `${p.program} program information`);
+    card.innerHTML = `
+      <div class="prog-fit-bar" style="background:${sc.border}"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
+        <span class="prog-cred">${p.level}</span>
+        ${brightBadge}
+      </div>
+      <div class="prog-name">${p.program}</div>
+      <div style="font-size:12px;color:var(--ink-3);margin-bottom:10px">${p.specializations || ''}</div>
+      <div class="prog-link">
+        Career target: <strong>${p.primary_title}</strong>
+      </div>
+      <div class="prog-stats">
+        <div class="prog-stat">
+          <div class="prog-stat-val">${fmt$(p.primary_median)}</div>
+          <div class="prog-stat-lbl">Median wage</div>
+        </div>
+        <div class="prog-stat">
+          <div class="prog-stat-val">${p.primary_growth >= 0 ? '+' : ''}${fmtPct(p.primary_growth)}</div>
+          <div class="prog-stat-lbl">Occ. growth</div>
+        </div>
+        <div class="prog-stat">
+          <div class="prog-stat-val" style="font-size:12px;color:${outlookColor(p.primary_outlook)}">${p.primary_outlook || '—'}</div>
+          <div class="prog-stat-lbl">Outlook</div>
+        </div>
+      </div>
+      ${skillPills ? `<div class="prog-skills-row">${skillPills}</div>` : ''}
+      ${techPills  ? `<div class="prog-skills-row">${techPills}</div>`  : ''}
+      <div class="prog-job-links">${progJobLinks}</div>
+    `;
+    progGrid.appendChild(card);
+  });
 });
 
 /* ─── SOURCES TABLE ───────────────────────────────────────────────────── */
 const stbody = document.getElementById('sources-tbody');
+stbody.innerHTML = '';
 DATA.sources.forEach(s => {
   const row = document.createElement('tr');
   row.innerHTML = `
-    <td style="font-weight:500;color:var(--navy)">${s.name}</td>
+    <td style="font-weight:600;color:var(--navy)">${s.name}</td>
     <td>${s.use}</td>
     <td><span style="font-size:11px;background:var(--cream);border:1px solid var(--rule);border-radius:10px;padding:2px 8px;font-weight:500;color:var(--ink-3)">${s.freq}</span></td>
-    <td><a href="${s.url}" target="_blank" rel="noopener">${s.url === '#' ? 'Internal export' : s.name + ' ↗'}</a></td>
+    <td><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.url === '#' ? 'Internal export' : s.name + ' ↗'}</a></td>
   `;
   stbody.appendChild(row);
 });
 
 /* ─── FORMULA CARDS ───────────────────────────────────────────────────── */
 const fgrid = document.getElementById('formula-grid');
+fgrid.innerHTML = '';
 DATA.formulas.forEach(f => {
   const c = document.createElement('div');
   c.className = 'arch-card fade-in'; c.setAttribute('role','listitem');
@@ -1207,12 +3956,13 @@ DATA.formulas.forEach(f => {
 
 /* ─── ARCHITECTURE CARDS ──────────────────────────────────────────────── */
 const archSteps = [
-  { num:'1', title:'BLS API pull', desc:'Python script calls BLS public API (free key) every Monday 6 AM for OEWS wages and QCEW employment data.', tag:'Python · requests' },
-  { num:'2', title:'Transform & validate', desc:'Script cleans the JSON, computes LQ, growth rates, and posting intensity, and writes data/labor_market.json.', tag:'pandas · GitHub Actions' },
-  { num:'3', title:'Auto-deploy', desc:'GitHub Actions detects the new JSON commit and deploys the updated static site to GitHub Pages or Netlify in < 2 minutes.', tag:'GitHub Actions · free tier' },
-  { num:'4', title:'Students see live data', desc:'index.html fetches data/labor_market.json on page load. No backend needed — the page is a static file that reads live data.', tag:'Static HTML · CDN' }
+  { num:'1', title:'BLS API pull',          desc:'Python script calls BLS public API every Monday 6 AM for OEWS wages and QCEW employment data across all 39 UB-mapped occupations.', tag:'Python · requests' },
+  { num:'2', title:'O*NET API pull',         desc:'Script calls O*NET Web Services for skills, hot technologies, tasks, education requirements, and Bright Outlook status for each occupation.', tag:'O*NET Web Services v2.0' },
+  { num:'3', title:'Transform & write JSON', desc:'Data is merged, cleaned, and written to data/labor_market.json — including live job posting links for 6 platforms per occupation.', tag:'pandas · GitHub Actions' },
+  { num:'4', title:'Auto-deploy to Pages',   desc:'GitHub Actions commits the new JSON and deploys the updated static site to GitHub Pages in under 2 minutes.', tag:'GitHub Actions · free tier' },
 ];
 const archDiv = document.getElementById('arch-cards');
+archDiv.innerHTML = '';
 archSteps.forEach(s => {
   const c = document.createElement('div');
   c.className = 'arch-card fade-in'; c.setAttribute('role','listitem');
@@ -1220,101 +3970,101 @@ archSteps.forEach(s => {
   archDiv.appendChild(c);
 });
 
-const hostingCards = [
-  { num:'A', title:'GitHub Pages (free)', desc:'Host this file on GitHub Pages. GitHub Actions runs the BLS fetch script weekly and pushes the new JSON automatically.', tag:'Recommended · $0/month' },
-  { num:'B', title:'Netlify (free tier)', desc:'Connect your GitHub repo to Netlify. Auto-deploys on every commit. Custom domain support (e.g. careers.ubalt.edu/market).', tag:'Custom domain · $0/month' },
-  { num:'C', title:'UB Web Server', desc:'If UB IT can run a weekly cron job, host index.html + data.json on any UB-managed server. No external dependency needed.', tag:'Requires IT coordination' }
-];
-const hDiv = document.getElementById('hosting-cards');
-hostingCards.forEach(s => {
-  const c = document.createElement('div');
-  c.className = 'arch-card fade-in'; c.setAttribute('role','listitem');
-  c.innerHTML = `<div class="arch-num" style="background:var(--gold);color:var(--navy-deep)">${s.num}</div><div class="arch-title">${s.title}</div><div class="arch-desc">${s.desc}</div><span class="arch-tag">${s.tag}</span>`;
-  hDiv.appendChild(c);
-});
-
 /* ─── CHARTS ──────────────────────────────────────────────────────────── */
-const GOLD = '#0076A8', NAVY = '#003D5C', GRAY = '#B0B8C1', TEAL = '#007A6E';
+const UB_BLUE = '#0076A8', UB_NAVY = '#003D5C', TEAL = '#007A6E', GRAY = '#B0B8C1';
 const gridCol = 'rgba(0,0,0,0.06)', tickCol = '#767676';
+const occs = DATA.occupations;
+const inds  = DATA.industries;
 
 // Wage chart
-new Chart(document.getElementById('wageChart'), {
+const wageCtx = document.getElementById('wageChart');
+if (wageCtx._chart) wageCtx._chart.destroy();
+wageCtx._chart = new Chart(wageCtx, {
   type: 'bar',
   data: {
-    labels: DATA.occupations.map(o => o.title.length > 24 ? o.title.slice(0,24)+'…' : o.title),
+    labels: occs.map(o => o.title.length > 24 ? o.title.slice(0,24)+'…' : o.title),
     datasets: [
-      { label: 'Entry wage', data: DATA.occupations.map(o => o.entry/1000), backgroundColor: GRAY, borderRadius: 4 },
-      { label: 'Median wage', data: DATA.occupations.map(o => o.median/1000), backgroundColor: GOLD, borderRadius: 4 }
+      { label:'Entry', data: occs.map(o => Math.round(o.entry/1000)),  backgroundColor: GRAY,    borderRadius: 4 },
+      { label:'Median',data: occs.map(o => Math.round(o.median/1000)), backgroundColor: UB_BLUE, borderRadius: 4 }
     ]
   },
   options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { callback: v => '$'+v+'K', color: tickCol, font:{size:11} }, grid:{color:gridCol} },
-      y: { ticks: { color: tickCol, font:{size:11} }, grid:{display:false} }
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false } },
+    scales:{
+      x:{ ticks:{ callback:v=>'$'+v+'K', color:tickCol, font:{size:11} }, grid:{color:gridCol} },
+      y:{ ticks:{ color:tickCol, font:{size:11} }, grid:{display:false} }
     }
   }
 });
 
 // Bubble chart
-new Chart(document.getElementById('bubbleChart'), {
-  type: 'bubble',
-  data: {
-    datasets: DATA.occupations.map((o, i) => ({
+const bubbleCtx = document.getElementById('bubbleChart');
+if (bubbleCtx._chart) bubbleCtx._chart.destroy();
+bubbleCtx._chart = new Chart(bubbleCtx, {
+  type:'bubble',
+  data:{
+    datasets: occs.map((o,i) => ({
       label: o.title,
-      data: [{ x: +(o.postIntensity*100).toFixed(1), y: +(o.projGrowth*100).toFixed(1), r: Math.max(7, o.talentGap/38) }],
-      backgroundColor: [GOLD+'BB', NAVY+'BB', TEAL+'BB', '#5B8DB8BB', '#4E7A6ABB'][i],
-      borderColor:     [GOLD, NAVY, TEAL, '#5B8DB8', '#4E7A6A'][i],
-      borderWidth: 1.5
+      data: [{ x: +(o.projGrowth*100).toFixed(1), y: Math.round(o.median/1000), r: Math.max(7, o.talentGap/40) }],
+      backgroundColor: [UB_BLUE+'BB',UB_NAVY+'BB',TEAL+'BB','#5B8DB8BB','#4E7A6ABB','#8A5C00BB'][i % 6],
+      borderColor:     [UB_BLUE,    UB_NAVY,    TEAL,     '#5B8DB8',  '#4E7A6A',  '#8A5C00'][i % 6],
+      borderWidth:1.5
     }))
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.x}% intensity, ${ctx.parsed.y}% growth` } }
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{ callbacks:{ label: ctx => `${ctx.dataset.label}: ${ctx.parsed.x}% growth, ${fmt$(ctx.parsed.y*1000)} median` }}
     },
-    scales: {
-      x: { title:{display:true, text:'Posting intensity (%)', color:tickCol, font:{size:11}}, ticks:{color:tickCol,font:{size:11}}, grid:{color:gridCol}, min:10, max:32 },
-      y: { title:{display:true, text:'Projected growth (%)', color:tickCol, font:{size:11}}, ticks:{color:tickCol,font:{size:11}}, grid:{color:gridCol}, min:0, max:30 }
+    scales:{
+      x:{ title:{display:true,text:'Projected growth (%)',color:tickCol,font:{size:11}}, ticks:{color:tickCol,font:{size:11}}, grid:{color:gridCol} },
+      y:{ title:{display:true,text:'Median wage ($K)',    color:tickCol,font:{size:11}}, ticks:{color:tickCol,font:{size:11}}, grid:{color:gridCol} }
     }
   }
 });
 
 // Growth compare
-new Chart(document.getElementById('growthChart'), {
-  type: 'bar',
-  data: {
-    labels: DATA.industries.map(i => i.name.split(' ').slice(0,2).join(' ')),
-    datasets: [
-      { label: 'Regional', data: DATA.industries.map(i => i.regGrowth), backgroundColor: GOLD, borderRadius: 3 },
-      { label: 'National', data: DATA.industries.map(i => i.natGrowth), backgroundColor: GRAY, borderRadius: 3 }
+const growCtx = document.getElementById('growthChart');
+if (growCtx._chart) growCtx._chart.destroy();
+growCtx._chart = new Chart(growCtx, {
+  type:'bar',
+  data:{
+    labels: inds.map(i => i.name.split(' ').slice(0,2).join(' ')),
+    datasets:[
+      { label:'Regional %', data: inds.map(i=>i.regGrowth), backgroundColor:UB_BLUE, borderRadius:3 },
+      { label:'National %', data: inds.map(i=>i.natGrowth), backgroundColor:GRAY,    borderRadius:3 }
     ]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks:{color:tickCol,font:{size:10}}, grid:{display:false} },
-      y: { ticks:{callback:v=>v+'%',color:tickCol,font:{size:11}}, grid:{color:gridCol} }
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:tickCol,font:{size:10}},grid:{display:false}},
+      y:{ticks:{callback:v=>v+'%',color:tickCol,font:{size:11}},grid:{color:gridCol}}
     }
   }
 });
 
 // Share donut
-new Chart(document.getElementById('shareChart'), {
-  type: 'doughnut',
-  data: {
-    labels: DATA.industries.map(i => i.name),
-    datasets: [{ data: DATA.industries.map(i => i.empEnd),
-      backgroundColor: [GOLD, NAVY, TEAL, '#5B8DB8', '#4E7A6A'], hoverOffset: 5 }]
+const shareCtx = document.getElementById('shareChart');
+if (shareCtx._chart) shareCtx._chart.destroy();
+shareCtx._chart = new Chart(shareCtx, {
+  type:'doughnut',
+  data:{
+    labels: inds.map(i=>i.name),
+    datasets:[{ data: inds.map(i=>i.empEnd),
+      backgroundColor:[UB_BLUE,UB_NAVY,TEAL,'#5B8DB8','#4E7A6A'], hoverOffset:5 }]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position:'bottom', labels:{color:tickCol,font:{size:10},boxWidth:10,padding:8} } }
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{color:tickCol,font:{size:10},boxWidth:10,padding:8}}}
   }
 });
+
+triggerFadeIns();
+} // end renderAll
 
 /* ─── TAB SWITCHING ───────────────────────────────────────────────────── */
 function switchView(id, btn) {
