@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/27646136/README.md)
+[README.md](https://github.com/user-attachments/files/27655358/README.md)
 # UB Labor Market Intelligence Dashboard
 
 Weekly auto-refreshing public webpage for UB Career & Internship Center.
