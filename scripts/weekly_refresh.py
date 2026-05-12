@@ -26,8 +26,7 @@ log = logging.getLogger(__name__)
 
 # ── Credentials (set as GitHub Secrets) ──────────────────────────────────────
 BLS_API_KEY   = os.environ.get("BLS_API_KEY", "")
-ONET_USERNAME = os.environ.get("ONET_USERNAME", "")
-ONET_PASSWORD = os.environ.get("ONET_PASSWORD", "")
+ONET_API_KEY = os.environ.get("ONET_API_KEY", "")
 
 # ── API endpoints ─────────────────────────────────────────────────────────────
 BLS_URL        = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
@@ -237,7 +236,7 @@ def onet_get(path: str, params: dict = None) -> dict | None:
     try:
         url = f"{ONET_BASE}/{path.lstrip('/')}"
         headers = {"Accept": "application/json"}
-        r = requests.get(url, auth=(ONET_USERNAME, ONET_PASSWORD),
+        r = requests.get(url, auth=(ONET_API_KEY, ""),
                          headers=headers, params=params, timeout=20)
         if r.status_code == 200:
             return r.json()
