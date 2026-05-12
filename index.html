@@ -1,1145 +1,742 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Labor Market Intelligence | UB Career &amp; Internship Center</title>
-  <meta name="description" content="Weekly labor market data for University of Baltimore students — in-demand occupations, salaries, and career pathways in the Baltimore metro region." />
-  <!-- Accessibility: color-scheme, language already set on <html lang="en"> -->
-  <meta name="color-scheme" content="light" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Libre Baskerville = closest free equivalent to UB's Brown serif; Source Sans 3 = clean web-safe body font -->
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-  <style>
-    /* ── UB Official Brand Tokens (ubalt.edu brand guidelines) ── */
-    :root {
-      /* Primary palette — Pantone 7690 C = #0076A8, white, black */
-      --ub-blue:     #0076A8;   /* Baltimore Blue — primary brand color */
-      --ub-blue-dk:  #005580;   /* Darker blue for hover / active states */
-      --ub-blue-lt:  #E5F3FA;   /* Light blue tint for backgrounds */
-      --ub-blue-mid: #CCE8F4;   /* Mid blue for secondary surfaces */
-      --ub-black:    #1A1A1A;   /* Near-black body text */
-      --ub-white:    #FFFFFF;
-      /* Extended palette — secondary neutrals and semantic colors */
-      --navy:        #0076A8;   /* alias → UB Blue used for headings/accents */
-      --navy-deep:   #003D5C;   /* Deep header/footer background */
-      --gold:        #0076A8;   /* repurposed: charts use UB Blue as accent */
-      --cream:       #F5F8FA;   /* Off-white page background */
-      --ink:         #1A1A1A;
-      --ink-2:       #444444;
-      --ink-3:       #767676;   /* Minimum 4.5:1 contrast on white — WCAG AA */
-      --rule:        rgba(0,118,168,0.12);
-      --rule-lt:     rgba(0,118,168,0.06);
-      /* Semantic — accessible on white background */
-      --teal:        #007A6E;   /* success / positive growth */
-      --teal-lt:     #E0F4F2;
-      --amber:       #8A5C00;   /* warning / moderate — darkened for contrast */
-      --amber-lt:    #FEF3DC;
-      --indigo:      #3B3899;
-      --indigo-lt:   #EEEDFB;
-      --red:         #9B2119;
-      --red-lt:      #FAEBE9;
-      /* Typography — UB brand: Libre Baskerville (serif display) + Source Sans 3 (body) */
-      --font-serif: 'Libre Baskerville', Georgia, serif;
-      --font-sans:  'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
-      /* Layout */
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 14px;
-      --radius-xl: 22px;
-      --shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 4px 14px rgba(0,0,0,0.06);
-      --shadow-lift: 0 4px 24px rgba(0,0,0,0.11);
-      /* Focus ring — high-visibility for keyboard users */
-      --focus-ring: 0 0 0 3px rgba(0,118,168,0.45);
-    }
-
-    /* ── Reset ──────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-sans);
-      background: var(--cream);
-      color: var(--ink);
-      font-size: 16px;       /* WCAG: 16px minimum body text */
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--ub-blue); text-decoration: underline; }
-    a:hover { color: var(--ub-blue-dk); }
-    img { display: block; max-width: 100%; }
-
-    /* ── Accessibility ──────────────────────────────────────── */
-    /* Skip to main content link — visible on focus for keyboard users */
-    .skip-link {
-      position: absolute; top: -100px; left: 16px; z-index: 9999;
-      background: var(--ub-blue); color: #fff;
-      padding: 10px 18px; border-radius: 0 0 var(--radius-md) var(--radius-md);
-      font-size: 14px; font-weight: 600; text-decoration: none;
-      transition: top .15s;
-    }
-    .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
-
-    /* Global focus ring — visible for all interactive elements */
-    :focus-visible {
-      outline: 3px solid var(--ub-blue);
-      outline-offset: 2px;
-      border-radius: var(--radius-sm);
-    }
-    button:focus-visible, a:focus-visible, [role="tab"]:focus-visible {
-      box-shadow: var(--focus-ring);
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
-
-    /* ── Utility ────────────────────────────────────────────── */
-    .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
-    }
-    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-    .fade-in { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
-    .fade-in.visible { opacity: 1; transform: none; }
-
-    /* ── Navigation ─────────────────────────────────────────── */
-    .site-nav {
-      background: var(--navy-deep);
-      padding: 0 24px;
-      position: sticky; top: 0; z-index: 100;
-      border-bottom: 3px solid var(--ub-blue);  /* UB Blue accent bar */
-    }
-    .nav-inner {
-      max-width: 1140px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .nav-brand { display: flex; align-items: center; gap: 12px; }
-    .nav-mark {
-      width: 38px; height: 38px; border-radius: var(--radius-sm);
-      background: var(--ub-blue);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-serif); font-size: 15px; font-weight: 700;
-      color: #fff; letter-spacing: 0.5px;
-    }
-    .nav-name { font-size: 14px; font-weight: 600; color: #fff; }
-    .nav-sub  { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 1px; }
-    .nav-tabs { display: flex; gap: 2px; }
-    .nav-tab {
-      padding: 8px 16px; font-size: 13px; font-weight: 500;
-      color: rgba(255,255,255,0.6);
-      border: none; background: none; cursor: pointer;
-      border-radius: var(--radius-sm);
-      transition: color .2s, background .2s;
-    }
-    .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-tab.active { color: #fff; background: var(--ub-blue); }
-    .nav-badge {
-      display: inline-block; margin-left: 6px;
-      font-size: 10px; padding: 1px 6px; border-radius: 10px;
-      background: rgba(255,255,255,0.2); color: #fff;
-    }
-    @media (max-width: 640px) {
-      .nav-tabs { display: none; }
-      .mobile-tabs { display: flex; }
-    }
-    .mobile-tabs {
-      display: none;
-      overflow-x: auto; gap: 6px;
-      padding: 10px 24px; background: var(--navy-deep);
-      -webkit-overflow-scrolling: touch;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .mobile-tab {
-      white-space: nowrap; padding: 7px 16px;
-      font-size: 13px; font-weight: 500;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px; color: rgba(255,255,255,0.65);
-      background: none; cursor: pointer;
-    }
-    .mobile-tab.active { color: #fff; background: var(--ub-blue); border-color: var(--ub-blue); }
-
-    /* ── Hero ───────────────────────────────────────────────── */
-    .hero {
-      background: var(--navy-deep);
-      padding: 56px 24px 52px;
-      position: relative; overflow: hidden;
-      border-bottom: 4px solid var(--ub-blue);
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        -55deg, transparent, transparent 48px,
-        rgba(0,118,168,0.07) 48px, rgba(0,118,168,0.07) 49px
-      );
-    }
-    .hero-inner {
-      max-width: 1140px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr auto;
-      align-items: end; gap: 32px; position: relative;
-    }
-    .hero-eyebrow {
-      font-size: 11px; font-weight: 600; letter-spacing: 1.8px;
-      text-transform: uppercase; color: var(--ub-blue);
-      background: rgba(0,118,168,0.15);
-      display: inline-block; padding: 3px 10px;
-      border-radius: var(--radius-sm); margin-bottom: 14px;
-    }
-    .hero-title {
-      font-family: var(--font-serif);
-      font-size: clamp(28px, 4vw, 44px);
-      color: #fff; line-height: 1.18; margin-bottom: 14px;
-    }
-    .hero-title em { color: #5FC3E8; font-style: italic; }  /* lighter blue for italic — WCAG AA on dark bg */
-    .hero-desc { font-size: 16px; color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.7; }
-    .hero-meta { text-align: right; white-space: nowrap; }
-    .hero-refreshed { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-    .hero-date { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); }
-    .hero-region {
-      margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;
-      font-size: 12px; color: #5FC3E8;
-      border: 1px solid rgba(95,195,232,0.4);
-      border-radius: 20px; padding: 4px 12px;
-    }
-    @media (max-width: 640px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-meta { text-align: left; }
-    }
-
-    /* ── Status bar ─────────────────────────────────────────── */
-    .status-bar {
-      background: var(--ub-blue-lt);
-      border-bottom: 1px solid rgba(0,118,168,0.2);
-      padding: 9px 24px;
-      font-size: 13px; color: var(--ub-blue-dk);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--teal);
-      animation: pulse 2.2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.45; transform: scale(0.82); }
-    }
-
-    /* ── Sections ───────────────────────────────────────────── */
-    .view { display: none; }
-    .view.active { display: block; }
-
-    /* ── KPI strip ──────────────────────────────────────────── */
-    .kpi-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px; margin: 32px 0 28px;
-    }
-    .kpi-card {
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius-lg);
-      padding: 18px 20px;
-      box-shadow: var(--shadow-card);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-    .kpi-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
-      text-transform: uppercase; color: var(--ink-3);
-      margin-bottom: 8px;
-    }
-    .kpi-val {
-      font-family: var(--font-serif);
-      font-size: 28px; color: var(--navy);
-      line-height: 1;
-    }
-    .kpi-sub {
-      font-size: 12px; color: var(--ink-3);
-      margin-top: 5px;
-    }
-    .kpi-card.accent { background: var(--ub-blue); border-color: var(--ub-blue); }
-    .kpi-card.accent .kpi-label { color: rgba(255,255,255,0.65); }
-    .kpi-card.accent .kpi-val   { color: #fff; }
-    .kpi-card.accent .kpi-sub   { color: rgba(255,255,255,0.6); }
-
-    /* ── Section headings ───────────────────────────────────── */
-    .sec-head {
-      display: flex; align-items: baseline; gap: 10px;
-      margin: 36px 0 16px;
-    }
-    .sec-head h2 {
-      font-family: var(--font-serif);
-      font-size: 20px; font-weight: 700; color: var(--navy-deep);
-    }
-    .sec-head-rule {
-      flex: 1; height: 1px;
-      background: linear-gradient(to right, var(--rule), transparent);
-    }
-    .sec-head-tag {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
-      text-transform: uppercase; color: var(--ink-3);
-    }
-
-    /* ── Occupation cards ───────────────────────────────────── */
-    .occ-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 16px; margin-bottom: 32px;
-    }
-    .occ-card {
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius-lg);
-      padding: 0;
-      box-shadow: var(--shadow-card);
-      position: relative; overflow: hidden;
-      transition: transform .2s, box-shadow .2s;
-      display: flex; flex-direction: column;
-    }
-    .occ-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-    .occ-card-top {
-      padding: 20px 22px 0;
-      border-top: 3px solid var(--rule);
-    }
-    .occ-card.demand-High    .occ-card-top { border-top-color: var(--teal); }
-    .occ-card.demand-Moderate .occ-card-top { border-top-color: var(--amber); }
-    .occ-card.demand-Low      .occ-card-top { border-top-color: var(--ink-3); }
-
-    /* Bright Outlook badge */
-    .bright-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.4px;
-      text-transform: uppercase;
-      color: #6B3800; background: #FFF0D9;
-      border: 1px solid #F5C07A;
-      border-radius: 10px; padding: 2px 8px; margin-bottom: 8px;
-    }
-
-    .occ-title {
-      font-size: 15px; font-weight: 600; color: var(--navy);
-      margin-bottom: 3px;
-    }
-    .occ-industry { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
-    .occ-desc {
-      font-size: 13px; color: var(--ink-2); line-height: 1.65;
-      margin-bottom: 14px;
-    }
-    .occ-wages {
-      display: flex; gap: 0; margin: 0 22px 14px;
-      background: var(--cream);
-      border-radius: var(--radius-md);
-      overflow: hidden; border: 1px solid var(--rule-lt);
-    }
-    .wage-item { text-align: center; flex: 1; padding: 10px 6px; }
-    .wage-item + .wage-item { border-left: 1px solid var(--rule-lt); }
-    .wage-item-label {
-      font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
-      text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px;
-    }
-    .wage-item-val {
-      font-family: var(--font-serif); font-size: 17px; color: var(--navy);
-    }
-
-    /* O*NET skills pills */
-    .occ-section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
-      text-transform: uppercase; color: var(--ink-3);
-      padding: 0 22px; margin-bottom: 6px;
-    }
-    .pill-row {
-      display: flex; flex-wrap: wrap; gap: 5px;
-      padding: 0 22px; margin-bottom: 12px;
-    }
-    .skill-pill {
-      font-size: 11px; font-weight: 500; color: var(--ub-blue-dk);
-      background: var(--ub-blue-lt); border: 1px solid rgba(0,118,168,0.2);
-      border-radius: 12px; padding: 3px 9px;
-    }
-    .tech-pill {
-      font-size: 11px; font-weight: 500; color: #3B1A6B;
-      background: #F0E8FB; border: 1px solid rgba(90,40,160,0.2);
-      border-radius: 12px; padding: 3px 9px;
-    }
-    .tech-pill.hot::before { content: "🔥 "; }
-
-    /* Tasks */
-    .occ-tasks {
-      padding: 0 22px; margin-bottom: 14px;
-    }
-    .occ-tasks li {
-      font-size: 12px; color: var(--ink-2); line-height: 1.6;
-      padding: 3px 0; border-bottom: 1px solid var(--rule-lt);
-      list-style: none; display: flex; gap: 6px;
-    }
-    .occ-tasks li::before { content: "›"; color: var(--ub-blue); font-weight: 700; }
-
-    /* Stats chips */
-    .occ-stats {
-      display: flex; gap: 6px; flex-wrap: wrap;
-      padding: 0 22px; margin-bottom: 16px;
-    }
-    .stat-chip {
-      display: flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 500;
-      padding: 4px 9px; border-radius: 20px; border: 1px solid;
-    }
-    .stat-chip.growth   { color: var(--teal);   border-color: rgba(0,122,110,0.25); background: var(--teal-lt); }
-    .stat-chip.gap      { color: var(--amber);   border-color: rgba(138,92,0,0.25);  background: var(--amber-lt); }
-    .stat-chip.outlook  { color: #3B3899;        border-color: rgba(59,56,153,0.25); background: var(--indigo-lt); }
-
-    /* Job posting links footer */
-    .occ-jobs-bar {
-      margin-top: auto;
-      border-top: 1px solid var(--rule-lt);
-      padding: 12px 22px;
-      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-    }
-    .occ-jobs-label {
-      font-size: 11px; font-weight: 600; color: var(--ink-3);
-      text-transform: uppercase; letter-spacing: 0.5px;
-      margin-right: 2px;
-    }
-    .job-link {
-      font-size: 11px; font-weight: 600;
-      padding: 4px 10px; border-radius: 6px;
-      text-decoration: none; transition: background .15s, color .15s;
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .job-link:focus-visible { outline: 2px solid var(--ub-blue); outline-offset: 2px; }
-    .job-link.primary {
-      background: var(--ub-blue); color: #fff;
-    }
-    .job-link.primary:hover { background: var(--ub-blue-dk); }
-    .job-link.secondary {
-      background: var(--cream); color: var(--ub-blue);
-      border: 1px solid rgba(0,118,168,0.25);
-    }
-    .job-link.secondary:hover { background: var(--ub-blue-lt); }
-    .occ-meta-row {
-      padding: 0 22px 14px;
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    }
-    .occ-edu-badge {
-      font-size: 11px; color: var(--ink-2);
-      display: flex; align-items: center; gap: 4px;
-    }
-    .occ-onet-link {
-      font-size: 11px; color: var(--ub-blue); font-weight: 500;
-      text-decoration: underline; margin-left: auto;
-    }
-
-    /* ── Charts ─────────────────────────────────────────────── */
-    .chart-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px; margin-bottom: 32px;
-    }
-    @media (max-width: 700px) { .chart-grid { grid-template-columns: 1fr; } }
-    .chart-card {
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      box-shadow: var(--shadow-card);
-    }
-    .chart-card.wide { grid-column: 1 / -1; }
-    .chart-title {
-      font-size: 13px; font-weight: 600; color: var(--navy);
-      margin-bottom: 4px;
-    }
-    .chart-sub {
-      font-size: 11px; color: var(--ink-3); margin-bottom: 16px;
-    }
-    .chart-wrap { position: relative; width: 100%; }
-
-    /* ── Faculty: LQ bars ───────────────────────────────────── */
-    .lq-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid var(--rule-lt);
-    }
-    .lq-row:last-child { border-bottom: none; }
-    .lq-name { font-size: 13px; color: var(--ink-2); min-width: 220px; }
-    .lq-track {
-      flex: 1; height: 8px;
-      background: var(--cream); border-radius: 4px; overflow: hidden;
-      position: relative;
-    }
-    .lq-ref {
-      position: absolute; left: 50%; top: 0; bottom: 0;
-      width: 1px; background: rgba(26,25,22,0.2);
-    }
-    .lq-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-    .lq-score {
-      font-size: 13px; font-weight: 600; min-width: 34px; text-align: right; color: var(--navy);
-    }
-    .lq-badge {
-      font-size: 10px; font-weight: 600; padding: 2px 7px;
-      border-radius: 10px; min-width: 60px; text-align: center;
-    }
-
-    /* ── Faculty: program cards ─────────────────────────────── */
-    .prog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px; margin-bottom: 32px;
-    }
-    .prog-card {
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      box-shadow: var(--shadow-card);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .prog-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-    .prog-fit-bar {
-      height: 3px; border-radius: 2px; margin-bottom: 14px;
-      background: var(--rule);
-    }
-    .prog-name {
-      font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 2px;
-    }
-    .prog-cred {
-      font-size: 11px; color: var(--ink-3); font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
-    }
-    .prog-link {
-      font-size: 12px; color: var(--ink-2);
-      padding: 8px 10px;
-      background: var(--cream);
-      border-radius: var(--radius-sm);
-      margin-bottom: 12px;
-    }
-    .prog-link strong { color: var(--navy); }
-    .prog-stats {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 8px; margin-bottom: 14px;
-    }
-    .prog-stat { text-align: center; }
-    .prog-stat-val {
-      font-family: var(--font-serif);
-      font-size: 17px; color: var(--navy);
-    }
-    .prog-stat-lbl {
-      font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
-      text-transform: uppercase; color: var(--ink-3);
-    }
-    .prog-skills-row {
-      display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;
-    }
-    .prog-job-links {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      padding-top: 10px; border-top: 1px solid var(--rule-lt);
-    }
-    .fit-badge {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      padding: 3px 9px; border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    /* ── Region selector ────────────────────────────────────── */
-    .region-selector {
-      display: flex; align-items: center; gap: 10px;
-      flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .region-selector-label {
-      font-size: 12px; font-weight: 600; color: var(--ink-3);
-      text-transform: uppercase; letter-spacing: 0.6px;
-    }
-    .region-btn {
-      padding: 6px 14px; font-size: 13px; font-weight: 500;
-      border: 1px solid var(--rule); border-radius: 20px;
-      background: #fff; color: var(--ink-2); cursor: pointer;
-      transition: all .15s;
-    }
-    .region-btn:hover { border-color: var(--ub-blue); color: var(--ub-blue); }
-    .region-btn.active {
-      background: var(--ub-blue); border-color: var(--ub-blue);
-      color: #fff;
-    }
-    .region-btn:focus-visible { outline: 2px solid var(--ub-blue); outline-offset: 2px; }
-
-    /* ── Multi-region comparison table ─────────────────────── */
-    .region-compare-table {
-      width: 100%; border-collapse: collapse;
-      font-size: 13px; margin-bottom: 32px;
-    }
-    .region-compare-table th {
-      padding: 9px 12px; text-align: left;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
-      text-transform: uppercase; color: var(--ink-3);
-      border-bottom: 2px solid var(--rule); white-space: nowrap;
-    }
-    .region-compare-table th.region-col {
-      text-align: center; color: var(--ub-blue);
-    }
-    .region-compare-table td {
-      padding: 10px 12px; border-bottom: 1px solid var(--rule-lt);
-      vertical-align: middle;
-    }
-    .region-compare-table tr:last-child td { border-bottom: none; }
-    .region-compare-table tr:hover td { background: var(--cream); }
-    .lq-chip {
-      display: inline-block; padding: 2px 8px; border-radius: 10px;
-      font-size: 11px; font-weight: 600; text-align: center;
-      min-width: 42px;
-    }
-    .lq-strong   { background: #EEECFB; color: #3B3899; }
-    .lq-moderate { background: #E0F4F2; color: #007A6E; }
-    .lq-below    { background: #FEF3DC; color: #8A5C00; }
-    .sources-table {
-      width: 100%; border-collapse: collapse;
-      font-size: 13px; margin-bottom: 32px;
-    }
-    .sources-table th {
-      text-align: left; font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.5px;
-      color: var(--ink-3); padding: 10px 14px;
-      border-bottom: 2px solid var(--rule);
-    }
-    .sources-table td {
-      padding: 12px 14px; border-bottom: 1px solid var(--rule-lt);
-      color: var(--ink-2); vertical-align: top;
-    }
-    .sources-table tr:hover td { background: var(--cream); }
-    .sources-table a { color: var(--ub-blue); font-weight: 500; text-decoration: underline; text-decoration-color: var(--ub-blue); }
-
-    /* ── Auto-update architecture panel ────────────────────── */
-    .arch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px; margin: 20px 0 32px;
-    }
-    .arch-card {
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      box-shadow: var(--shadow-card);
-    }
-    .arch-num {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--navy); color: var(--gold);
-      font-size: 13px; font-weight: 600;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 12px;
-    }
-    .arch-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-    .arch-desc { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
-    .arch-tag {
-      display: inline-block; margin-top: 10px;
-      font-size: 11px; font-weight: 600; padding: 2px 8px;
-      border-radius: 10px; background: var(--cream); color: var(--ink-3);
-      border: 1px solid var(--rule);
-    }
-    .code-block {
-      font-family: 'Courier New', monospace;
-      font-size: 12px; line-height: 1.7;
-      background: var(--navy-deep); color: #9ECFFF;
-      border-radius: var(--radius-md);
-      padding: 16px 18px; overflow-x: auto;
-      margin: 16px 0;
-    }
-    .code-block .cm { color: rgba(255,255,255,0.3); }
-    .code-block .ck { color: #C792EA; }
-    .code-block .cs { color: #C3E88D; }
-    .code-block .cn { color: #FFCB6B; }
-
-    /* ── Footer ─────────────────────────────────────────────── */
-    .site-footer {
-      background: var(--navy-deep);
-      border-top: 4px solid var(--ub-blue);
-      margin-top: 64px;
-    }
-    .footer-inner {
-      max-width: 1140px; margin: 0 auto;
-      padding: 40px 24px 32px;
-      display: grid;
-      grid-template-columns: auto 1fr 1fr;
-      gap: 48px; align-items: start;
-    }
-    @media (max-width: 700px) {
-      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
-    }
-    .footer-brand-block {
-      display: flex; align-items: flex-start; gap: 14px;
-    }
-    .footer-ub-mark {
-      width: 44px; height: 44px; border-radius: var(--radius-sm);
-      background: var(--ub-blue); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-serif); font-size: 16px; font-weight: 700;
-      color: #fff;
-    }
-    .footer-unit      { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.4; }
-    .footer-college   { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
-    .footer-university{ font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 1px; }
-    .footer-nav-heading {
-      font-size: 11px; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase; color: var(--ub-blue);
-      margin-bottom: 12px;
-    }
-    .footer-links-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .footer-link {
-      font-size: 13px; color: rgba(255,255,255,0.6);
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .footer-link:hover { color: #fff; text-decoration: underline; }
-    .footer-link:focus-visible { color: #fff; outline: 2px solid var(--ub-blue); border-radius: 2px; }
-    .footer-bottom {
-      max-width: 1140px; margin: 0 auto;
-      padding: 14px 24px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
-      font-size: 12px; color: rgba(255,255,255,0.35);
-    }
-    .footer-bottom-divider { color: rgba(255,255,255,0.2); }
-    .footer-bottom-link {
-      color: rgba(255,255,255,0.5); text-decoration: underline;
-      font-size: 12px;
-    }
-    .footer-bottom-link:hover { color: #fff; }
-
-    /* ── Loading overlay ────────────────────────────────────── */
-    #loading {
-      position: fixed; inset: 0; z-index: 999;
-      background: var(--navy-deep);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 20px;
-      transition: opacity .5s ease;
-    }
-    #loading.hidden { opacity: 0; pointer-events: none; }
-    .load-mark {
-      width: 56px; height: 56px; border-radius: var(--radius-md);
-      background: var(--ub-blue);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: #fff;
-    }
-    .load-text { font-size: 14px; color: rgba(255,255,255,0.5); }
-    .load-bar {
-      width: 160px; height: 3px; background: rgba(255,255,255,0.1);
-      border-radius: 2px; overflow: hidden;
-    }
-    .load-fill {
-      height: 100%; background: var(--ub-blue); border-radius: 2px;
-      width: 0; animation: loadbar 1.2s ease forwards;
-    }
-    @keyframes loadbar { to { width: 100%; } }
-
-    /* ── Responsive ─────────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .occ-grid { grid-template-columns: 1fr; }
-      .prog-grid { grid-template-columns: 1fr; }
-      .arch-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Labor Market Intelligence | UB Career &amp; Internship Center</title>
+<meta name="description" content="Weekly labor market data for University of Baltimore students and faculty across Baltimore Metro, Maryland, DC Metro, and Virginia Metro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0076A8;--blue-dk:#005580;--blue-lt:#E5F3FA;
+  --navy:#003D5C;--cream:#F5F8FA;--ink:#1A1A1A;--ink2:#444;--ink3:#767676;
+  --rule:rgba(0,0,0,.09);--rule-lt:rgba(0,0,0,.04);
+  --teal:#007A6E;--teal-lt:#E0F4F2;--amber:#8A5C00;--amber-lt:#FEF3DC;
+  --indigo:#3B3899;--ind-lt:#EEEDFB;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Segoe UI',system-ui,sans-serif;
+  --r-sm:4px;--r-md:8px;--r-lg:14px;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.06);
+  --sh2:0 4px 24px rgba(0,0,0,.11);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:underline}
+a:hover{color:var(--blue-dk)}
+.skip-link{position:absolute;top:-100px;left:16px;z-index:9999;background:var(--blue);color:#fff;padding:10px 18px;border-radius:0 0 var(--r-md) var(--r-md);font-size:14px;font-weight:600;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:0;outline:3px solid #fff;outline-offset:2px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:var(--r-sm)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+.fade-in{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}
+.fade-in.visible{opacity:1;transform:none}
+/* Nav */
+.site-nav{background:var(--navy);padding:0 24px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--blue)}
+.nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-mark{width:38px;height:38px;border-radius:var(--r-sm);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:700;color:#fff}
+.nav-name{font-size:14px;font-weight:600;color:#fff}
+.nav-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{padding:8px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);border:none;background:none;cursor:pointer;border-radius:var(--r-sm);transition:color .2s,background .2s}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.09)}
+.nav-tab.active{color:#fff;background:var(--blue)}
+@media(max-width:640px){.nav-tabs{display:none}.mob-tabs{display:flex!important}}
+.mob-tabs{display:none;overflow-x:auto;gap:6px;padding:10px 24px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1)}
+.mob-tab{white-space:nowrap;padding:7px 16px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.2);border-radius:20px;color:rgba(255,255,255,.65);background:none;cursor:pointer}
+.mob-tab.active{color:#fff;background:var(--blue);border-color:var(--blue)}
+/* Hero */
+.hero{background:var(--navy);padding:52px 24px;position:relative;overflow:hidden;border-bottom:4px solid var(--blue)}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-55deg,transparent,transparent 48px,rgba(0,118,168,.07) 48px,rgba(0,118,168,.07) 49px)}
+.hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;position:relative}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);background:rgba(0,118,168,.15);display:inline-block;padding:3px 10px;border-radius:var(--r-sm);margin-bottom:14px}
+.hero-title{font-family:var(--serif);font-size:clamp(28px,4vw,44px);color:#fff;line-height:1.18;margin-bottom:12px}
+.hero-title em{color:#5FC3E8;font-style:italic}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.7);max-width:560px;line-height:1.7}
+.hero-meta{text-align:right;white-space:nowrap}
+.hero-refreshed{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.hero-date{font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
+.hero-region{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#5FC3E8;border:1px solid rgba(95,195,232,.4);border-radius:20px;padding:4px 12px}
+@media(max-width:640px){.hero-inner{grid-template-columns:1fr}.hero-meta{text-align:left}}
+.status-bar{background:var(--blue-lt);border-bottom:1px solid rgba(0,118,168,.2);padding:9px 24px;font-size:13px;color:#005580;display:flex;align-items:center;justify-content:center;gap:8px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+.view{display:none}
+.view.active{display:block}
+/* KPI */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:32px 0 28px}
+.kpi-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.kpi-card.acc{background:var(--blue);border-color:var(--blue)}
+.kpi-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.kpi-card.acc .kpi-label{color:rgba(255,255,255,.65)}
+.kpi-val{font-family:var(--serif);font-size:28px;color:var(--navy)}
+.kpi-card.acc .kpi-val{color:#fff}
+.kpi-sub{font-size:12px;color:var(--ink3);margin-top:5px}
+.kpi-card.acc .kpi-sub{color:rgba(255,255,255,.6)}
+/* Section heads */
+.sec-head{display:flex;align-items:baseline;gap:10px;margin:36px 0 16px}
+.sec-head h2{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy)}
+.sec-head-rule{flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent)}
+.sec-head-tag{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3)}
+/* Occ cards */
+.occ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:32px}
+.occ-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--rule);border-radius:var(--r-lg);padding:0;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.occ-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.occ-card.High{border-top-color:var(--teal)}
+.occ-card.Moderate{border-top-color:var(--amber)}
+.occ-card.Low{border-top-color:var(--ink3)}
+.occ-top{padding:18px 20px 0}
+.bright-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B3800;background:#FFF0D9;border:1px solid #F5C07A;border-radius:10px;padding:2px 8px;margin-bottom:8px}
+.occ-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.occ-ind{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.occ-desc{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:12px}
+.occ-wages{display:flex;margin:0 20px 14px;background:var(--cream);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--rule-lt)}
+.wi{text-align:center;flex:1;padding:10px 6px}
+.wi+.wi{border-left:1px solid var(--rule-lt)}
+.wl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.wv{font-family:var(--serif);font-size:17px;color:var(--navy)}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);padding:0 20px;margin-bottom:6px}
+.pill-row{display:flex;flex-wrap:wrap;gap:5px;padding:0 20px;margin-bottom:12px}
+.sk{font-size:11px;font-weight:500;color:#005580;background:var(--blue-lt);border:1px solid rgba(0,118,168,.2);border-radius:12px;padding:3px 9px}
+.tk{font-size:11px;font-weight:500;color:#3B1A6B;background:#F0E8FB;border:1px solid rgba(90,40,160,.2);border-radius:12px;padding:3px 9px}
+.occ-tasks{padding:0 20px;margin-bottom:12px}
+.occ-tasks li{font-size:12px;color:var(--ink2);line-height:1.6;padding:3px 0;border-bottom:1px solid var(--rule-lt);list-style:none;display:flex;gap:6px}
+.occ-tasks li::before{content:">";color:var(--blue);font-weight:700}
+.occ-stats{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px;margin-bottom:14px}
+.chip{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;border:1px solid}
+.chip.g{color:var(--teal);border-color:rgba(0,122,110,.25);background:var(--teal-lt)}
+.chip.d{color:var(--amber);border-color:rgba(138,92,0,.25);background:var(--amber-lt)}
+.chip.o{color:var(--indigo);border-color:rgba(59,56,153,.25);background:var(--ind-lt)}
+.occ-meta{padding:0 20px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.edu-b{font-size:11px;color:var(--ink2)}
+.onet-l{font-size:11px;color:var(--blue);font-weight:500;text-decoration:underline;margin-left:auto}
+.jobs-bar{margin-top:auto;border-top:1px solid var(--rule-lt);padding:12px 20px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jlbl{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
+.jl{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;transition:background .15s,color .15s}
+.jl:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.jl.p{background:var(--blue);color:#fff}
+.jl.p:hover{background:var(--blue-dk)}
+.jl.s{background:var(--cream);color:var(--blue);border:1px solid rgba(0,118,168,.25)}
+.jl.s:hover{background:var(--blue-lt)}
+/* Charts */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:700px){.chart-grid{grid-template-columns:1fr}}
+.chart-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
+.ct{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.cs{font-size:11px;color:var(--ink3);margin-bottom:16px}
+.cw{position:relative;width:100%}
+/* Region selector */
+.rgn-sel{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.rgn-lbl{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px}
+.rgn-btn{padding:6px 14px;font-size:13px;font-weight:500;border:1px solid var(--rule);border-radius:20px;background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s}
+.rgn-btn:hover{border-color:var(--blue);color:var(--blue)}
+.rgn-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+/* LQ bars */
+.lq-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule-lt)}
+.lq-row:last-child{border-bottom:none}
+.lq-name{font-size:13px;color:var(--ink2);min-width:200px}
+.lq-track{flex:1;height:8px;background:var(--cream);border-radius:4px;overflow:hidden;position:relative}
+.lq-ref{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,.15)}
+.lq-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.lq-score{font-size:13px;font-weight:600;min-width:34px;text-align:right;color:var(--navy)}
+.lq-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:62px;text-align:center}
+/* Prog cards */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:32px}
+.prog-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.prog-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.pbar{height:3px;border-radius:2px;margin-bottom:14px}
+.pcred{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3)}
+.pname{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.pspec{font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5}
+.ptarget{font-size:12px;color:var(--ink2);background:var(--cream);border-radius:var(--r-sm);padding:7px 10px;margin-bottom:10px}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.psv{font-family:var(--serif);font-size:16px;color:var(--navy)}
+.psl{font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3)}
+.pskills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.plinks{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+/* Compare table */
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.cmp-table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);border-bottom:2px solid var(--rule);white-space:nowrap}
+.cmp-table th.rc{text-align:center;color:var(--blue)}
+.cmp-table td{padding:9px 12px;border-bottom:1px solid var(--rule-lt);vertical-align:middle}
+.cmp-table tr:hover td{background:var(--cream)}
+.lqc{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;text-align:center;min-width:40px}
+.lqs{background:#EEECFB;color:#3B3899}
+.lqm{background:#E0F4F2;color:#007A6E}
+.lqb{background:#FEF3DC;color:#8A5C00}
+/* Sources */
+.src-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.src-table th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);padding:10px 14px;border-bottom:2px solid var(--rule)}
+.src-table td{padding:10px 14px;border-bottom:1px solid var(--rule-lt);color:var(--ink2);vertical-align:top}
+.src-table tr:hover td{background:var(--cream)}
+.fb{font-size:11px;background:var(--cream);border:1px solid var(--rule);border-radius:10px;padding:2px 8px;font-weight:500;color:var(--ink3)}
+/* Arch */
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:16px 0 32px}
+.arch-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
+.arch-num{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#CCE8F4;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.arch-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.arch-desc{font-size:13px;color:var(--ink2);line-height:1.65}
+.arch-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--cream);color:var(--ink3);border:1px solid var(--rule)}
+.fm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:32px}
+.fm-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh)}
+.fm-name{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.fm-use{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.fm-eq{font-family:'Courier New',monospace;font-size:11px;background:var(--cream);border-radius:var(--r-sm);padding:8px 10px;color:var(--navy);line-height:1.6}
+/* Footer */
+.site-footer{background:var(--navy);border-top:4px solid var(--blue);margin-top:64px}
+.footer-inner{max-width:1140px;margin:0 auto;padding:40px 24px 32px;display:grid;grid-template-columns:auto 1fr 1fr;gap:48px;align-items:start}
+@media(max-width:700px){.footer-inner{grid-template-columns:1fr;gap:28px}}
+.footer-brand{display:flex;align-items:flex-start;gap:14px}
+.footer-mark{width:44px;height:44px;border-radius:var(--r-sm);background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;font-weight:700;color:#fff}
+.footer-unit{font-size:15px;font-weight:600;color:#fff;line-height:1.4}
+.footer-col{font-size:13px;color:rgba(255,255,255,.6);margin-top:3px}
+.footer-nh{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-link{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none}
+.footer-link:hover{color:#fff;text-decoration:underline}
+.footer-bot{max-width:1140px;margin:0 auto;padding:14px 24px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:rgba(255,255,255,.35)}
+.footer-sep{color:rgba(255,255,255,.2)}
+.footer-bl{color:rgba(255,255,255,.5);text-decoration:underline;font-size:12px}
+.footer-bl:hover{color:#fff}
+/* Loading */
+#loading{position:fixed;inset:0;z-index:999;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s ease}
+#loading.hidden{opacity:0;pointer-events:none}
+.lm{width:56px;height:56px;border-radius:var(--r-md);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:700;color:#fff}
+.lt{font-size:14px;color:rgba(255,255,255,.5)}
+.lb{width:160px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.lf{height:100%;background:var(--blue);border-radius:2px;width:0;animation:lb 1s ease forwards}
+@keyframes lb{to{width:100%}}
+@media(max-width:480px){.occ-grid,.prog-grid,.arch-grid,.fm-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-
-<!-- Skip to main content — WCAG 2.4.1 Bypass Blocks -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
-
-<!-- Loading screen -->
 <div id="loading" role="status" aria-live="polite">
-  <div class="load-mark">UB</div>
-  <div class="load-bar"><div class="load-fill"></div></div>
-  <div class="load-text">Loading labor market data…</div>
+  <div class="lm">UB</div>
+  <div class="lb"><div class="lf"></div></div>
+  <div class="lt">Loading labor market data&hellip;</div>
 </div>
-
-<!-- Navigation -->
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
     <div class="nav-brand">
       <div class="nav-mark" aria-hidden="true">UB</div>
       <div>
         <div class="nav-name">Career &amp; Internship Center</div>
-        <div class="nav-sub">University of Baltimore · College of Public Affairs</div>
+        <div class="nav-sub">University of Baltimore &middot; College of Public Affairs</div>
       </div>
     </div>
     <div class="nav-tabs" role="tablist">
-      <button class="nav-tab active" role="tab" aria-selected="true" onclick="switchView('students', this)">For Students <span class="nav-badge">New</span></button>
-      <button class="nav-tab" role="tab" aria-selected="false" onclick="switchView('faculty', this)">For Faculty</button>
-      <button class="nav-tab" role="tab" aria-selected="false" onclick="switchView('sources', this)">Data Sources</button>
-      <button class="nav-tab" role="tab" aria-selected="false" onclick="switchView('setup', this)">Auto-Update Setup</button>
+      <button class="nav-tab active" onclick="switchView('students',this)">For Students</button>
+      <button class="nav-tab" onclick="switchView('faculty',this)">For Faculty</button>
+      <button class="nav-tab" onclick="switchView('sources',this)">Data Sources</button>
+      <button class="nav-tab" onclick="switchView('setup',this)">Auto-Update Setup</button>
     </div>
   </div>
 </nav>
-<div class="mobile-tabs" role="tablist">
-  <button class="mobile-tab active" role="tab" onclick="switchView('students', this)">Students</button>
-  <button class="mobile-tab" role="tab" onclick="switchView('faculty', this)">Faculty</button>
-  <button class="mobile-tab" role="tab" onclick="switchView('sources', this)">Data Sources</button>
-  <button class="mobile-tab" role="tab" onclick="switchView('setup', this)">Setup</button>
+<div class="mob-tabs">
+  <button class="mob-tab active" onclick="switchView('students',this)">Students</button>
+  <button class="mob-tab" onclick="switchView('faculty',this)">Faculty</button>
+  <button class="mob-tab" onclick="switchView('sources',this)">Sources</button>
+  <button class="mob-tab" onclick="switchView('setup',this)">Setup</button>
 </div>
-
-<!-- Hero -->
 <header class="hero" role="banner">
   <div class="hero-inner">
     <div>
       <div class="hero-eyebrow">University of Baltimore Career &amp; Internship Center</div>
       <h1 class="hero-title">Labor Market<br><em>Intelligence.</em></h1>
-      <p class="hero-desc">Weekly labor market data for UB students and faculty — in-demand roles, real wages, and career pathways for the Baltimore metro region.</p>
+      <p class="hero-desc">Weekly data for UB students and faculty &mdash; in-demand roles, real wages, and career pathways across Baltimore Metro, Maryland, DC Metro, and Virginia Metro.</p>
     </div>
     <div class="hero-meta">
       <div class="hero-refreshed">Last refreshed</div>
-      <div class="hero-date" id="refresh-date">Loading…</div>
-      <div class="hero-region">📍 Baltimore Metro</div>
+      <div class="hero-date" id="refresh-date">Loading&hellip;</div>
+      <div class="hero-region">&#128205; 4-Region Coverage</div>
     </div>
   </div>
 </header>
-
 <div class="status-bar" role="status">
   <div class="status-dot" aria-hidden="true"></div>
-  Data refreshes automatically every Monday · Source: BLS OEWS + QCEW · 2021–2026 window
+  Refreshes automatically every Monday &middot; BLS OEWS + O*NET &middot; 2022&ndash;2024
 </div>
-
-<!-- ═══════════════════════════════════════════════
-     STUDENTS VIEW
-═══════════════════════════════════════════════ -->
 <main id="main-content" tabindex="-1">
+<!-- STUDENTS -->
 <div id="view-students" class="view active">
-  <div class="container">
-
-    <div class="kpi-strip" role="region" aria-label="Key statistics">
-      <div class="kpi-card accent fade-in">
-        <div class="kpi-label">Top median salary</div>
-        <div class="kpi-val" id="kpi-top-wage">—</div>
-        <div class="kpi-sub" id="kpi-top-wage-role">Loading…</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Fastest growing role</div>
-        <div class="kpi-val" id="kpi-fastest">—</div>
-        <div class="kpi-sub" id="kpi-fastest-role">Loading…</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Largest talent gap</div>
-        <div class="kpi-val" id="kpi-gap">—</div>
-        <div class="kpi-sub">Open roles vs. available workers</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Avg entry wage</div>
-        <div class="kpi-val" id="kpi-entry">—</div>
-        <div class="kpi-sub">Across tracked occupations</div>
-      </div>
-    </div>
-
-    <div class="sec-head fade-in">
-      <h2>In-demand occupations</h2>
-      <div class="sec-head-rule"></div>
-      <div class="sec-head-tag">Baltimore Metro · 2026</div>
-    </div>
-    <div class="occ-grid" id="occ-grid" role="list" aria-label="In-demand occupations"></div>
-
-    <div class="sec-head fade-in">
-      <h2>Salary landscape</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <div class="chart-grid">
-      <div class="chart-card fade-in">
-        <div class="chart-title">Entry → Median wage by role</div>
-        <div class="chart-sub">Entry wage (gray) and median wage (gold) · dollars</div>
-        <div class="chart-wrap" style="height:260px">
-          <canvas id="wageChart" role="img" aria-label="Horizontal bar chart comparing entry and median wages for tracked occupations"></canvas>
-        </div>
-      </div>
-      <div class="chart-card fade-in">
-        <div class="chart-title">Growth vs. posting intensity</div>
-        <div class="chart-sub">Bubble size = talent gap (more open roles than workers)</div>
-        <div class="chart-wrap" style="height:260px">
-          <canvas id="bubbleChart" role="img" aria-label="Bubble chart of posting intensity vs projected growth"></canvas>
-        </div>
-      </div>
-    </div>
-
+<div class="container">
+  <div class="kpi-strip">
+    <div class="kpi-card acc fade-in"><div class="kpi-label">Top median wage</div><div class="kpi-val" id="s1">&#8212;</div><div class="kpi-sub" id="s1b">Loading&hellip;</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Fastest growing</div><div class="kpi-val" id="s2">&#8212;</div><div class="kpi-sub" id="s2b">Loading&hellip;</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Largest talent gap</div><div class="kpi-val" id="s3">&#8212;</div><div class="kpi-sub">open roles vs. workers</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Bright Outlook roles</div><div class="kpi-val" id="s4">&#8212;</div><div class="kpi-sub">fastest-growing occupations</div></div>
+  </div>
+  <div class="sec-head fade-in"><h2>In-demand occupations</h2><div class="sec-head-rule"></div><div class="sec-head-tag">Baltimore Metro &middot; 2024</div></div>
+  <div class="occ-grid" id="occ-grid" role="list"></div>
+  <div class="sec-head fade-in"><h2>Salary landscape</h2><div class="sec-head-rule"></div></div>
+  <div class="chart-grid">
+    <div class="chart-card fade-in"><div class="ct">Entry &rarr; Median wage by role</div><div class="cs">Gray = entry &middot; Blue = median</div><div class="cw" style="height:320px"><canvas id="wageChart"></canvas></div></div>
+    <div class="chart-card fade-in"><div class="ct">Growth vs. demand</div><div class="cs">Bubble size = talent gap</div><div class="cw" style="height:320px"><canvas id="bubbleChart"></canvas></div></div>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════
-     FACULTY VIEW
-═══════════════════════════════════════════════ -->
+</div>
+<!-- FACULTY -->
 <div id="view-faculty" class="view">
-  <div class="container">
-
-    <div class="kpi-strip" role="region" aria-label="Faculty metrics">
-      <div class="kpi-card accent fade-in">
-        <div class="kpi-label">Strongest LQ</div>
-        <div class="kpi-val" id="fkpi-lq">—</div>
-        <div class="kpi-sub" id="fkpi-lq-ind">Loading…</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Programs mapped</div>
-        <div class="kpi-val" id="fkpi-progs">—</div>
-        <div class="kpi-sub">to regional labor demand</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Bright Outlook programs</div>
-        <div class="kpi-val" id="fkpi-highfit">—</div>
-        <div class="kpi-sub">high-demand career targets</div>
-      </div>
-      <div class="kpi-card fade-in">
-        <div class="kpi-label">Fastest industry growth</div>
-        <div class="kpi-val" id="fkpi-fast">—</div>
-        <div class="kpi-sub" id="fkpi-fast-ind">Loading…</div>
-      </div>
-    </div>
-
-    <!-- Region selector -->
-    <div class="region-selector fade-in" role="group" aria-label="Select region for industry analysis">
-      <span class="region-selector-label">Viewing region:</span>
-      <button class="region-btn active" onclick="selectRegion('Baltimore Metro',this)" aria-pressed="true">Baltimore Metro</button>
-      <button class="region-btn" onclick="selectRegion('Maryland',this)" aria-pressed="false">Maryland</button>
-      <button class="region-btn" onclick="selectRegion('DC Metro',this)" aria-pressed="false">DC Metro</button>
-      <button class="region-btn" onclick="selectRegion('Virginia Metro',this)" aria-pressed="false">Virginia Metro</button>
-    </div>
-
-    <div class="sec-head fade-in">
-      <h2>Location quotients — regional specialization</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <div class="chart-card fade-in" style="margin-bottom:32px">
-      <div class="chart-title" id="lq-chart-title">How concentrated is each industry locally vs. nationally?</div>
-      <div class="chart-sub">LQ &gt; 1.0 = regionally concentrated · LQ &gt; 1.5 = strong specialization</div>
-      <div id="lq-bars" style="margin-top:16px" role="list" aria-label="Location quotient bars by industry"></div>
-    </div>
-
-    <div class="sec-head fade-in">
-      <h2>Regional vs. national growth</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <div class="chart-grid">
-      <div class="chart-card fade-in">
-        <div class="chart-title">Employment growth comparison</div>
-        <div class="chart-sub" id="growth-chart-sub">Blue = regional · Gray = national</div>
-        <div class="chart-wrap" style="height:240px">
-          <canvas id="growthChart" role="img" aria-label="Grouped bar chart comparing regional and national employment growth by industry"></canvas>
-        </div>
-      </div>
-      <div class="chart-card fade-in">
-        <div class="chart-title">Regional employment share</div>
-        <div class="chart-sub">Share of total regional workforce by industry</div>
-        <div class="chart-wrap" style="height:240px">
-          <canvas id="shareChart" role="img" aria-label="Donut chart of regional employment share by industry"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Multi-region LQ comparison by program -->
-    <div class="sec-head fade-in">
-      <h2>Program alignment — all four regions</h2>
-      <div class="sec-head-rule"></div>
-      <div class="sec-head-tag">LQ by target industry</div>
-    </div>
-    <div style="margin-bottom:12px;font-size:13px;color:var(--ink-2);line-height:1.7" class="fade-in">
-      Location quotients show where each program's target industry is most concentrated relative to the national average. LQ &gt; 1.5 = strong regional specialization — a key talking point for curriculum alignment conversations.
-    </div>
-    <div style="overflow-x:auto;margin-bottom:32px" class="fade-in">
-      <table class="region-compare-table" id="region-compare-table" role="table" aria-label="Multi-region LQ comparison by program">
-        <thead>
-          <tr>
-            <th>Program</th>
-            <th>School</th>
-            <th>Target occupation</th>
-            <th class="region-col">Baltimore</th>
-            <th class="region-col">Maryland</th>
-            <th class="region-col">DC Metro</th>
-            <th class="region-col">Virginia</th>
-            <th>Regional strength</th>
-          </tr>
-        </thead>
-        <tbody id="region-compare-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="sec-head fade-in">
-      <h2>Academic program alignment</h2>
-      <div class="sec-head-rule"></div>
-      <div class="sec-head-tag">Program → Industry → Occupation</div>
-    </div>
-    <div class="prog-grid" id="prog-grid" role="list" aria-label="Program alignment cards"></div>
-
+<div class="container">
+  <div class="kpi-strip">
+    <div class="kpi-card acc fade-in"><div class="kpi-label">Strongest LQ</div><div class="kpi-val" id="f1">&#8212;</div><div class="kpi-sub" id="f1b">Loading&hellip;</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Programs mapped</div><div class="kpi-val" id="f2">&#8212;</div><div class="kpi-sub">to regional labor demand</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Bright Outlook programs</div><div class="kpi-val" id="f3">&#8212;</div><div class="kpi-sub">high-demand career targets</div></div>
+    <div class="kpi-card fade-in"><div class="kpi-label">Fastest industry growth</div><div class="kpi-val" id="f4">&#8212;</div><div class="kpi-sub" id="f4b">Loading&hellip;</div></div>
   </div>
+  <div class="rgn-sel fade-in">
+    <span class="rgn-lbl">Region:</span>
+    <button class="rgn-btn active" onclick="setRegion('Baltimore Metro',this)" aria-pressed="true">Baltimore Metro</button>
+    <button class="rgn-btn" onclick="setRegion('Maryland',this)" aria-pressed="false">Maryland</button>
+    <button class="rgn-btn" onclick="setRegion('DC Metro',this)" aria-pressed="false">DC Metro</button>
+    <button class="rgn-btn" onclick="setRegion('Virginia Metro',this)" aria-pressed="false">Virginia Metro</button>
+  </div>
+  <div class="sec-head fade-in"><h2>Location quotients</h2><div class="sec-head-rule"></div></div>
+  <div class="chart-card fade-in" style="margin-bottom:32px">
+    <div class="ct" id="lq-title">Industry concentration vs. national average</div>
+    <div class="cs">LQ &gt; 1.0 = regionally concentrated &middot; LQ &gt; 1.5 = strong specialization</div>
+    <div id="lq-bars" style="margin-top:16px" role="list"></div>
+  </div>
+  <div class="sec-head fade-in"><h2>Employment growth comparison</h2><div class="sec-head-rule"></div></div>
+  <div class="chart-grid">
+    <div class="chart-card fade-in"><div class="ct" id="g-title">Regional vs. national growth</div><div class="cs" id="g-sub">Blue = regional &middot; Gray = national</div><div class="cw" style="height:260px"><canvas id="growthChart"></canvas></div></div>
+    <div class="chart-card fade-in"><div class="ct">Employment share</div><div class="cs">Share of regional workforce by industry</div><div class="cw" style="height:260px"><canvas id="shareChart"></canvas></div></div>
+  </div>
+  <div class="sec-head fade-in"><h2>Program alignment &mdash; all four regions</h2><div class="sec-head-rule"></div><div class="sec-head-tag">LQ by target industry</div></div>
+  <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:16px" class="fade-in">LQ &gt; 1.5 = strong regional specialization for that program&rsquo;s target industry.</p>
+  <div style="overflow-x:auto;margin-bottom:32px" class="fade-in">
+    <table class="cmp-table"><thead><tr>
+      <th>Program</th><th>School</th><th>Target occupation</th>
+      <th class="rc">Baltimore</th><th class="rc">Maryland</th><th class="rc">DC Metro</th><th class="rc">Virginia</th>
+      <th>Regional strength</th>
+    </tr></thead><tbody id="cmp-tbody"></tbody></table>
+  </div>
+  <div class="sec-head fade-in"><h2>Program cards</h2><div class="sec-head-rule"></div></div>
+  <div class="prog-grid" id="prog-grid" role="list"></div>
 </div>
-
-<!-- ═══════════════════════════════════════════════
-     DATA SOURCES
-═══════════════════════════════════════════════ -->
+</div>
+<!-- SOURCES -->
 <div id="view-sources" class="view">
-  <div class="container" style="padding-top:32px">
-    <div class="sec-head">
-      <h2>Data sources &amp; methodology</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <table class="sources-table fade-in" role="table" aria-label="Data sources used in this dashboard">
-      <thead>
-        <tr>
-          <th>Source</th>
-          <th>What it feeds</th>
-          <th>Update frequency</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody id="sources-tbody"></tbody>
-    </table>
-
-    <div class="sec-head fade-in">
-      <h2>Formula reference</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <div class="arch-grid" id="formula-grid" role="list"></div>
-  </div>
+<div class="container" style="padding-top:32px">
+  <div class="sec-head fade-in"><h2>Data sources &amp; methodology</h2><div class="sec-head-rule"></div></div>
+  <table class="src-table fade-in"><thead><tr><th>Source</th><th>What it feeds</th><th>Update frequency</th><th>Link</th></tr></thead><tbody id="src-tbody"></tbody></table>
+  <div class="sec-head fade-in"><h2>Formula reference</h2><div class="sec-head-rule"></div></div>
+  <div class="fm-grid" id="fm-grid"></div>
 </div>
-
-<!-- ═══════════════════════════════════════════════
-     AUTO-UPDATE SETUP
-═══════════════════════════════════════════════ -->
+</div>
+<!-- SETUP -->
 <div id="view-setup" class="view">
-  <div class="container" style="padding-top:32px">
-    <div class="sec-head">
-      <h2>Automated weekly refresh — architecture</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-
-    <p style="font-size:14px;color:var(--ink-2);margin-bottom:24px;max-width:680px;line-height:1.8">
-      This dashboard is built to run fully automated using free or low-cost tools.
-      The diagram below shows the complete data pipeline from BLS/Lightcast through
-      to the live webpage your students see every Monday.
-    </p>
-
-    <div class="arch-grid" id="arch-cards" role="list"></div>
-
-    <div class="sec-head fade-in">
-      <h2>Sample automation script</h2>
-      <div class="sec-head-rule"></div>
-    </div>
-    <p style="font-size:14px;color:var(--ink-2);margin-bottom:16px">
-      This Python script runs on a GitHub Actions cron job every Monday at 6 AM.
-      It fetches BLS OEWS data, transforms it, and pushes updated <code style="font-size:12px;background:var(--cream);padding:2px 6px;border-radius:4px">data.json</code> to your repo — triggering an automatic page rebuild.
-    </p>
-    <div class="code-block" role="complementary" aria-label="Sample Python automation script">
-<span class="cm"># weekly_refresh.py — runs via GitHub Actions every Monday</span>
-<span class="ck">import</span> requests, json
-<span class="ck">from</span> datetime <span class="ck">import</span> datetime
-
-BLS_API_KEY = <span class="cs">"YOUR_BLS_API_KEY"</span>  <span class="cm"># free at bls.gov/developers</span>
-SERIES_IDS  = [
-    <span class="cs">"OEUS211713000000015112"</span>,  <span class="cm"># Baltimore Metro occupation wages</span>
-    <span class="cs">"OEUS211713000000013111"</span>,  <span class="cm"># Management analysts</span>
-]
-
-<span class="ck">def</span> <span class="cn">fetch_bls</span>(series):
-    url = <span class="cs">"https://api.bls.gov/publicAPI/v2/timeseries/data/"</span>
-    payload = {<span class="cs">"seriesid"</span>: series, <span class="cs">"registrationkey"</span>: BLS_API_KEY,
-               <span class="cs">"startyear"</span>: <span class="cs">"2023"</span>, <span class="cs">"endyear"</span>: <span class="cs">"2026"</span>}
-    r = requests.post(url, json=payload)
-    <span class="ck">return</span> r.json()[<span class="cs">"Results"</span>][<span class="cs">"series"</span>]
-
-data = fetch_bls(SERIES_IDS)
-output = {<span class="cs">"refreshed"</span>: datetime.utcnow().isoformat(), <span class="cs">"series"</span>: data}
-
-<span class="ck">with</span> open(<span class="cs">"data/labor_market.json"</span>, <span class="cs">"w"</span>) <span class="ck">as</span> f:
-    json.dump(output, f, indent=2)
-
-<span class="cn">print</span>(<span class="cs">f"✓ Refreshed {len(data)} series at {output['refreshed']}"</span>)
-    </div>
-
-    <div class="arch-grid" style="margin-top:8px" id="hosting-cards" role="list"></div>
-  </div>
+<div class="container" style="padding-top:32px">
+  <div class="sec-head fade-in"><h2>Automated weekly refresh</h2><div class="sec-head-rule"></div></div>
+  <p style="font-size:14px;color:var(--ink2);margin-bottom:24px;max-width:680px;line-height:1.8">This dashboard runs fully automated using free tools. The pipeline below runs every Monday at 6 AM UTC.</p>
+  <div class="arch-grid" id="arch-grid"></div>
+</div>
 </div>
 </main>
-
-<!-- ── Footer ─────────────────────────────────────────────────────── -->
-<footer class="site-footer" role="contentinfo" aria-label="Site footer">
+<footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
-
-    <!-- Left: brand block -->
-    <div class="footer-brand-block">
-      <div class="footer-ub-mark" aria-hidden="true">UB</div>
-      <div>
-        <div class="footer-unit">Career &amp; Internship Center</div>
-        <div class="footer-college">College of Public Affairs</div>
-        <div class="footer-university">University of Baltimore</div>
-      </div>
+    <div class="footer-brand">
+      <div class="footer-mark">UB</div>
+      <div><div class="footer-unit">Career &amp; Internship Center</div><div class="footer-col">College of Public Affairs</div><div class="footer-col">University of Baltimore</div></div>
     </div>
-
-    <!-- Center: primary site links -->
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <div class="footer-nav-heading">Quick links</div>
-      <ul class="footer-links-list">
-        <li>
-          <a href="https://www.ubalt.edu/cpa/career-and-internship-center/" class="footer-link">
-            Career &amp; Internship Center
-          </a>
-        </li>
-        <li>
-          <a href="https://www.ubalt.edu/" class="footer-link">
-            University of Baltimore
-          </a>
-        </li>
-        <li>
-          <a href="https://www.ubalt.edu/cpa/" class="footer-link">
-            College of Public Affairs
-          </a>
-        </li>
+    <nav aria-label="Quick links">
+      <div class="footer-nh">Quick links</div>
+      <ul class="footer-links">
+        <li><a href="https://www.ubalt.edu/cpa/career-and-internship-center/" class="footer-link">Career &amp; Internship Center</a></li>
+        <li><a href="https://www.ubalt.edu/" class="footer-link">University of Baltimore</a></li>
+        <li><a href="https://www.ubalt.edu/cpa/" class="footer-link">College of Public Affairs</a></li>
       </ul>
     </nav>
-
-    <!-- Right: data source links -->
-    <nav class="footer-nav" aria-label="Data source links">
-      <div class="footer-nav-heading">Data sources</div>
-      <ul class="footer-links-list">
-        <li><a href="https://www.bls.gov/oes/"  class="footer-link">BLS OEWS — wages &amp; employment</a></li>
-        <li><a href="https://www.bls.gov/cew/"  class="footer-link">BLS QCEW — regional industry data</a></li>
-        <li><a href="https://www.bls.gov/emp/"  class="footer-link">BLS Projections — future demand</a></li>
-        <li><a href="https://www.onetonline.org/" class="footer-link">O*NET — skills &amp; occupations</a></li>
+    <nav aria-label="Data sources">
+      <div class="footer-nh">Data sources</div>
+      <ul class="footer-links">
+        <li><a href="https://www.bls.gov/oes/" class="footer-link">BLS OEWS &mdash; wages &amp; employment</a></li>
+        <li><a href="https://www.bls.gov/cew/" class="footer-link">BLS QCEW &mdash; regional industry data</a></li>
+        <li><a href="https://www.onetonline.org/" class="footer-link">O*NET &mdash; skills &amp; occupations</a></li>
+        <li><a href="https://www.careeronestop.org/" class="footer-link">CareerOneStop &mdash; job postings</a></li>
       </ul>
     </nav>
-
   </div>
-
-  <!-- Bottom bar -->
-  <div class="footer-bottom">
-    <span id="footer-copy">© 2026 University of Baltimore. All rights reserved.</span>
-    <span class="footer-bottom-divider" aria-hidden="true">·</span>
-    <span>Labor market data sourced from public BLS APIs. Updated weekly every Monday.</span>
-    <span class="footer-bottom-divider" aria-hidden="true">·</span>
-    <a href="https://www.ubalt.edu/about-ub/offices-and-services/accessibility/" class="footer-bottom-link">Accessibility</a>
-    <span class="footer-bottom-divider" aria-hidden="true">·</span>
-    <a href="https://www.ubalt.edu/about-ub/offices-and-services/legal-affairs/privacy.cfm" class="footer-bottom-link">Privacy Policy</a>
+  <div class="footer-bot">
+    <span id="footer-copy">&copy; 2026 University of Baltimore. All rights reserved.</span>
+    <span class="footer-sep">&middot;</span>
+    <span>Labor market data from public BLS APIs. Updated weekly.</span>
+    <span class="footer-sep">&middot;</span>
+    <a href="https://www.ubalt.edu/about-ub/offices-and-services/accessibility/" class="footer-bl">Accessibility</a>
+    <span class="footer-sep">&middot;</span>
+    <a href="https://www.ubalt.edu/about-ub/offices-and-services/legal-affairs/privacy.cfm" class="footer-bl">Privacy</a>
   </div>
 </footer>
 
-
-<!-- ════════════════════════════════════════════════════════
-     DATA — replace this section with your live data.json fetch
-════════════════════════════════════════════════════════ -->
 <script>
-/* ─── DATA LAYER ───────────────────────────────────────────────────────────
-   In production, replace this static object with:
-   const DATA = await fetch('./data/labor_market.json').then(r => r.json());
-   Your weekly Python script writes that JSON file automatically.
-─────────────────────────────────────────────────────────────────────────── */
+'use strict';
+// Helpers
+function W(n){return '$'+Math.round(n/1000)+'K';}
+function P(n){return (n*100).toFixed(1)+'%';}
+function lqC(lq){return lq>=1.5?'#3B3899':lq>=1.0?'#007A6E':'#8A5C00';}
+function setText(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
 
-// ── Load from live JSON if available, else fall back to sample data ───────
-async function loadData() {
-  try {
-    const r = await fetch('./data/labor_market.json');
-    if (r.ok) return await r.json();
-  } catch(e) {}
+var SC={
+  'Merrick School of Business':{b:'#1B5E20',bg:'#E8F5E9',t:'#1B5E20'},
+  'College of Public Affairs':{b:'#0076A8',bg:'#E5F3FA',t:'#003D5C'},
+  'Yale Gordon College of Arts & Sciences':{b:'#4A148C',bg:'#F3E5F5',t:'#4A148C'},
+  'School of Law':{b:'#B71C1C',bg:'#FFEBEE',t:'#B71C1C'}
+};
+var JS=[
+  {k:'careeronestop',l:'CareerOneStop',c:'p'},
+  {k:'usajobs',l:'USAJobs',c:'s'},
+  {k:'idealist',l:'Idealist',c:'s'},
+  {k:'linkedin',l:'LinkedIn',c:'s'},
+  {k:'indeed',l:'Indeed',c:'s'},
+  {k:'maryland_state',l:'MD State Jobs',c:'s'}
+];
+var PAL=['#0076A8','#003D5C','#007A6E','#5B8DB8','#4E7A6A','#8A5C00',
+         '#B71C1C','#1B5E20','#4A148C','#E65100','#006064','#37474F',
+         '#558B2F','#6A1B9A','#0277BD','#AD1457','#2E7D32','#F57F17','#4527A0','#00695C'];
+var GC='rgba(0,0,0,0.06)', TC='#767676';
+var activeRgn='Baltimore Metro';
+var DATA=null;
+
+// Load data
+async function loadData(){
+  try{var r=await fetch('./data/labor_market.json');if(r.ok)return await r.json();}catch(e){}
   return SAMPLE_DATA;
 }
+loadData().then(function(d){
+  DATA=d;
+  render();
+  setTimeout(function(){document.getElementById('loading').classList.add('hidden');},300);
+});
 
-// ── LIVE DATA — UB_Labor_Market_Report_POPULATED.xlsx · May 12 2026 ──────
-// ── LIVE DATA — from UB_Labor_Market_Report_POPULATED.xlsx (May 12 2026) ──
-// Refreshed automatically every Monday by weekly_refresh.py
-const SAMPLE_DATA = {
+function getInds(rgn){return(DATA.industries&&DATA.industries[rgn])?DATA.industries[rgn]:[];}
+
+function render(){
+  renderMeta();renderSKPI();renderFKPI();
+  renderOccs();renderWage();renderBubble();
+  renderLQ(activeRgn);renderGrowth(activeRgn);renderShare(activeRgn);
+  renderCmp();renderProgs();renderSrc();renderFm();renderArch();
+  triggerFades();
+}
+
+function renderMeta(){
+  setText('refresh-date',new Date(DATA.refreshed).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));
+  setText('footer-copy','\u00a9 '+new Date().getFullYear()+' University of Baltimore. All rights reserved.');
+}
+
+function renderSKPI(){
+  var o=DATA.occupations;
+  var tw=o.slice().sort(function(a,b){return b.median-a.median;})[0];
+  var fg=o.slice().sort(function(a,b){return b.projGrowth-a.projGrowth;})[0];
+  var bg=o.slice().sort(function(a,b){return b.talentGap-a.talentGap;})[0];
+  var br=o.filter(function(x){return x.brightOutlook;}).length;
+  setText('s1',W(tw.median));setText('s1b',tw.title);
+  setText('s2','+'+P(fg.projGrowth));setText('s2b',fg.title);
+  setText('s3','+'+bg.talentGap.toLocaleString());
+  setText('s4',''+br);
+}
+
+function renderFKPI(){
+  var inds=getInds('Baltimore Metro');
+  var tl=inds.slice().sort(function(a,b){return b.lq-a.lq;})[0]||{};
+  var fi=inds.slice().sort(function(a,b){return b.regGrowth-a.regGrowth;})[0]||{};
+  var bp=DATA.programs.filter(function(p){return p.primary_bright;}).length;
+  setText('f1',tl.lq?tl.lq.toFixed(2):'\u2014');setText('f1b',tl.name||'\u2014');
+  setText('f2',''+DATA.programs.length);
+  setText('f3',''+bp);
+  setText('f4',fi.regGrowth!==undefined?'+'+fi.regGrowth.toFixed(1)+'%':'\u2014');
+  setText('f4b',fi.name||'\u2014');
+}
+
+function renderOccs(){
+  var g=document.getElementById('occ-grid');
+  if(!g)return;
+  g.innerHTML='';
+  DATA.occupations.forEach(function(o){
+    var skills=(o.topSkills||[]).map(function(s){return '<span class=\"sk\">'+s+'</span>';}).join('');
+    var tech=(o.techSkills||[]).map(function(t){return '<span class=\"tk\">'+t+'</span>';}).join('');
+    var tasks=(o.tasks||[]).map(function(t){return '<li>'+t+'</li>';}).join('');
+    var jobs=JS.map(function(j){
+      var u=(o.jobPostings||{})[j.k];
+      return u?'<a href="'+u+'" target=\"_blank\" rel=\"noopener\" class=\"jl '+j.c+'\">'+j.l+' &#8599;</a>':'';
+    }).join('');
+    var bright=o.brightOutlook?'<div class=\"bright-badge\">&#10022; Bright Outlook</div>':'';
+    var oc=o.outlook?'<span class=\"chip o\">'+o.outlook+'</span>':'';
+    var card=document.createElement('article');
+    card.className='occ-card '+o.demand+' fade-in';
+    card.setAttribute('role','listitem');
+    card.innerHTML=
+      '<div class=\"occ-top\">'+bright+
+        '<div class=\"occ-title\">'+o.title+'</div>'+
+        '<div class=\"occ-ind\">'+o.industry+'</div>'+
+        (o.description?'<div class=\"occ-desc\">'+o.description+'</div>':'')+
+      '</div>'+
+      '<div class=\"occ-wages\">'+
+        '<div class=\"wi\"><div class=\"wl\">Entry</div><div class=\"wv\">'+W(o.entry)+'</div></div>'+
+        '<div class=\"wi\"><div class=\"wl\">Median</div><div class=\"wv\">'+W(o.median)+'</div></div>'+
+        '<div class=\"wi\"><div class=\"wl\">Projected</div><div class=\"wv\">'+W(o.future)+'</div></div>'+
+      '</div>'+
+      '<div class=\"occ-stats\">'+
+        '<span class=\"chip g\">+'+P(o.projGrowth)+' projected</span>'+
+        '<span class=\"chip d\">&#9889; +'+o.talentGap+' gap</span>'+oc+
+      '</div>'+
+      (skills?'<div class=\"slabel\">Top skills</div><div class=\"pill-row\">'+skills+'</div>':'')+
+      (tech?'<div class=\"slabel\">Hot tech</div><div class=\"pill-row\">'+tech+'</div>':'')+
+      (tasks?'<div class=\"slabel\">Common tasks</div><ul class=\"occ-tasks\">'+tasks+'</ul>':'')+
+      '<div class=\"occ-meta\">'+
+        (o.education?'<span class=\"edu-b\">&#127891; '+o.education+'</span>':'')+
+        '<a href=\"'+o.onetUrl+'\" target=\"_blank\" rel=\"noopener\" class=\"onet-l\">O*NET profile &#8599;</a>'+
+      '</div>'+
+      '<div class=\"jobs-bar\"><span class=\"jlbl\">Find jobs</span>'+jobs+'</div>';
+    g.appendChild(card);
+  });
+}
+
+function renderWage(){
+  var ctx=document.getElementById('wageChart');
+  if(!ctx)return;
+  if(ctx._c)ctx._c.destroy();
+  ctx._c=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:DATA.occupations.map(function(o){return o.title.length>22?o.title.slice(0,22)+'\u2026':o.title;}),
+      datasets:[
+        {label:'Entry',data:DATA.occupations.map(function(o){return Math.round(o.entry/1000);}),backgroundColor:'#B0B8C1',borderRadius:4},
+        {label:'Median',data:DATA.occupations.map(function(o){return Math.round(o.median/1000);}),backgroundColor:'#0076A8',borderRadius:4}
+      ]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{ticks:{callback:function(v){return '$'+v+'K';},color:TC,font:{size:11}},grid:{color:GC}},
+              y:{ticks:{color:TC,font:{size:11}},grid:{display:false}}}}
+  });
+}
+
+function renderBubble(){
+  var ctx=document.getElementById('bubbleChart');
+  if(!ctx)return;
+  if(ctx._c)ctx._c.destroy();
+  ctx._c=new Chart(ctx,{
+    type:'bubble',
+    data:{datasets:DATA.occupations.map(function(o,i){
+      return{label:o.title,
+        data:[{x:+(o.projGrowth*100).toFixed(1),y:Math.round(o.median/1000),r:Math.max(7,o.talentGap/40)}],
+        backgroundColor:PAL[i%PAL.length]+'BB',borderColor:PAL[i%PAL.length],borderWidth:1.5};
+    })},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.x+'% growth, '+W(c.parsed.y*1000)+' median';}}}},
+      scales:{x:{title:{display:true,text:'Projected growth (%)',color:TC,font:{size:11}},ticks:{color:TC,font:{size:11}},grid:{color:GC}},
+              y:{title:{display:true,text:'Median wage ($K)',color:TC,font:{size:11}},ticks:{color:TC,font:{size:11}},grid:{color:GC}}}}
+  });
+}
+
+function setRegion(rgn,btn){
+  activeRgn=rgn;
+  var bs=document.querySelectorAll('.rgn-btn');
+  for(var i=0;i<bs.length;i++){bs[i].classList.remove('active');bs[i].setAttribute('aria-pressed','false');}
+  btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+  setText('lq-title','Industry concentration in '+rgn+' vs. nationally');
+  setText('g-sub','Blue = '+rgn+' \u00b7 Gray = national');
+  renderLQ(rgn);renderGrowth(rgn);renderShare(rgn);
+}
+
+function renderLQ(rgn){
+  var div=document.getElementById('lq-bars');if(!div)return;
+  div.innerHTML='';
+  var inds=getInds(rgn);
+  for(var i=0;i<inds.length;i++){
+    var ind=inds[i];
+    var pct=Math.min(95,(ind.lq/2)*100);
+    var col=lqC(ind.lq);
+    var label=ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg';
+    var bg=ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC';
+    var row=document.createElement('div');
+    row.className='lq-row';row.setAttribute('role','listitem');
+    row.innerHTML='<div class=\"lq-name\">'+ind.name+'</div>'+
+      '<div class=\"lq-track\"><div class=\"lq-ref\" aria-hidden=\"true\"></div>'+
+      '<div class=\"lq-fill\" style=\"width:'+pct+'%;background:'+col+'\"></div></div>'+
+      '<div class=\"lq-score\">'+ind.lq.toFixed(2)+'</div>'+
+      '<span class=\"lq-badge\" style=\"background:'+bg+';color:'+col+'\">'+label+'</span>';
+    div.appendChild(row);
+  }
+}
+
+function renderGrowth(rgn){
+  var ctx=document.getElementById('growthChart');if(!ctx)return;
+  if(ctx._c)ctx._c.destroy();
+  var inds=getInds(rgn);
+  ctx._c=new Chart(ctx,{
+    type:'bar',
+    data:{labels:inds.map(function(i){return i.name.split(' ').slice(0,2).join(' ');}),
+      datasets:[
+        {label:rgn+' %',data:inds.map(function(i){return i.regGrowth;}),backgroundColor:'#0076A8',borderRadius:3},
+        {label:'National %',data:inds.map(function(i){return i.natGrowth;}),backgroundColor:'#B0B8C1',borderRadius:3}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{ticks:{color:TC,font:{size:10}},grid:{display:false}},
+              y:{ticks:{callback:function(v){return v+'%';},color:TC,font:{size:11}},grid:{color:GC}}}}
+  });
+}
+
+function renderShare(rgn){
+  var ctx=document.getElementById('shareChart');if(!ctx)return;
+  if(ctx._c)ctx._c.destroy();
+  var inds=getInds(rgn);
+  ctx._c=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:inds.map(function(i){return i.name;}),
+      datasets:[{data:inds.map(function(i){return i.empEnd;}),backgroundColor:PAL.slice(0,inds.length),hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:TC,font:{size:10},boxWidth:10,padding:8}}}}
+  });
+}
+
+function renderCmp(){
+  var tbody=document.getElementById('cmp-tbody');if(!tbody)return;
+  tbody.innerHTML='';
+  var RGNS=DATA.regions||['Baltimore Metro','Maryland','DC Metro','Virginia Metro'];
+  function chip(lq){
+    if(!lq)return '<span style=\"color:var(--ink3);font-size:12px\">\u2014</span>';
+    var cls=lq>=1.5?'lqs':lq>=1.0?'lqm':'lqb';
+    return '<span class=\"lqc '+cls+'\">'+lq.toFixed(2)+'</span>';
+  }
+  var byS={};
+  DATA.programs.forEach(function(p){if(!byS[p.school])byS[p.school]=[];byS[p.school].push(p);});
+  Object.keys(byS).forEach(function(sc){
+    var s=SC[sc]||{b:'#767676',bg:'#F5F8FA',t:'#444'};
+    var hr=document.createElement('tr');
+    hr.innerHTML='<td colspan=\"8\" style=\"padding:8px 12px;background:'+s.bg+';border-left:3px solid '+s.b+'\"><span style=\"font-size:12px;font-weight:700;color:'+s.t+'\">'+sc+'</span></td>';
+    tbody.appendChild(hr);
+    byS[sc].forEach(function(p){
+      var lqs=p.lq||{};
+      var str=(p.regional_strength&&p.regional_strength!=='nan')?p.regional_strength:
+        RGNS.filter(function(r){return(lqs[r]||0)>=1.5;}).map(function(r){return r.replace(' Metro','');}).join(', ')||'\u2014';
+      var row=document.createElement('tr');
+      row.innerHTML=
+        '<td style=\"font-weight:500;color:var(--navy);font-size:13px\">'+p.program+'</td>'+
+        '<td style=\"font-size:12px;color:var(--ink3)\">'+p.school.split(' ').slice(0,2).join(' ')+'</td>'+
+        '<td style=\"font-size:12px;color:var(--ink2)\">'+(p.primary_title||'\u2014')+'</td>'+
+        '<td style=\"text-align:center\">'+chip(lqs['Baltimore Metro'])+'</td>'+
+        '<td style=\"text-align:center\">'+chip(lqs['Maryland'])+'</td>'+
+        '<td style=\"text-align:center\">'+chip(lqs['DC Metro'])+'</td>'+
+        '<td style=\"text-align:center\">'+chip(lqs['Virginia Metro'])+'</td>'+
+        '<td style=\"font-size:12px;color:var(--ink2)\">'+str+'</td>';
+      tbody.appendChild(row);
+    });
+  });
+}
+
+function renderProgs(){
+  var g=document.getElementById('prog-grid');if(!g)return;
+  g.innerHTML='';
+  var byS={};
+  DATA.programs.forEach(function(p){if(!byS[p.school])byS[p.school]=[];byS[p.school].push(p);});
+  Object.keys(byS).forEach(function(sc){
+    var s=SC[sc]||{b:'#767676',bg:'#F5F8FA',t:'#444'};
+    var h=document.createElement('div');
+    h.style.cssText='grid-column:1/-1;padding:10px 16px;border-radius:8px;background:'+s.bg+';border-left:4px solid '+s.b+';margin-top:16px';
+    h.innerHTML='<span style=\"font-size:13px;font-weight:700;color:'+s.t+'\">'+sc+'</span>';
+    g.appendChild(h);
+    byS[sc].forEach(function(p){
+      var skills=(p.primary_skills||[]).map(function(sk){return '<span class=\"sk\" style=\"font-size:10px\">'+sk+'</span>';}).join('');
+      var bright=p.primary_bright?'<span class=\"bright-badge\" style=\"font-size:10px\">&#10022; Bright Outlook</span>':'';
+      var lqs=p.lq||{};
+      var blq=lqs['Baltimore Metro']?lqs['Baltimore Metro'].toFixed(2):'\u2014';
+      var links=
+        '<a href=\"'+(p.primary_jobs_url||'#')+'\" target=\"_blank\" rel=\"noopener\" class=\"jl p\" style=\"font-size:10px\">Find Jobs &#8599;</a>'+
+        '<a href=\"'+(p.primary_onet_url||'#')+'\" target=\"_blank\" rel=\"noopener\" class=\"jl s\" style=\"font-size:10px\">O*NET &#8599;</a>'+
+        '<a href=\"https://www.mynextmove.org/profile/summary/'+(p.primary_soc||'')+'.00\" target=\"_blank\" rel=\"noopener\" class=\"jl s\" style=\"font-size:10px\">My Next Move &#8599;</a>';
+      var card=document.createElement('article');
+      card.className='prog-card fade-in';card.setAttribute('role','listitem');
+      card.innerHTML=
+        '<div class=\"pbar\" style=\"background:'+s.b+'\"></div>'+
+        '<div style=\"display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px\"><span class=\"pcred\">'+(p.level||'')+'</span>'+bright+'</div>'+
+        '<div class=\"pname\">'+p.program+'</div>'+
+        '<div class=\"pspec\">'+(p.job_outlook||'')+'</div>'+
+        '<div class=\"ptarget\">Career target: <strong>'+(p.primary_title||'\u2014')+'</strong></div>'+
+        '<div class=\"pstats\">'+
+          '<div><div class=\"psv\">'+W(p.primary_median||0)+'</div><div class=\"psl\">Median wage</div></div>'+
+          '<div><div class=\"psv\">'+blq+'</div><div class=\"psl\">Balt. LQ</div></div>'+
+          '<div><div class=\"psv\" style=\"font-size:13px;color:'+(p.primary_bright?'#007A6E':'#444')+'\">'+(p.primary_outlook||'\u2014')+'</div><div class=\"psl\">Outlook</div></div>'+
+        '</div>'+
+        (skills?'<div class=\"pskills\">'+skills+'</div>':'')+
+        '<div class=\"plinks\">'+links+'</div>';
+      g.appendChild(card);
+    });
+  });
+}
+
+function renderSrc(){
+  var tbody=document.getElementById('src-tbody');if(!tbody)return;
+  tbody.innerHTML='';
+  (DATA.sources||[]).forEach(function(s){
+    var row=document.createElement('tr');
+    row.innerHTML='<td style=\"font-weight:600;color:var(--navy)\">'+s.name+'</td><td>'+s.use+'</td>'+
+      '<td><span class=\"fb\">'+s.freq+'</span></td>'+
+      '<td><a href=\"'+s.url+'\" target=\"_blank\" rel=\"noopener\">'+s.name+' &#8599;</a></td>';
+    tbody.appendChild(row);
+  });
+}
+
+function renderFm(){
+  var g=document.getElementById('fm-grid');if(!g)return;
+  g.innerHTML='';
+  (DATA.formulas||[]).forEach(function(f){
+    var c=document.createElement('div');c.className='fm-card fade-in';
+    c.innerHTML='<div class=\"fm-name\">'+f.name+'</div><div class=\"fm-use\">'+f.use+'</div><div class=\"fm-eq\">'+f.formula+'</div>';
+    g.appendChild(c);
+  });
+}
+
+function renderArch(){
+  var g=document.getElementById('arch-grid');if(!g)return;
+  g.innerHTML='';
+  [{n:'1',ti:'BLS API pull',de:'Fetches wages and QCEW employment for all 39 occupations every Monday at 6 AM UTC.',ta:'Python + BLS API'},
+   {n:'2',ti:'O*NET API pull',de:'Fetches skills, hot technologies, tasks, education requirements, and Bright Outlook status.',ta:'O*NET Web Services'},
+   {n:'3',ti:'Transform + write JSON',de:'Merges and writes data/labor_market.json including job posting links for 6 platforms.',ta:'pandas + GitHub Actions'},
+   {n:'4',ti:'Auto-deploy',de:'GitHub Actions commits the new JSON and redeploys to GitHub Pages in under 2 minutes.',ta:'GitHub Pages + free'}
+  ].forEach(function(s){
+    var c=document.createElement('div');c.className='arch-card fade-in';
+    c.innerHTML='<div class=\"arch-num\">'+s.n+'</div><div class=\"arch-title\">'+s.ti+'</div><div class=\"arch-desc\">'+s.de+'</div><span class=\"arch-tag\">'+s.ta+'</span>';
+    g.appendChild(c);
+  });
+}
+
+function switchView(id,btn){
+  var vs=document.querySelectorAll('.view');for(var i=0;i<vs.length;i++)vs[i].classList.remove('active');
+  var ts=document.querySelectorAll('.nav-tab,.mob-tab');
+  for(var i=0;i<ts.length;i++){ts[i].classList.remove('active');ts[i].setAttribute('aria-selected','false');}
+  var v=document.getElementById('view-'+id);if(v)v.classList.add('active');
+  btn.classList.add('active');btn.setAttribute('aria-selected','true');
+  var all=document.querySelectorAll('.nav-tab,.mob-tab');
+  for(var i=0;i<all.length;i++){
+    var oc=all[i].getAttribute('onclick')||'';
+    if(oc.indexOf("'"+id+"'")>-1){all[i].classList.add('active');all[i].setAttribute('aria-selected','true');}
+  }
+  triggerFades();
+}
+
+function triggerFades(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e,i){
+      if(e.isIntersecting){
+        (function(el,d){setTimeout(function(){el.classList.add('visible');},d);})(e.target,i*60);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.1});
+  var els=document.querySelectorAll('.fade-in:not(.visible)');
+  for(var i=0;i<els.length;i++)obs.observe(els[i]);
+}
+
+var SAMPLE_DATA = {
   "refreshed": "2026-05-12T00:00:00Z",
   "dataWindow": "2022-2024",
   "regions": [
@@ -4729,535 +4326,6 @@ const SAMPLE_DATA = {
     }
   ]
 };
-
-/* ─── HELPERS ─────────────────────────────────────────────────────────── */
-const fmt$   = n => '$' + Math.round(n/1000) + 'K';
-const fmtPct = n => (n * 100).toFixed(1) + '%';
-const demandClass = d => `demand-${d}`;
-const fitColor = f => ({ High:'#0F6E56', Strategic:'#3E3A9E', Moderate:'#8A5C00' }[f] || '#767676');
-const fitBg    = f => ({ High:'#E0F4F2', Strategic:'#EEEDFB', Moderate:'#FEF3DC' }[f] || '#F5F8FA');
-const fitTxt   = f => ({ High:'#064B3A', Strategic:'#26215C', Moderate:'#5C3A00' }[f] || '#444');
-const lqColor  = lq => lq >= 1.5 ? '#3B3899' : lq >= 1.0 ? '#007A6E' : '#8A5C00';
-const outlookColor = o => o === 'Bright Outlook' ? '#6B3800' : o === 'Below Average' ? '#6B0000' : '#444';
-const outlookBg    = o => o === 'Bright Outlook' ? '#FFF0D9' : o === 'Below Average' ? '#FAEBE9' : '#F5F8FA';
-
-/* ─── SCHOOL COLOR MAP ───────────────────────────────────────────────── */
-const SCHOOL_COLORS = {
-  "Merrick School of Business":             { border: "#1B5E20", bg: "#E8F5E9", text: "#1B5E20" },
-  "College of Public Affairs":              { border: "#0076A8", bg: "#E5F3FA", text: "#003D5C" },
-  "Yale Gordon College of Arts & Sciences": { border: "#4A148C", bg: "#F3E5F5", text: "#4A148C" },
-  "School of Law":                          { border: "#B71C1C", bg: "#FFEBEE", text: "#B71C1C" },
-};
-
-/* ─── JOB POSTING LINKS CONFIG ───────────────────────────────────────── */
-const JOB_SOURCES = [
-  { key: "careeronestop", label: "CareerOneStop", primary: true  },
-  { key: "usajobs",       label: "USAJobs",       primary: false },
-  { key: "idealist",      label: "Idealist",      primary: false },
-  { key: "linkedin",      label: "LinkedIn",      primary: false },
-  { key: "indeed",        label: "Indeed",        primary: false },
-  { key: "maryland_state",label: "MD State Jobs", primary: false },
-];
-
-/* ─── INIT ───────────────────────────────────────────────────────────── */
-let DATA = SAMPLE_DATA;
-
-// Render immediately with sample data so the page is never blank
-renderAll();
-
-// Then try to fetch the live JSON and re-render if it loads successfully
-loadData().then(d => {
-  if (d !== SAMPLE_DATA) {
-    DATA = d;
-    renderAll();
-  }
-});
-
-function renderAll() {
-
-/* ─── REFRESH DATE ────────────────────────────────────────────────────── */
-document.getElementById('refresh-date').textContent =
-  new Date(DATA.refreshed).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-document.getElementById('footer-copy').textContent =
-  `© ${new Date().getFullYear()} University of Baltimore. All rights reserved.`;
-
-/* ─── KPIs — STUDENTS ────────────────────────────────────────────────── */
-const topWage  = [...DATA.occupations].sort((a,b) => b.median - a.median)[0];
-const fastest  = [...DATA.occupations].sort((a,b) => b.projGrowth - a.projGrowth)[0];
-const bigGap   = [...DATA.occupations].sort((a,b) => b.talentGap - a.talentGap)[0];
-const avgEntry = DATA.occupations.reduce((s,o) => s+o.entry, 0) / DATA.occupations.length;
-const brightCount = DATA.occupations.filter(o => o.brightOutlook).length;
-
-document.getElementById('kpi-top-wage').textContent      = fmt$(topWage.median);
-document.getElementById('kpi-top-wage-role').textContent = topWage.title;
-document.getElementById('kpi-fastest').textContent       = '+' + fmtPct(fastest.projGrowth);
-document.getElementById('kpi-fastest-role').textContent  = fastest.title;
-document.getElementById('kpi-gap').textContent           = '+' + bigGap.talentGap.toLocaleString();
-document.getElementById('kpi-entry').textContent         = fmt$(avgEntry);
-
-// Update 4th KPI to show Bright Outlook count
-const kpiCard4 = document.querySelector('.kpi-strip .kpi-card:last-child');
-if (kpiCard4) {
-  kpiCard4.querySelector('.kpi-label').textContent = 'Bright Outlook roles';
-  kpiCard4.querySelector('.kpi-val').textContent   = brightCount;
-  kpiCard4.querySelector('.kpi-sub').textContent   = 'fastest-growing occupations';
-}
-
-/* ─── KPIs — FACULTY ─────────────────────────────────────────────────── */
-const topLQ    = [...DATA.industries].sort((a,b) => b.lq - a.lq)[0];
-const fastInd  = [...DATA.industries].sort((a,b) => b.regGrowth - a.regGrowth)[0];
-const highFit  = DATA.programs.filter(p => p.primary_bright).length;
-
-document.getElementById('fkpi-lq').textContent      = topLQ.lq.toFixed(2);
-document.getElementById('fkpi-lq-ind').textContent  = topLQ.name;
-document.getElementById('fkpi-progs').textContent   = DATA.programs.length;
-document.getElementById('fkpi-highfit').textContent  = highFit;
-document.getElementById('fkpi-fast').textContent     = '+' + fastInd.regGrowth.toFixed(1) + '%';
-document.getElementById('fkpi-fast-ind').textContent = fastInd.name;
-
-/* ─── OCCUPATION CARDS ────────────────────────────────────────────────── */
-const grid = document.getElementById('occ-grid');
-grid.innerHTML = '';
-DATA.occupations.forEach(o => {
-  const jobs = o.jobPostings || {};
-
-  // Skills pills
-  const skillPills = (o.topSkills || []).map(s =>
-    `<span class="skill-pill">${s}</span>`).join('');
-
-  // Tech pills (🔥 for hot tech)
-  const techPills = (o.techSkills || []).map(t =>
-    `<span class="tech-pill hot">${t}</span>`).join('');
-
-  // Tasks list
-  const taskItems = (o.tasks || []).map(t =>
-    `<li>${t}</li>`).join('');
-
-  // Bright Outlook badge
-  const brightBadge = o.brightOutlook
-    ? `<div class="bright-badge" aria-label="Bright Outlook occupation">✦ Bright Outlook</div>`
-    : '';
-
-  // Job posting buttons
-  const jobLinks = JOB_SOURCES.map(src => {
-    const url = jobs[src.key];
-    if (!url) return '';
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer"
-               class="job-link ${src.primary ? 'primary' : 'secondary'}"
-               aria-label="Find ${o.title} jobs on ${src.label}">
-              ${src.label} ↗
-            </a>`;
-  }).join('');
-
-  // Outlook chip
-  const outlookChip = o.outlook
-    ? `<span class="stat-chip outlook" style="background:${outlookBg(o.outlook)};color:${outlookColor(o.outlook)};border-color:rgba(0,0,0,0.1)">
-        ${o.outlook}
-       </span>` : '';
-
-  const card = document.createElement('article');
-  card.className = `occ-card demand-${o.demand} fade-in`;
-  card.setAttribute('role', 'listitem');
-  card.setAttribute('aria-label', `${o.title} career information`);
-  card.innerHTML = `
-    <div class="occ-card-top">
-      ${brightBadge}
-      <div class="occ-title">${o.title}</div>
-      <div class="occ-industry">${o.industry}</div>
-      ${o.description ? `<div class="occ-desc">${o.description}</div>` : ''}
-    </div>
-
-    <div class="occ-wages" role="group" aria-label="Salary ranges">
-      <div class="wage-item">
-        <div class="wage-item-label">Entry</div>
-        <div class="wage-item-val">${fmt$(o.entry)}</div>
-      </div>
-      <div class="wage-item">
-        <div class="wage-item-label">Median</div>
-        <div class="wage-item-val">${fmt$(o.median)}</div>
-      </div>
-      <div class="wage-item">
-        <div class="wage-item-label">Projected</div>
-        <div class="wage-item-val">${fmt$(o.future)}</div>
-      </div>
-    </div>
-
-    <div class="occ-stats">
-      <span class="stat-chip growth">
-        <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="2,12 6,7 10,9 14,4"/></svg>
-        +${fmtPct(o.projGrowth)} projected
-      </span>
-      <span class="stat-chip gap">⚡ +${o.talentGap} talent gap</span>
-      ${outlookChip}
-    </div>
-
-    ${skillPills ? `
-    <div class="occ-section-label" id="skills-label-${o.soc}">Top skills</div>
-    <div class="pill-row" role="list" aria-labelledby="skills-label-${o.soc}">${skillPills}</div>` : ''}
-
-    ${techPills ? `
-    <div class="occ-section-label" id="tech-label-${o.soc}">🔥 Hot technologies</div>
-    <div class="pill-row" role="list" aria-labelledby="tech-label-${o.soc}">${techPills}</div>` : ''}
-
-    ${taskItems ? `
-    <div class="occ-section-label">Common tasks</div>
-    <ul class="occ-tasks" aria-label="Common tasks for ${o.title}">${taskItems}</ul>` : ''}
-
-    <div class="occ-meta-row">
-      ${o.education ? `<span class="occ-edu-badge" aria-label="Typical education: ${o.education}">🎓 ${o.education}</span>` : ''}
-      <a href="${o.onetUrl}" target="_blank" rel="noopener noreferrer"
-         class="occ-onet-link" aria-label="Full O*NET profile for ${o.title}">
-        O*NET profile ↗
-      </a>
-    </div>
-
-    <div class="occ-jobs-bar" role="navigation" aria-label="Job posting sites for ${o.title}">
-      <span class="occ-jobs-label">Find jobs</span>
-      ${jobLinks}
-    </div>
-  `;
-  grid.appendChild(card);
-});
-
-/* ─── SHARED CHART CONSTANTS (declared once) ─────────────────────── */
-const UB_BLUE='#0076A8', UB_NAVY='#003D5C', TEAL='#007A6E', GRAY='#B0B8C1';
-const gridCol='rgba(0,0,0,0.06)', tickCol='#767676';
-
-/* ─── REGION STATE ────────────────────────────────────────────────── */
-let activeRegion = 'Baltimore Metro';
-
-function selectRegion(region, btn) {
-  activeRegion = region;
-  document.querySelectorAll('.region-btn').forEach(b => {
-    b.classList.remove('active'); b.setAttribute('aria-pressed','false');
-  });
-  btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
-  const el = document.getElementById('lq-chart-title');
-  if (el) el.textContent = 'How concentrated is each industry in ' + region + ' vs. nationally?';
-  const gs = document.getElementById('growth-chart-sub');
-  if (gs) gs.textContent = 'Blue = ' + region + ' growth · Gray = national';
-  renderLQBars(region);
-  renderGrowthChart(region);
-  renderShareChart(region);
-}
-
-function getInds(region) {
-  return (DATA.industries && DATA.industries[region]) ? DATA.industries[region] : [];
-}
-
-function renderLQBars(region) {
-  const lqDiv = document.getElementById('lq-bars');
-  if (!lqDiv) return;
-  lqDiv.innerHTML = '';
-  getInds(region).forEach(ind => {
-    const pct = Math.min(95, (ind.lq / 2.0) * 100);
-    const row = document.createElement('div');
-    row.className = 'lq-row'; row.setAttribute('role','listitem');
-    row.innerHTML =
-      '<div class="lq-name">' + ind.name + '</div>' +
-      '<div class="lq-track">' +
-        '<div class="lq-ref" title="LQ = 1.0 national average" aria-hidden="true"></div>' +
-        '<div class="lq-fill" style="width:' + pct + '%;background:' + lqColor(ind.lq) + '"></div>' +
-      '</div>' +
-      '<div class="lq-score">' + ind.lq.toFixed(2) + '</div>' +
-      '<span class="lq-badge" style="background:' + (ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC') + ';color:' + lqColor(ind.lq) + '">' +
-        (ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg') +
-      '</span>';
-    lqDiv.appendChild(row);
-  });
-}
-
-function renderGrowthChart(region) {
-  const inds = getInds(region);
-  const ctx = document.getElementById('growthChart');
-  if (!ctx) return;
-  if (ctx._chart) ctx._chart.destroy();
-  ctx._chart = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels: inds.map(i => i.name.split(' ').slice(0,2).join(' ')),
-      datasets:[
-        { label: region + ' %', data: inds.map(i=>i.regGrowth), backgroundColor:UB_BLUE, borderRadius:3 },
-        { label:'National %',   data: inds.map(i=>i.natGrowth), backgroundColor:GRAY,    borderRadius:3 }
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{ticks:{color:tickCol,font:{size:10}},grid:{display:false}},
-        y:{ticks:{callback:function(v){return v+'%'},color:tickCol,font:{size:11}},grid:{color:gridCol}}
-      }
-    }
-  });
-}
-
-function renderShareChart(region) {
-  const inds = getInds(region);
-  const ctx = document.getElementById('shareChart');
-  if (!ctx) return;
-  if (ctx._chart) ctx._chart.destroy();
-  ctx._chart = new Chart(ctx, {
-    type:'doughnut',
-    data:{
-      labels: inds.map(i=>i.name),
-      datasets:[{ data: inds.map(i=>i.empEnd),
-        backgroundColor:[UB_BLUE,UB_NAVY,TEAL,'#5B8DB8','#4E7A6A',
-          '#8A5C00','#B71C1C','#1B5E20','#4A148C','#E65100',
-          '#006064','#37474F','#558B2F','#6A1B9A','#0277BD',
-          '#AD1457','#2E7D32','#F57F17','#4527A0','#00695C'],
-        hoverOffset:5 }]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{color:tickCol,font:{size:10},boxWidth:10,padding:8}}}
-    }
-  });
-}
-
-/* ─── MULTI-REGION COMPARE TABLE ─────────────────────────────────── */
-function renderRegionCompareTable() {
-  const tbody = document.getElementById('region-compare-tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-  const REGIONS = DATA.regions || ['Baltimore Metro','Maryland','DC Metro','Virginia Metro'];
-  const SC = {
-    'Merrick School of Business':             {border:'#1B5E20',bg:'#E8F5E9',text:'#1B5E20'},
-    'College of Public Affairs':              {border:'#0076A8',bg:'#E5F3FA',text:'#003D5C'},
-    'Yale Gordon College of Arts & Sciences': {border:'#4A148C',bg:'#F3E5F5',text:'#4A148C'},
-    'School of Law':                          {border:'#B71C1C',bg:'#FFEBEE',text:'#B71C1C'},
-  };
-  function lqChip(lq) {
-    if (!lq) return '<span style="color:var(--ink-3);font-size:12px">—</span>';
-    const cls = lq>=1.5 ? 'lq-strong' : lq>=1.0 ? 'lq-moderate' : 'lq-below';
-    return '<span class="lq-chip ' + cls + '">' + lq.toFixed(2) + '</span>';
-  }
-  const bySchool = {};
-  DATA.programs.forEach(function(p) {
-    if (!bySchool[p.school]) bySchool[p.school] = [];
-    bySchool[p.school].push(p);
-  });
-  Object.keys(bySchool).forEach(function(school) {
-    const sc = SC[school] || {border:'#767676',bg:'#F5F8FA',text:'#444'};
-    const hrow = document.createElement('tr');
-    hrow.innerHTML = '<td colspan="8" style="padding:8px 12px;background:' + sc.bg + ';border-left:3px solid ' + sc.border + '"><span style="font-size:12px;font-weight:700;color:' + sc.text + '">' + school + '</span></td>';
-    tbody.appendChild(hrow);
-    bySchool[school].forEach(function(p) {
-      const lqs = p.lq || {};
-      const strengths = REGIONS.filter(function(r){ return (lqs[r]||0)>=1.5; }).map(function(r){ return r.replace(' Metro',''); });
-      const str = (p.regional_strength && p.regional_strength !== 'nan') ? p.regional_strength : (strengths.length ? strengths.join(', ') : '—');
-      const row = document.createElement('tr');
-      row.innerHTML =
-        '<td style="font-weight:500;color:var(--navy);font-size:13px">' + p.program + '</td>' +
-        '<td style="font-size:12px;color:var(--ink-3)">' + p.school.split(' ').slice(0,2).join(' ') + '</td>' +
-        '<td style="font-size:12px;color:var(--ink-2)">' + (p.primary_title||'—') + '</td>' +
-        '<td style="text-align:center">' + lqChip(lqs['Baltimore Metro']) + '</td>' +
-        '<td style="text-align:center">' + lqChip(lqs['Maryland']) + '</td>' +
-        '<td style="text-align:center">' + lqChip(lqs['DC Metro']) + '</td>' +
-        '<td style="text-align:center">' + lqChip(lqs['Virginia Metro']) + '</td>' +
-        '<td style="font-size:12px;color:var(--ink-2)">' + str + '</td>';
-      tbody.appendChild(row);
-    });
-  });
-}
-
-/* ─── STUDENT CHARTS ─────────────────────────────────────────────── */
-(function() {
-  const occs = DATA.occupations;
-  const wageCtx = document.getElementById('wageChart');
-  if (wageCtx) {
-    if (wageCtx._chart) wageCtx._chart.destroy();
-    wageCtx._chart = new Chart(wageCtx, {
-      type:'bar',
-      data:{
-        labels: occs.map(function(o){ return o.title.length>22?o.title.slice(0,22)+'…':o.title; }),
-        datasets:[
-          {label:'Entry', data:occs.map(function(o){ return Math.round(o.entry/1000); }),  backgroundColor:GRAY,    borderRadius:4},
-          {label:'Median',data:occs.map(function(o){ return Math.round(o.median/1000); }), backgroundColor:UB_BLUE, borderRadius:4}
-        ]
-      },
-      options:{
-        indexAxis:'y', responsive:true, maintainAspectRatio:false,
-        plugins:{legend:{display:false}},
-        scales:{
-          x:{ticks:{callback:function(v){return '$'+v+'K';},color:tickCol,font:{size:11}},grid:{color:gridCol}},
-          y:{ticks:{color:tickCol,font:{size:11}},grid:{display:false}}
-        }
-      }
-    });
-  }
-  const bubbleCtx = document.getElementById('bubbleChart');
-  if (bubbleCtx) {
-    if (bubbleCtx._chart) bubbleCtx._chart.destroy();
-    const palette = [UB_BLUE,UB_NAVY,TEAL,'#5B8DB8','#4E7A6A','#8A5C00'];
-    bubbleCtx._chart = new Chart(bubbleCtx, {
-      type:'bubble',
-      data:{datasets:occs.map(function(o,i){
-        return {
-          label:o.title,
-          data:[{x:+(o.projGrowth*100).toFixed(1), y:Math.round(o.median/1000), r:Math.max(7,o.talentGap/40)}],
-          backgroundColor:palette[i%6]+'BB',
-          borderColor:palette[i%6],
-          borderWidth:1.5
-        };
-      })},
-      options:{
-        responsive:true, maintainAspectRatio:false,
-        plugins:{legend:{display:false},
-          tooltip:{callbacks:{label:function(ctx){ return ctx.dataset.label+': '+ctx.parsed.x+'% growth, '+fmt$(ctx.parsed.y*1000)+' median'; }}}},
-        scales:{
-          x:{title:{display:true,text:'Projected growth (%)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}},
-          y:{title:{display:true,text:'Median wage ($K)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}}
-        }
-      }
-    });
-  }
-})();
-
-/* ─── INITIAL RENDER ─────────────────────────────────────────────── */
-renderLQBars('Baltimore Metro');
-renderGrowthChart('Baltimore Metro');
-renderShareChart('Baltimore Metro');
-renderRegionCompareTable();
-
-triggerFadeIns();
-} // end renderAll
-
-/* ─── TAB SWITCHING ───────────────────────────────────────────────── */
-function switchView(id, btn) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-tab, .mobile-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + id).classList.add('active');
-  btn.classList.add('active');
-  document.querySelectorAll('.nav-tab, .mobile-tab').forEach(b => {
-    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
-  });
-  triggerFadeIns();
-}
-
-/* ─── FADE-IN OBSERVER ────────────────────────────────────────────── */
-function triggerFadeIns() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => obs.observe(el));
-}
-
-/* ─── INIT ────────────────────────────────────────────────────────── */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading').classList.add('hidden');
-    triggerFadeIns();
-  }, 400);
-});
 </script>
 </body>
 </html>
-const progGrid = document.getElementById('prog-grid');
-progGrid.innerHTML = '';
-
-// Group by school
-const bySchool = {};
-DATA.programs.forEach(p => {
-  if (!bySchool[p.school]) bySchool[p.school] = [];
-  bySchool[p.school].push(p);
-});
-
-Object.entries(bySchool).forEach(([school, progs]) => {
-  const sc = SCHOOL_COLORS[school] || { border: '#767676', bg: '#F5F8FA', text: '#444' };
-
-  // School header
-  const header = document.createElement('div');
-  header.style.cssText = `grid-column:1/-1;padding:10px 16px;border-radius:8px;background:${sc.bg};border-left:4px solid ${sc.border};margin-top:16px`;
-  header.innerHTML = `<span style="font-size:13px;font-weight:700;color:${sc.text}">${school}</span>`;
-  progGrid.appendChild(header);
-
-  progs.forEach(p => {
-    const skillPills = (p.primary_skills || []).map(s =>
-      `<span class="skill-pill" style="font-size:10px">${s}</span>`).join('');
-    const techPills = (p.primary_tech || []).map(t =>
-      `<span class="tech-pill" style="font-size:10px">${t}</span>`).join('');
-
-    const brightBadge = p.primary_bright
-      ? `<span class="bright-badge" style="font-size:10px">✦ Bright Outlook</span>` : '';
-
-    // Job links — always show CareerOneStop + USAJobs for programs
-    const progJobLinks = [
-      p.primary_jobs_url
-        ? `<a href="${p.primary_jobs_url}" target="_blank" rel="noopener noreferrer" class="job-link primary" style="font-size:10px">Find Jobs ↗</a>`
-        : '',
-      `<a href="${p.primary_onet_url}" target="_blank" rel="noopener noreferrer" class="job-link secondary" style="font-size:10px">O*NET ↗</a>`,
-      `<a href="https://www.mynextmove.org/profile/summary/${p.primary_soc}.00" target="_blank" rel="noopener noreferrer" class="job-link secondary" style="font-size:10px">My Next Move ↗</a>`,
-    ].join('');
-
-    const card = document.createElement('article');
-    card.className = 'prog-card fade-in';
-    card.setAttribute('role', 'listitem');
-    card.setAttribute('aria-label', `${p.program} program information`);
-    card.innerHTML = `
-      <div class="prog-fit-bar" style="background:${sc.border}"></div>
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
-        <span class="prog-cred">${p.level}</span>
-        ${brightBadge}
-      </div>
-      <div class="prog-name">${p.program}</div>
-      <div style="font-size:12px;color:var(--ink-3);margin-bottom:10px">${p.specializations || ''}</div>
-      <div class="prog-link">
-        Career target: <strong>${p.primary_title}</strong>
-      </div>
-      <div class="prog-stats">
-        <div class="prog-stat">
-          <div class="prog-stat-val">${fmt$(p.primary_median)}</div>
-          <div class="prog-stat-lbl">Median wage</div>
-        </div>
-        <div class="prog-stat">
-          <div class="prog-stat-val">${p.primary_growth >= 0 ? '+' : ''}${fmtPct(p.primary_growth)}</div>
-          <div class="prog-stat-lbl">Occ. growth</div>
-        </div>
-        <div class="prog-stat">
-          <div class="prog-stat-val" style="font-size:12px;color:${outlookColor(p.primary_outlook)}">${p.primary_outlook || '—'}</div>
-          <div class="prog-stat-lbl">Outlook</div>
-        </div>
-      </div>
-      ${skillPills ? `<div class="prog-skills-row">${skillPills}</div>` : ''}
-      ${techPills  ? `<div class="prog-skills-row">${techPills}</div>`  : ''}
-      <div class="prog-job-links">${progJobLinks}</div>
-    `;
-    progGrid.appendChild(card);
-  });
-});
-
-/* ─── SOURCES TABLE ───────────────────────────────────────────────────── */
-const stbody = document.getElementById('sources-tbody');
-stbody.innerHTML = '';
-DATA.sources.forEach(s => {
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td style="font-weight:600;color:var(--navy)">${s.name}</td>
-    <td>${s.use}</td>
-    <td><span style="font-size:11px;background:var(--cream);border:1px solid var(--rule);border-radius:10px;padding:2px 8px;font-weight:500;color:var(--ink-3)">${s.freq}</span></td>
-    <td><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.url === '#' ? 'Internal export' : s.name + ' ↗'}</a></td>
-  `;
-  stbody.appendChild(row);
-});
-
-/* ─── FORMULA CARDS ───────────────────────────────────────────────────── */
-const fgrid = document.getElementById('formula-grid');
-fgrid.innerHTML = '';
-DATA.formulas.forEach(f => {
-  const c = document.createElement('div');
-  c.className = 'arch-card fade-in'; c.setAttribute('role','listitem');
-  c.innerHTML = `
-    <div class="arch-title">${f.name}</div>
-    <div class="arch-desc" style="margin-bottom:10px">${f.use}</div>
-    <div style="font-family:'Courier New',monospace;font-size:11px;background:var(--cream);border-radius:6px;padding:8px 10px;color:var(--navy);line-height:1.6">${f.formula}</div>
-  `;
-  fgrid.appendChild(c);
-});
-
-/* ─── PROGRAM CARDS ───────────────────────────────────────────────────── */
