@@ -39,9 +39,8 @@ jobs:
 
       - name: Run BLS + O*NET refresh script
         env:
-          BLS_API_KEY:   ${{ secrets.BLS_API_KEY }}
-          ONET_USERNAME: ${{ secrets.ONET_USERNAME }}
-          ONET_PASSWORD: ${{ secrets.ONET_PASSWORD }}
+          BLS_API_KEY:  ${{ secrets.BLS_API_KEY }}
+          ONET_API_KEY: ${{ secrets.ONET_API_KEY }}
         run: python scripts/weekly_refresh.py
 
       - name: Commit updated data
