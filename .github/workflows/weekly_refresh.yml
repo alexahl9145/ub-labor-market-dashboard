@@ -1,0 +1,79 @@
+name: Weekly Labor Market Refresh
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # Every Monday at 6 AM UTC
+  workflow_dispatch:        # Manual trigger from GitHub UI
+  push:
+    branches: [main]        # Also deploy on every push to main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # ── Job 1: Refresh BLS + O*NET data (schedule / manual only) ─────────
+  refresh:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas
+
+      - name: Run BLS + O*NET refresh script
+        env:
+          BLS_API_KEY:   ${{ secrets.BLS_API_KEY }}
+          ONET_USERNAME: ${{ secrets.ONET_USERNAME }}
+          ONET_PASSWORD: ${{ secrets.ONET_PASSWORD }}
+        run: python scripts/weekly_refresh.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "UB Labor Market Bot"
+          git config user.email "careerservices@ubalt.edu"
+          git add data/labor_market.json
+          git diff --staged --quiet || git commit -m "chore: weekly labor market refresh $(date +'%Y-%m-%d')"
+          git push
+
+  # ── Job 2: Deploy site to GitHub Pages ───────────────────────────────
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create .nojekyll
+        run: touch .nojekyll
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
