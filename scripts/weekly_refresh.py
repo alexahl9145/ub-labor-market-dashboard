@@ -11,8 +11,7 @@ Both APIs are free. Registration required:
 
 GitHub Secrets needed (Settings → Secrets → Actions → New repository secret):
   BLS_API_KEY   → from BLS registration email
-  ONET_USERNAME → from O*NET registration (username/password pair used as HTTP Basic Auth)
-  ONET_PASSWORD → from O*NET registration
+  ONET_API_KEY → from O*NET developer dashboard at services.onetcenter.org/developer/
 
 Output: data/labor_market.json  (read by index.html on every page load)
 """
@@ -231,7 +230,7 @@ def latest_bls_value(data: list) -> float | None:
 # ══════════════════════════════════════════════════════════════════════════════
 def onet_get(path: str, params: dict = None) -> dict | None:
     """Make an authenticated GET to O*NET Web Services v2.0, return JSON."""
-    if not ONET_USERNAME:
+    if not ONET_API_KEY:
         return None
     try:
         url = f"{ONET_BASE}/{path.lstrip('/')}"
@@ -428,13 +427,13 @@ def main():
     # 2. O*NET — fetch career reports for all unique SOC codes
     unique_socs = sorted(OCCUPATION_META.keys())
     onet_cache = {}
-    if ONET_USERNAME:
+    if ONET_API_KEY:
         log.info("Fetching O*NET data for %d occupations…", len(unique_socs))
         for i, soc in enumerate(unique_socs, 1):
             log.info("  [%d/%d] O*NET %s — %s", i, len(unique_socs), soc, OCCUPATION_META[soc]["title"])
             onet_cache[soc] = onet_career_report(soc)
     else:
-        log.warning("No ONET_USERNAME — O*NET enrichment skipped. Add GitHub secret ONET_USERNAME + ONET_PASSWORD.")
+        log.warning("No ONET_API_KEY — O*NET enrichment skipped. Add GitHub secret ONET_API_KEY.")
 
     # 3. Build output
     occupations = build_occupations(bls_data, onet_cache)
