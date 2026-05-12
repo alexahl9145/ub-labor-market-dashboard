@@ -3679,9 +3679,15 @@ const JOB_SOURCES = [
 /* ─── INIT ───────────────────────────────────────────────────────────── */
 let DATA = SAMPLE_DATA;
 
+// Render immediately with sample data so the page is never blank
+renderAll();
+
+// Then try to fetch the live JSON and re-render if it loads successfully
 loadData().then(d => {
-  DATA = d;
-  renderAll();
+  if (d !== SAMPLE_DATA) {
+    DATA = d;
+    renderAll();
+  }
 });
 
 function renderAll() {
@@ -4098,7 +4104,7 @@ window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loading').classList.add('hidden');
     triggerFadeIns();
-  }, 1200);
+  }, 400);
 });
 </script>
 </body>
