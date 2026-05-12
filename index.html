@@ -17,7 +17,7 @@
   --navy:#003D5C;--cream:#F5F8FA;--ink:#1A1A1A;--ink2:#444;--ink3:#767676;
   --rule:rgba(0,0,0,.09);--rule-lt:rgba(0,0,0,.04);
   --teal:#007A6E;--teal-lt:#E0F4F2;--amber:#8A5C00;--amber-lt:#FEF3DC;
-  --indigo:#3B3899;--ind-lt:#EEEDFB;
+  --ind:#3B3899;--ind-lt:#EEEDFB;
   --serif:'Libre Baskerville',Georgia,serif;
   --sans:'Source Sans 3','Segoe UI',system-ui,sans-serif;
   --r-sm:4px;--r-md:8px;--r-lg:14px;
@@ -26,364 +26,374 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
-a{color:var(--blue);text-decoration:underline}
-a:hover{color:var(--blue-dk)}
+a{color:var(--blue);text-decoration:underline}a:hover{color:var(--blue-dk)}
 .skip-link{position:absolute;top:-100px;left:16px;z-index:9999;background:var(--blue);color:#fff;padding:10px 18px;border-radius:0 0 var(--r-md) var(--r-md);font-size:14px;font-weight:600;text-decoration:none;transition:top .15s}
 .skip-link:focus{top:0;outline:3px solid #fff;outline-offset:2px}
 :focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:var(--r-sm)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 .container{max-width:1140px;margin:0 auto;padding:0 24px}
-.fade-in{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}
-.fade-in.visible{opacity:1;transform:none}
+.fi{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}.fi.v{opacity:1;transform:none}
 /* Nav */
-.site-nav{background:var(--navy);padding:0 24px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--blue)}
-.nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-brand{display:flex;align-items:center;gap:12px}
-.nav-mark{width:38px;height:38px;border-radius:var(--r-sm);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:700;color:#fff}
-.nav-name{font-size:14px;font-weight:600;color:#fff}
-.nav-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
-.nav-tabs{display:flex;gap:2px}
-.nav-tab{padding:8px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);border:none;background:none;cursor:pointer;border-radius:var(--r-sm);transition:color .2s,background .2s}
-.nav-tab:hover{color:#fff;background:rgba(255,255,255,.09)}
-.nav-tab.active{color:#fff;background:var(--blue)}
-@media(max-width:640px){.nav-tabs{display:none}.mob-tabs{display:flex!important}}
-.mob-tabs{display:none;overflow-x:auto;gap:6px;padding:10px 24px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1)}
-.mob-tab{white-space:nowrap;padding:7px 16px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.2);border-radius:20px;color:rgba(255,255,255,.65);background:none;cursor:pointer}
-.mob-tab.active{color:#fff;background:var(--blue);border-color:var(--blue)}
+.snav{background:var(--navy);padding:0 24px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--blue)}
+.ni{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nb{display:flex;align-items:center;gap:12px}
+.nm{width:38px;height:38px;border-radius:var(--r-sm);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:700;color:#fff}
+.nn{font-size:14px;font-weight:600;color:#fff}.ns{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
+.ntabs{display:flex;gap:2px}
+.ntab{padding:8px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);border:none;background:none;cursor:pointer;border-radius:var(--r-sm);transition:color .2s,background .2s}
+.ntab:hover{color:#fff;background:rgba(255,255,255,.09)}.ntab.active{color:#fff;background:var(--blue)}
+@media(max-width:640px){.ntabs{display:none}.mtabs{display:flex!important}}
+.mtabs{display:none;overflow-x:auto;gap:6px;padding:10px 24px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.1)}
+.mtab{white-space:nowrap;padding:7px 16px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.2);border-radius:20px;color:rgba(255,255,255,.65);background:none;cursor:pointer}
+.mtab.active{color:#fff;background:var(--blue);border-color:var(--blue)}
 /* Hero */
 .hero{background:var(--navy);padding:52px 24px;position:relative;overflow:hidden;border-bottom:4px solid var(--blue)}
 .hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-55deg,transparent,transparent 48px,rgba(0,118,168,.07) 48px,rgba(0,118,168,.07) 49px)}
-.hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;position:relative}
-.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);background:rgba(0,118,168,.15);display:inline-block;padding:3px 10px;border-radius:var(--r-sm);margin-bottom:14px}
-.hero-title{font-family:var(--serif);font-size:clamp(28px,4vw,44px);color:#fff;line-height:1.18;margin-bottom:12px}
-.hero-title em{color:#5FC3E8;font-style:italic}
-.hero-desc{font-size:15px;color:rgba(255,255,255,.7);max-width:560px;line-height:1.7}
-.hero-meta{text-align:right;white-space:nowrap}
-.hero-refreshed{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.hero-date{font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
-.hero-region{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#5FC3E8;border:1px solid rgba(95,195,232,.4);border-radius:20px;padding:4px 12px}
-@media(max-width:640px){.hero-inner{grid-template-columns:1fr}.hero-meta{text-align:left}}
-.status-bar{background:var(--blue-lt);border-bottom:1px solid rgba(0,118,168,.2);padding:9px 24px;font-size:13px;color:#005580;display:flex;align-items:center;justify-content:center;gap:8px}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2.2s ease-in-out infinite}
+.hi{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;position:relative}
+.hew{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);background:rgba(0,118,168,.15);display:inline-block;padding:3px 10px;border-radius:var(--r-sm);margin-bottom:14px}
+.ht{font-family:var(--serif);font-size:clamp(28px,4vw,44px);color:#fff;line-height:1.18;margin-bottom:12px}
+.ht em{color:#5FC3E8;font-style:italic}
+.hd{font-size:15px;color:rgba(255,255,255,.7);max-width:560px;line-height:1.7}
+.hm{text-align:right;white-space:nowrap}
+.hr2{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.hdate{font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
+.hreg{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#5FC3E8;border:1px solid rgba(95,195,232,.4);border-radius:20px;padding:4px 12px}
+@media(max-width:640px){.hi{grid-template-columns:1fr}.hm{text-align:left}}
+.sbar{background:var(--blue-lt);border-bottom:1px solid rgba(0,118,168,.2);padding:9px 24px;font-size:13px;color:#005580;display:flex;align-items:center;justify-content:center;gap:8px}
+.sdot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
-.view{display:none}
-.view.active{display:block}
+.view{display:none}.view.active{display:block}
 /* KPI */
-.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:32px 0 28px}
-.kpi-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
-.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.kpi-card.acc{background:var(--blue);border-color:var(--blue)}
-.kpi-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
-.kpi-card.acc .kpi-label{color:rgba(255,255,255,.65)}
-.kpi-val{font-family:var(--serif);font-size:28px;color:var(--navy)}
-.kpi-card.acc .kpi-val{color:#fff}
-.kpi-sub{font-size:12px;color:var(--ink3);margin-top:5px}
-.kpi-card.acc .kpi-sub{color:rgba(255,255,255,.6)}
+.kstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:32px 0 28px}
+.kc{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.kc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.kc.acc{background:var(--blue);border-color:var(--blue)}
+.klbl{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.kc.acc .klbl{color:rgba(255,255,255,.65)}
+.kval{font-family:var(--serif);font-size:28px;color:var(--navy)}
+.kc.acc .kval{color:#fff}
+.ksub{font-size:12px;color:var(--ink3);margin-top:5px}
+.kc.acc .ksub{color:rgba(255,255,255,.6)}
 /* Section heads */
-.sec-head{display:flex;align-items:baseline;gap:10px;margin:36px 0 16px}
-.sec-head h2{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy)}
-.sec-head-rule{flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent)}
-.sec-head-tag{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3)}
-/* Occ cards */
-.occ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:32px}
-.occ-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--rule);border-radius:var(--r-lg);padding:0;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.occ-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.occ-card.High{border-top-color:var(--teal)}
-.occ-card.Moderate{border-top-color:var(--amber)}
-.occ-card.Low{border-top-color:var(--ink3)}
-.occ-top{padding:18px 20px 0}
-.bright-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B3800;background:#FFF0D9;border:1px solid #F5C07A;border-radius:10px;padding:2px 8px;margin-bottom:8px}
-.occ-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:3px}
-.occ-ind{font-size:12px;color:var(--ink3);margin-bottom:10px}
-.occ-desc{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:12px}
-.occ-wages{display:flex;margin:0 20px 14px;background:var(--cream);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--rule-lt)}
-.wi{text-align:center;flex:1;padding:10px 6px}
-.wi+.wi{border-left:1px solid var(--rule-lt)}
-.wl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
-.wv{font-family:var(--serif);font-size:17px;color:var(--navy)}
-.slabel{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);padding:0 20px;margin-bottom:6px}
-.pill-row{display:flex;flex-wrap:wrap;gap:5px;padding:0 20px;margin-bottom:12px}
-.sk{font-size:11px;font-weight:500;color:#005580;background:var(--blue-lt);border:1px solid rgba(0,118,168,.2);border-radius:12px;padding:3px 9px}
-.tk{font-size:11px;font-weight:500;color:#3B1A6B;background:#F0E8FB;border:1px solid rgba(90,40,160,.2);border-radius:12px;padding:3px 9px}
-.occ-tasks{padding:0 20px;margin-bottom:12px}
-.occ-tasks li{font-size:12px;color:var(--ink2);line-height:1.6;padding:3px 0;border-bottom:1px solid var(--rule-lt);list-style:none;display:flex;gap:6px}
-.occ-tasks li::before{content:">";color:var(--blue);font-weight:700}
-.occ-stats{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px;margin-bottom:14px}
-.chip{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;border:1px solid}
-.chip.g{color:var(--teal);border-color:rgba(0,122,110,.25);background:var(--teal-lt)}
-.chip.d{color:var(--amber);border-color:rgba(138,92,0,.25);background:var(--amber-lt)}
-.chip.o{color:var(--indigo);border-color:rgba(59,56,153,.25);background:var(--ind-lt)}
-.occ-meta{padding:0 20px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.edu-b{font-size:11px;color:var(--ink2)}
-.onet-l{font-size:11px;color:var(--blue);font-weight:500;text-decoration:underline;margin-left:auto}
-.jobs-bar{margin-top:auto;border-top:1px solid var(--rule-lt);padding:12px 20px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.jlbl{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
-.jl{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;transition:background .15s,color .15s}
-.jl:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.jl.p{background:var(--blue);color:#fff}
-.jl.p:hover{background:var(--blue-dk)}
-.jl.s{background:var(--cream);color:var(--blue);border:1px solid rgba(0,118,168,.25)}
-.jl.s:hover{background:var(--blue-lt)}
-/* Charts */
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
-@media(max-width:700px){.chart-grid{grid-template-columns:1fr}}
-.chart-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
-.ct{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
-.cs{font-size:11px;color:var(--ink3);margin-bottom:16px}
-.cw{position:relative;width:100%}
+.sh{display:flex;align-items:baseline;gap:10px;margin:36px 0 16px}
+.sh h2{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy)}
+.shr{flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent)}
+.sht{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3)}
 /* Region selector */
 .rgn-sel{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 .rgn-lbl{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px}
-.rgn-btn{padding:6px 14px;font-size:13px;font-weight:500;border:1px solid var(--rule);border-radius:20px;background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s}
-.rgn-btn:hover{border-color:var(--blue);color:var(--blue)}
-.rgn-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.rbtn{padding:6px 14px;font-size:13px;font-weight:500;border:1px solid var(--rule);border-radius:20px;background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s}
+.rbtn:hover{border-color:var(--blue);color:var(--blue)}.rbtn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+/* Occ cards */
+.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;margin-bottom:32px}
+.oc{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--rule);border-radius:var(--r-lg);padding:0;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.oc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.oc.High{border-top-color:var(--teal)}.oc.Moderate{border-top-color:var(--amber)}.oc.Low{border-top-color:var(--ink3)}
+.otop{padding:18px 20px 0}
+.bbadge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B3800;background:#FFF0D9;border:1px solid #F5C07A;border-radius:10px;padding:2px 8px;margin-bottom:8px}
+.otitle{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.oind{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.odesc{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:12px}
+.owages{display:flex;margin:0 20px 14px;background:var(--cream);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--rule-lt)}
+.wi{text-align:center;flex:1;padding:10px 6px}.wi+.wi{border-left:1px solid var(--rule-lt)}
+.wl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.wv{font-family:var(--serif);font-size:17px;color:var(--navy)}
+.slbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);padding:0 20px;margin-bottom:6px}
+.prow{display:flex;flex-wrap:wrap;gap:5px;padding:0 20px;margin-bottom:12px}
+.sk{font-size:11px;font-weight:500;color:#005580;background:var(--blue-lt);border:1px solid rgba(0,118,168,.2);border-radius:12px;padding:3px 9px}
+.tk{font-size:11px;font-weight:500;color:#3B1A6B;background:#F0E8FB;border:1px solid rgba(90,40,160,.2);border-radius:12px;padding:3px 9px}
+.otasks{padding:0 20px;margin-bottom:12px}
+.otasks li{font-size:12px;color:var(--ink2);line-height:1.6;padding:3px 0;border-bottom:1px solid var(--rule-lt);list-style:none;display:flex;gap:6px}
+.otasks li::before{content:">";color:var(--blue);font-weight:700}
+.ostats{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px;margin-bottom:14px}
+.chip{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;border:1px solid}
+.chip.g{color:var(--teal);border-color:rgba(0,122,110,.25);background:var(--teal-lt)}
+.chip.d{color:var(--amber);border-color:rgba(138,92,0,.25);background:var(--amber-lt)}
+.chip.o{color:var(--ind);border-color:rgba(59,56,153,.25);background:var(--ind-lt)}
+.ometa{padding:0 20px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink2)}
+.onetl{font-size:11px;color:var(--blue);font-weight:500;text-decoration:underline;margin-left:auto}
+.jbar{margin-top:auto;border-top:1px solid var(--rule-lt);padding:12px 20px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jlbl{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
+.jl{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;transition:background .15s,color .15s}
+.jl.p{background:var(--blue);color:#fff}.jl.p:hover{background:var(--blue-dk)}
+.jl.s{background:var(--cream);color:var(--blue);border:1px solid rgba(0,118,168,.25)}.jl.s:hover{background:var(--blue-lt)}
+/* Charts */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:700px){.cgrid{grid-template-columns:1fr}}
+.cc{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
+.ctitle{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.csub{font-size:11px;color:var(--ink3);margin-bottom:16px}
+.cw{position:relative;width:100%}
 /* LQ bars */
-.lq-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule-lt)}
-.lq-row:last-child{border-bottom:none}
-.lq-name{font-size:13px;color:var(--ink2);min-width:200px}
-.lq-track{flex:1;height:8px;background:var(--cream);border-radius:4px;overflow:hidden;position:relative}
-.lq-ref{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,.15)}
-.lq-fill{height:100%;border-radius:4px;transition:width 1s ease}
-.lq-score{font-size:13px;font-weight:600;min-width:34px;text-align:right;color:var(--navy)}
-.lq-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:62px;text-align:center}
+.lrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule-lt)}
+.lrow:last-child{border-bottom:none}
+.lname{font-size:13px;color:var(--ink2);min-width:200px}
+.ltrack{flex:1;height:8px;background:var(--cream);border-radius:4px;overflow:hidden;position:relative}
+.lref{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,.15)}
+.lfill{height:100%;border-radius:4px;transition:width 1s ease}
+.lscore{font-size:13px;font-weight:600;min-width:34px;text-align:right;color:var(--navy)}
+.lbadge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:62px;text-align:center}
+/* Compare table */
+.ctbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.ctbl th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);border-bottom:2px solid var(--rule);white-space:nowrap}
+.ctbl th.rc{text-align:center;color:var(--blue)}
+.ctbl td{padding:9px 12px;border-bottom:1px solid var(--rule-lt);vertical-align:middle}
+.ctbl tr:hover td{background:var(--cream)}
+.lqc{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;text-align:center;min-width:40px}
+.lqs{background:#EEECFB;color:#3B3899}.lqm{background:#E0F4F2;color:#007A6E}.lqb{background:#FEF3DC;color:#8A5C00}
 /* Prog cards */
-.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:32px}
-.prog-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
-.prog-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:32px}
+.pc{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.pc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 .pbar{height:3px;border-radius:2px;margin-bottom:14px}
 .pcred{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3)}
 .pname{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:2px}
-.pspec{font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5}
-.ptarget{font-size:12px;color:var(--ink2);background:var(--cream);border-radius:var(--r-sm);padding:7px 10px;margin-bottom:10px}
+.pspec{font-size:12px;color:var(--ink3);margin-bottom:8px;line-height:1.5}
+.ptgt{font-size:12px;color:var(--ink2);background:var(--cream);border-radius:var(--r-sm);padding:7px 10px;margin-bottom:10px}
 .pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.psv{font-family:var(--serif);font-size:16px;color:var(--navy)}
-.psl{font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3)}
-.pskills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-.plinks{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;border-top:1px solid var(--rule-lt)}
-/* Compare table */
-.cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
-.cmp-table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);border-bottom:2px solid var(--rule);white-space:nowrap}
-.cmp-table th.rc{text-align:center;color:var(--blue)}
-.cmp-table td{padding:9px 12px;border-bottom:1px solid var(--rule-lt);vertical-align:middle}
-.cmp-table tr:hover td{background:var(--cream)}
-.lqc{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;text-align:center;min-width:40px}
-.lqs{background:#EEECFB;color:#3B3899}
-.lqm{background:#E0F4F2;color:#007A6E}
-.lqb{background:#FEF3DC;color:#8A5C00}
+.psv{font-family:var(--serif);font-size:16px;color:var(--navy)}.psl{font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3)}
+.pskills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.pfac{font-size:11px;padding:5px 8px;border-radius:4px;margin-top:4px;line-height:1.5}
+.pfac.rs{background:#E5F3FA;color:#003D5C}.pfac.ca{background:#E8F5E9;color:#1B5E20}.pfac.rec{background:#FEF3DC;color:#8A5C00}
+.plinks{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;border-top:1px solid var(--rule-lt);margin-top:10px}
+/* Prog list (student view) */
+.plist{margin-bottom:32px}
+.plist-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--rule-lt);align-items:center}
+.plist-row:hover{background:var(--cream)}
+.plist-hdr{background:var(--navy);border-radius:var(--r-md) var(--r-md) 0 0}
+.plist-hdr .plist-cell{color:#fff;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:10px 14px}
+.plist-hdr .plist-cell.rc{text-align:center;color:#5FC3E8}
+.plist-cell{padding:10px 14px;font-size:13px;color:var(--ink2)}
+.plist-cell.prog-name{font-weight:500;color:var(--navy);font-size:13px}
+.plist-cell.rc{text-align:center}
+@media(max-width:700px){.plist-row{grid-template-columns:1fr 1fr}}
 /* Sources */
-.src-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
-.src-table th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);padding:10px 14px;border-bottom:2px solid var(--rule)}
-.src-table td{padding:10px 14px;border-bottom:1px solid var(--rule-lt);color:var(--ink2);vertical-align:top}
-.src-table tr:hover td{background:var(--cream)}
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.stbl th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);padding:10px 14px;border-bottom:2px solid var(--rule)}
+.stbl td{padding:10px 14px;border-bottom:1px solid var(--rule-lt);color:var(--ink2);vertical-align:top}
+.stbl tr:hover td{background:var(--cream)}
 .fb{font-size:11px;background:var(--cream);border:1px solid var(--rule);border-radius:10px;padding:2px 8px;font-weight:500;color:var(--ink3)}
-/* Arch */
-.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:16px 0 32px}
-.arch-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
-.arch-num{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#CCE8F4;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.arch-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
-.arch-desc{font-size:13px;color:var(--ink2);line-height:1.65}
-.arch-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--cream);color:var(--ink3);border:1px solid var(--rule)}
-.fm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:32px}
-.fm-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh)}
-.fm-name{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
-.fm-use{font-size:12px;color:var(--ink3);margin-bottom:10px}
-.fm-eq{font-family:'Courier New',monospace;font-size:11px;background:var(--cream);border-radius:var(--r-sm);padding:8px 10px;color:var(--navy);line-height:1.6}
+/* Arch/formula */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:16px 0 32px}
+.acard{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--sh)}
+.anum{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#CCE8F4;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.atitle{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.adesc{font-size:13px;color:var(--ink2);line-height:1.65}
+.atag{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--cream);color:var(--ink3);border:1px solid var(--rule)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:32px}
+.fcard{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh)}
+.fname{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.fuse{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.feq{font-family:'Courier New',monospace;font-size:11px;background:var(--cream);border-radius:var(--r-sm);padding:8px 10px;color:var(--navy);line-height:1.6}
 /* Footer */
-.site-footer{background:var(--navy);border-top:4px solid var(--blue);margin-top:64px}
-.footer-inner{max-width:1140px;margin:0 auto;padding:40px 24px 32px;display:grid;grid-template-columns:auto 1fr 1fr;gap:48px;align-items:start}
-@media(max-width:700px){.footer-inner{grid-template-columns:1fr;gap:28px}}
-.footer-brand{display:flex;align-items:flex-start;gap:14px}
-.footer-mark{width:44px;height:44px;border-radius:var(--r-sm);background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;font-weight:700;color:#fff}
-.footer-unit{font-size:15px;font-weight:600;color:#fff;line-height:1.4}
-.footer-col{font-size:13px;color:rgba(255,255,255,.6);margin-top:3px}
-.footer-nh{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
-.footer-link{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none}
-.footer-link:hover{color:#fff;text-decoration:underline}
-.footer-bot{max-width:1140px;margin:0 auto;padding:14px 24px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:rgba(255,255,255,.35)}
-.footer-sep{color:rgba(255,255,255,.2)}
-.footer-bl{color:rgba(255,255,255,.5);text-decoration:underline;font-size:12px}
-.footer-bl:hover{color:#fff}
+.sfoot{background:var(--navy);border-top:4px solid var(--blue);margin-top:64px}
+.fi2{max-width:1140px;margin:0 auto;padding:40px 24px 32px;display:grid;grid-template-columns:auto 1fr 1fr;gap:48px;align-items:start}
+@media(max-width:700px){.fi2{grid-template-columns:1fr;gap:28px}}
+.fbb{display:flex;align-items:flex-start;gap:14px}
+.fmk{width:44px;height:44px;border-radius:var(--r-sm);background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;font-weight:700;color:#fff}
+.fu{font-size:15px;font-weight:600;color:#fff;line-height:1.4}
+.fc{font-size:13px;color:rgba(255,255,255,.6);margin-top:3px}
+.fnh{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:8px}
+.flink{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none}.flink:hover{color:#fff;text-decoration:underline}
+.fbot{max-width:1140px;margin:0 auto;padding:14px 24px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:rgba(255,255,255,.35)}
+.fsep{color:rgba(255,255,255,.2)}
+.fbl{color:rgba(255,255,255,.5);text-decoration:underline;font-size:12px}.fbl:hover{color:#fff}
 /* Loading */
 #loading{position:fixed;inset:0;z-index:999;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s ease}
 #loading.hidden{opacity:0;pointer-events:none}
-.lm{width:56px;height:56px;border-radius:var(--r-md);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:700;color:#fff}
-.lt{font-size:14px;color:rgba(255,255,255,.5)}
-.lb{width:160px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.lf{height:100%;background:var(--blue);border-radius:2px;width:0;animation:lb 1s ease forwards}
+.lmk{width:56px;height:56px;border-radius:var(--r-md);background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:700;color:#fff}
+.ltxt{font-size:14px;color:rgba(255,255,255,.5)}
+.lbar{width:160px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.lfil{height:100%;background:var(--blue);border-radius:2px;width:0;animation:lb 1s ease forwards}
 @keyframes lb{to{width:100%}}
-@media(max-width:480px){.occ-grid,.prog-grid,.arch-grid,.fm-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.ogrid,.pgrid,.agrid,.fgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div id="loading" role="status" aria-live="polite">
-  <div class="lm">UB</div>
-  <div class="lb"><div class="lf"></div></div>
-  <div class="lt">Loading labor market data&hellip;</div>
+  <div class="lmk">UB</div><div class="lbar"><div class="lfil"></div></div>
+  <div class="ltxt">Loading labor market data&hellip;</div>
 </div>
-<nav class="site-nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <div class="nav-brand">
-      <div class="nav-mark" aria-hidden="true">UB</div>
-      <div>
-        <div class="nav-name">Career &amp; Internship Center</div>
-        <div class="nav-sub">University of Baltimore &middot; College of Public Affairs</div>
-      </div>
+<nav class="snav" role="navigation" aria-label="Main navigation">
+  <div class="ni">
+    <div class="nb">
+      <div class="nm" aria-hidden="true">UB</div>
+      <div><div class="nn">Career &amp; Internship Center</div><div class="ns">University of Baltimore &middot; College of Public Affairs</div></div>
     </div>
-    <div class="nav-tabs" role="tablist">
-      <button class="nav-tab active" onclick="switchView('students',this)">For Students</button>
-      <button class="nav-tab" onclick="switchView('faculty',this)">For Faculty</button>
-      <button class="nav-tab" onclick="switchView('sources',this)">Data Sources</button>
-      <button class="nav-tab" onclick="switchView('setup',this)">Auto-Update Setup</button>
+    <div class="ntabs" role="tablist">
+      <button class="ntab active" onclick="sv('students',this)">For Students</button>
+      <button class="ntab" onclick="sv('faculty',this)">For Faculty</button>
+      <button class="ntab" onclick="sv('sources',this)">Data Sources</button>
+      <button class="ntab" onclick="sv('setup',this)">Auto-Update Setup</button>
     </div>
   </div>
 </nav>
-<div class="mob-tabs">
-  <button class="mob-tab active" onclick="switchView('students',this)">Students</button>
-  <button class="mob-tab" onclick="switchView('faculty',this)">Faculty</button>
-  <button class="mob-tab" onclick="switchView('sources',this)">Sources</button>
-  <button class="mob-tab" onclick="switchView('setup',this)">Setup</button>
+<div class="mtabs">
+  <button class="mtab active" onclick="sv('students',this)">Students</button>
+  <button class="mtab" onclick="sv('faculty',this)">Faculty</button>
+  <button class="mtab" onclick="sv('sources',this)">Sources</button>
+  <button class="mtab" onclick="sv('setup',this)">Setup</button>
 </div>
 <header class="hero" role="banner">
-  <div class="hero-inner">
+  <div class="hi">
     <div>
-      <div class="hero-eyebrow">University of Baltimore Career &amp; Internship Center</div>
-      <h1 class="hero-title">Labor Market<br><em>Intelligence.</em></h1>
-      <p class="hero-desc">Weekly data for UB students and faculty &mdash; in-demand roles, real wages, and career pathways across Baltimore Metro, Maryland, DC Metro, and Virginia Metro.</p>
+      <div class="hew">University of Baltimore Career &amp; Internship Center</div>
+      <h1 class="ht">Labor Market<br><em>Intelligence.</em></h1>
+      <p class="hd">Weekly data for UB students and faculty &mdash; in-demand roles, real wages, and career pathways across Baltimore Metro, Maryland, DC Metro, and Virginia Metro.</p>
     </div>
-    <div class="hero-meta">
-      <div class="hero-refreshed">Last refreshed</div>
-      <div class="hero-date" id="refresh-date">Loading&hellip;</div>
-      <div class="hero-region">&#128205; 4-Region Coverage</div>
+    <div class="hm">
+      <div class="hr2">Last refreshed</div>
+      <div class="hdate" id="refresh-date">Loading&hellip;</div>
+      <div class="hreg">&#128205; 4-Region Coverage</div>
     </div>
   </div>
 </header>
-<div class="status-bar" role="status">
-  <div class="status-dot" aria-hidden="true"></div>
-  Refreshes automatically every Monday &middot; BLS OEWS + O*NET &middot; 2022&ndash;2024
+<div class="sbar" role="status">
+  <div class="sdot" aria-hidden="true"></div>
+  Refreshes every Monday &middot; BLS OEWS + O*NET &middot; 2022&ndash;2024
 </div>
 <main id="main-content" tabindex="-1">
-<!-- STUDENTS -->
+
+<!-- ═══════════ STUDENTS ═══════════ -->
 <div id="view-students" class="view active">
 <div class="container">
-  <div class="kpi-strip">
-    <div class="kpi-card acc fade-in"><div class="kpi-label">Top median wage</div><div class="kpi-val" id="s1">&#8212;</div><div class="kpi-sub" id="s1b">Loading&hellip;</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Fastest growing</div><div class="kpi-val" id="s2">&#8212;</div><div class="kpi-sub" id="s2b">Loading&hellip;</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Largest talent gap</div><div class="kpi-val" id="s3">&#8212;</div><div class="kpi-sub">open roles vs. workers</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Bright Outlook roles</div><div class="kpi-val" id="s4">&#8212;</div><div class="kpi-sub">fastest-growing occupations</div></div>
+  <div class="kstrip">
+    <div class="kc acc fi"><div class="klbl">Top median wage</div><div class="kval" id="s1">&#8212;</div><div class="ksub" id="s1b">Loading&hellip;</div></div>
+    <div class="kc fi"><div class="klbl">Fastest growing</div><div class="kval" id="s2">&#8212;</div><div class="ksub" id="s2b">Loading&hellip;</div></div>
+    <div class="kc fi"><div class="klbl">Largest talent gap</div><div class="kval" id="s3">&#8212;</div><div class="ksub">open roles vs. workers</div></div>
+    <div class="kc fi"><div class="klbl">Bright Outlook roles</div><div class="kval" id="s4">&#8212;</div><div class="ksub">fastest-growing occupations</div></div>
   </div>
-  <div class="sec-head fade-in"><h2>In-demand occupations</h2><div class="sec-head-rule"></div><div class="sec-head-tag">Baltimore Metro &middot; 2024</div></div>
-  <div class="occ-grid" id="occ-grid" role="list"></div>
-  <div class="sec-head fade-in"><h2>Salary landscape</h2><div class="sec-head-rule"></div></div>
-  <div class="chart-grid">
-    <div class="chart-card fade-in"><div class="ct">Entry &rarr; Median wage by role</div><div class="cs">Gray = entry &middot; Blue = median</div><div class="cw" style="height:320px"><canvas id="wageChart"></canvas></div></div>
-    <div class="chart-card fade-in"><div class="ct">Growth vs. demand</div><div class="cs">Bubble size = talent gap</div><div class="cw" style="height:320px"><canvas id="bubbleChart"></canvas></div></div>
+
+  <div class="sh fi"><h2>In-demand occupations</h2><div class="shr"></div><div class="sht">Baltimore Metro &middot; 2024</div></div>
+  <div class="ogrid" id="occ-grid" role="list"></div>
+
+  <div class="sh fi"><h2>Salary landscape</h2><div class="shr"></div></div>
+  <div class="cgrid">
+    <div class="cc fi"><div class="ctitle">Entry &rarr; Median wage by role</div><div class="csub">Gray = entry &middot; Blue = median</div><div class="cw" style="height:320px"><canvas id="wageChart"></canvas></div></div>
+    <div class="cc fi"><div class="ctitle">Growth vs. demand</div><div class="csub">Bubble size = talent gap</div><div class="cw" style="height:320px"><canvas id="bubbleChart"></canvas></div></div>
+  </div>
+
+  <div class="sh fi"><h2>Program alignment by region</h2><div class="shr"></div><div class="sht">All 48 UB programs &middot; LQ by target industry</div></div>
+  <div class="rgn-sel fi">
+    <span class="rgn-lbl">View region:</span>
+    <button class="rbtn active" onclick="setSRgn('Baltimore Metro',this)" aria-pressed="true">Baltimore Metro</button>
+    <button class="rbtn" onclick="setSRgn('Maryland',this)" aria-pressed="false">Maryland</button>
+    <button class="rbtn" onclick="setSRgn('DC Metro',this)" aria-pressed="false">DC Metro</button>
+    <button class="rbtn" onclick="setSRgn('Virginia Metro',this)" aria-pressed="false">Virginia Metro</button>
+  </div>
+  <p class="fi" style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:16px">
+    This table shows how well your program&rsquo;s target industry is represented in each region. LQ &gt; 1.5 = strong regional concentration &mdash; meaning more employer demand relative to the national average. Use this to decide where to focus your job search.
+  </p>
+  <div style="overflow-x:auto;margin-bottom:32px" class="fi">
+    <table class="ctbl" id="s-cmp-table"><thead><tr>
+      <th>Program</th><th>School</th><th>Target career</th>
+      <th class="rc" id="s-cmp-h1">Baltimore</th>
+      <th class="rc">Outlook</th><th class="rc">Median wage</th>
+    </tr></thead><tbody id="s-cmp-tbody"></tbody></table>
   </div>
 </div>
 </div>
-<!-- FACULTY -->
+
+<!-- ═══════════ FACULTY ═══════════ -->
 <div id="view-faculty" class="view">
 <div class="container">
-  <div class="kpi-strip">
-    <div class="kpi-card acc fade-in"><div class="kpi-label">Strongest LQ</div><div class="kpi-val" id="f1">&#8212;</div><div class="kpi-sub" id="f1b">Loading&hellip;</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Programs mapped</div><div class="kpi-val" id="f2">&#8212;</div><div class="kpi-sub">to regional labor demand</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Bright Outlook programs</div><div class="kpi-val" id="f3">&#8212;</div><div class="kpi-sub">high-demand career targets</div></div>
-    <div class="kpi-card fade-in"><div class="kpi-label">Fastest industry growth</div><div class="kpi-val" id="f4">&#8212;</div><div class="kpi-sub" id="f4b">Loading&hellip;</div></div>
+  <div class="kstrip">
+    <div class="kc acc fi"><div class="klbl">Strongest LQ</div><div class="kval" id="f1">&#8212;</div><div class="ksub" id="f1b">Loading&hellip;</div></div>
+    <div class="kc fi"><div class="klbl">Programs mapped</div><div class="kval" id="f2">&#8212;</div><div class="ksub">to regional labor demand</div></div>
+    <div class="kc fi"><div class="klbl">Bright Outlook programs</div><div class="kval" id="f3">&#8212;</div><div class="ksub">high-demand career targets</div></div>
+    <div class="kc fi"><div class="klbl">Fastest industry growth</div><div class="kval" id="f4">&#8212;</div><div class="ksub" id="f4b">Loading&hellip;</div></div>
   </div>
-  <div class="rgn-sel fade-in">
+
+  <div class="rgn-sel fi">
     <span class="rgn-lbl">Region:</span>
-    <button class="rgn-btn active" onclick="setRegion('Baltimore Metro',this)" aria-pressed="true">Baltimore Metro</button>
-    <button class="rgn-btn" onclick="setRegion('Maryland',this)" aria-pressed="false">Maryland</button>
-    <button class="rgn-btn" onclick="setRegion('DC Metro',this)" aria-pressed="false">DC Metro</button>
-    <button class="rgn-btn" onclick="setRegion('Virginia Metro',this)" aria-pressed="false">Virginia Metro</button>
+    <button class="rbtn active" onclick="setFRgn('Baltimore Metro',this)" aria-pressed="true">Baltimore Metro</button>
+    <button class="rbtn" onclick="setFRgn('Maryland',this)" aria-pressed="false">Maryland</button>
+    <button class="rbtn" onclick="setFRgn('DC Metro',this)" aria-pressed="false">DC Metro</button>
+    <button class="rbtn" onclick="setFRgn('Virginia Metro',this)" aria-pressed="false">Virginia Metro</button>
   </div>
-  <div class="sec-head fade-in"><h2>Location quotients</h2><div class="sec-head-rule"></div></div>
-  <div class="chart-card fade-in" style="margin-bottom:32px">
-    <div class="ct" id="lq-title">Industry concentration vs. national average</div>
-    <div class="cs">LQ &gt; 1.0 = regionally concentrated &middot; LQ &gt; 1.5 = strong specialization</div>
+
+  <div class="sh fi"><h2>Location quotients</h2><div class="shr"></div></div>
+  <div class="cc fi" style="margin-bottom:32px">
+    <div class="ctitle" id="f-lq-title">Industry concentration vs. national average</div>
+    <div class="csub">LQ &gt; 1.0 = regionally concentrated &middot; LQ &gt; 1.5 = strong specialization</div>
     <div id="lq-bars" style="margin-top:16px" role="list"></div>
   </div>
-  <div class="sec-head fade-in"><h2>Employment growth comparison</h2><div class="sec-head-rule"></div></div>
-  <div class="chart-grid">
-    <div class="chart-card fade-in"><div class="ct" id="g-title">Regional vs. national growth</div><div class="cs" id="g-sub">Blue = regional &middot; Gray = national</div><div class="cw" style="height:260px"><canvas id="growthChart"></canvas></div></div>
-    <div class="chart-card fade-in"><div class="ct">Employment share</div><div class="cs">Share of regional workforce by industry</div><div class="cw" style="height:260px"><canvas id="shareChart"></canvas></div></div>
+
+  <div class="sh fi"><h2>Employment growth comparison</h2><div class="shr"></div></div>
+  <div class="cgrid">
+    <div class="cc fi"><div class="ctitle" id="f-g-title">Regional vs. national growth</div><div class="csub" id="f-g-sub">Blue = regional &middot; Gray = national</div><div class="cw" style="height:260px"><canvas id="growthChart"></canvas></div></div>
+    <div class="cc fi"><div class="ctitle" id="f-s-title">Employment share</div><div class="csub">Share of regional workforce by industry</div><div class="cw" style="height:260px"><canvas id="shareChart"></canvas></div></div>
   </div>
-  <div class="sec-head fade-in"><h2>Program alignment &mdash; all four regions</h2><div class="sec-head-rule"></div><div class="sec-head-tag">LQ by target industry</div></div>
-  <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:16px" class="fade-in">LQ &gt; 1.5 = strong regional specialization for that program&rsquo;s target industry.</p>
-  <div style="overflow-x:auto;margin-bottom:32px" class="fade-in">
-    <table class="cmp-table"><thead><tr>
-      <th>Program</th><th>School</th><th>Target occupation</th>
+
+  <div class="sh fi"><h2>Program alignment &mdash; all four regions</h2><div class="shr"></div><div class="sht">LQ by target industry</div></div>
+  <p class="fi" style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:16px">LQ &gt; 1.5 = strong regional specialization for that program&rsquo;s target industry. Use to guide curriculum alignment, employer outreach, and student advising priorities.</p>
+  <div style="overflow-x:auto;margin-bottom:32px" class="fi">
+    <table class="ctbl"><thead><tr>
+      <th>Program</th><th>Level</th><th>Target occupation</th>
       <th class="rc">Baltimore</th><th class="rc">Maryland</th><th class="rc">DC Metro</th><th class="rc">Virginia</th>
       <th>Regional strength</th>
-    </tr></thead><tbody id="cmp-tbody"></tbody></table>
+    </tr></thead><tbody id="f-cmp-tbody"></tbody></table>
   </div>
-  <div class="sec-head fade-in"><h2>Program cards</h2><div class="sec-head-rule"></div></div>
-  <div class="prog-grid" id="prog-grid" role="list"></div>
+
+  <div class="sh fi"><h2>Program cards</h2><div class="shr"></div></div>
+  <div class="pgrid" id="prog-grid" role="list"></div>
 </div>
 </div>
-<!-- SOURCES -->
+
+<!-- ═══════════ SOURCES ═══════════ -->
 <div id="view-sources" class="view">
 <div class="container" style="padding-top:32px">
-  <div class="sec-head fade-in"><h2>Data sources &amp; methodology</h2><div class="sec-head-rule"></div></div>
-  <table class="src-table fade-in"><thead><tr><th>Source</th><th>What it feeds</th><th>Update frequency</th><th>Link</th></tr></thead><tbody id="src-tbody"></tbody></table>
-  <div class="sec-head fade-in"><h2>Formula reference</h2><div class="sec-head-rule"></div></div>
-  <div class="fm-grid" id="fm-grid"></div>
+  <div class="sh fi"><h2>Data sources &amp; methodology</h2><div class="shr"></div></div>
+  <table class="stbl fi"><thead><tr><th>Source</th><th>What it feeds</th><th>Update frequency</th><th>Link</th></tr></thead><tbody id="src-tbody"></tbody></table>
+  <div class="sh fi"><h2>Formula reference</h2><div class="shr"></div></div>
+  <div class="fgrid" id="fm-grid"></div>
 </div>
 </div>
-<!-- SETUP -->
+
+<!-- ═══════════ SETUP ═══════════ -->
 <div id="view-setup" class="view">
 <div class="container" style="padding-top:32px">
-  <div class="sec-head fade-in"><h2>Automated weekly refresh</h2><div class="sec-head-rule"></div></div>
+  <div class="sh fi"><h2>Automated weekly refresh</h2><div class="shr"></div></div>
   <p style="font-size:14px;color:var(--ink2);margin-bottom:24px;max-width:680px;line-height:1.8">This dashboard runs fully automated using free tools. The pipeline below runs every Monday at 6 AM UTC.</p>
-  <div class="arch-grid" id="arch-grid"></div>
+  <div class="agrid" id="arch-grid"></div>
 </div>
 </div>
+
 </main>
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-mark">UB</div>
-      <div><div class="footer-unit">Career &amp; Internship Center</div><div class="footer-col">College of Public Affairs</div><div class="footer-col">University of Baltimore</div></div>
+<footer class="sfoot" role="contentinfo">
+  <div class="fi2">
+    <div class="fbb">
+      <div class="fmk">UB</div>
+      <div><div class="fu">Career &amp; Internship Center</div><div class="fc">College of Public Affairs</div><div class="fc">University of Baltimore</div></div>
     </div>
-    <nav aria-label="Quick links">
-      <div class="footer-nh">Quick links</div>
-      <ul class="footer-links">
-        <li><a href="https://www.ubalt.edu/cpa/career-and-internship-center/" class="footer-link">Career &amp; Internship Center</a></li>
-        <li><a href="https://www.ubalt.edu/" class="footer-link">University of Baltimore</a></li>
-        <li><a href="https://www.ubalt.edu/cpa/" class="footer-link">College of Public Affairs</a></li>
-      </ul>
-    </nav>
-    <nav aria-label="Data sources">
-      <div class="footer-nh">Data sources</div>
-      <ul class="footer-links">
-        <li><a href="https://www.bls.gov/oes/" class="footer-link">BLS OEWS &mdash; wages &amp; employment</a></li>
-        <li><a href="https://www.bls.gov/cew/" class="footer-link">BLS QCEW &mdash; regional industry data</a></li>
-        <li><a href="https://www.onetonline.org/" class="footer-link">O*NET &mdash; skills &amp; occupations</a></li>
-        <li><a href="https://www.careeronestop.org/" class="footer-link">CareerOneStop &mdash; job postings</a></li>
-      </ul>
-    </nav>
+    <nav aria-label="Quick links"><div class="fnh">Quick links</div><ul class="flinks">
+      <li><a href="https://www.ubalt.edu/cpa/career-and-internship-center/" class="flink">Career &amp; Internship Center</a></li>
+      <li><a href="https://www.ubalt.edu/" class="flink">University of Baltimore</a></li>
+      <li><a href="https://www.ubalt.edu/cpa/" class="flink">College of Public Affairs</a></li>
+    </ul></nav>
+    <nav aria-label="Data sources"><div class="fnh">Data sources</div><ul class="flinks">
+      <li><a href="https://www.bls.gov/oes/" class="flink">BLS OEWS &mdash; wages &amp; employment</a></li>
+      <li><a href="https://www.bls.gov/cew/" class="flink">BLS QCEW &mdash; regional industry data</a></li>
+      <li><a href="https://www.onetonline.org/" class="flink">O*NET &mdash; skills &amp; occupations</a></li>
+      <li><a href="https://www.careeronestop.org/" class="flink">CareerOneStop &mdash; job postings</a></li>
+    </ul></nav>
   </div>
-  <div class="footer-bot">
+  <div class="fbot">
     <span id="footer-copy">&copy; 2026 University of Baltimore. All rights reserved.</span>
-    <span class="footer-sep">&middot;</span>
-    <span>Labor market data from public BLS APIs. Updated weekly.</span>
-    <span class="footer-sep">&middot;</span>
-    <a href="https://www.ubalt.edu/about-ub/offices-and-services/accessibility/" class="footer-bl">Accessibility</a>
-    <span class="footer-sep">&middot;</span>
-    <a href="https://www.ubalt.edu/about-ub/offices-and-services/legal-affairs/privacy.cfm" class="footer-bl">Privacy</a>
+    <span class="fsep">&middot;</span><span>Labor market data from public BLS APIs. Updated weekly.</span>
+    <span class="fsep">&middot;</span><a href="https://www.ubalt.edu/about-ub/offices-and-services/accessibility/" class="fbl">Accessibility</a>
+    <span class="fsep">&middot;</span><a href="https://www.ubalt.edu/about-ub/offices-and-services/legal-affairs/privacy.cfm" class="fbl">Privacy</a>
   </div>
 </footer>
-
 <script>
 'use strict';
-// Helpers
 function W(n){return '$'+Math.round(n/1000)+'K';}
 function P(n){return (n*100).toFixed(1)+'%';}
 function lqC(lq){return lq>=1.5?'#3B3899':lq>=1.0?'#007A6E':'#8A5C00';}
-function setText(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
-
+function st(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
 var SC={
   'Merrick School of Business':{b:'#1B5E20',bg:'#E8F5E9',t:'#1B5E20'},
   'College of Public Affairs':{b:'#0076A8',bg:'#E5F3FA',t:'#003D5C'},
@@ -401,18 +411,17 @@ var JS=[
 var PAL=['#0076A8','#003D5C','#007A6E','#5B8DB8','#4E7A6A','#8A5C00',
          '#B71C1C','#1B5E20','#4A148C','#E65100','#006064','#37474F',
          '#558B2F','#6A1B9A','#0277BD','#AD1457','#2E7D32','#F57F17','#4527A0','#00695C'];
-var GC='rgba(0,0,0,0.06)', TC='#767676';
-var activeRgn='Baltimore Metro';
+var GC='rgba(0,0,0,0.06)',TC='#767676';
+var fRgn='Baltimore Metro';
+var sRgn='Baltimore Metro';
 var DATA=null;
 
-// Load data
 async function loadData(){
   try{var r=await fetch('./data/labor_market.json');if(r.ok)return await r.json();}catch(e){}
   return SAMPLE_DATA;
 }
 loadData().then(function(d){
-  DATA=d;
-  render();
+  DATA=d;render();
   setTimeout(function(){document.getElementById('loading').classList.add('hidden');},300);
 });
 
@@ -421,14 +430,16 @@ function getInds(rgn){return(DATA.industries&&DATA.industries[rgn])?DATA.industr
 function render(){
   renderMeta();renderSKPI();renderFKPI();
   renderOccs();renderWage();renderBubble();
-  renderLQ(activeRgn);renderGrowth(activeRgn);renderShare(activeRgn);
-  renderCmp();renderProgs();renderSrc();renderFm();renderArch();
-  triggerFades();
+  renderSCmp(sRgn);
+  renderLQ(fRgn);renderGrowth(fRgn);renderShare(fRgn);
+  renderFCmp();renderProgs();
+  renderSrc();renderFm();renderArch();
+  tfi();
 }
 
 function renderMeta(){
-  setText('refresh-date',new Date(DATA.refreshed).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));
-  setText('footer-copy','\u00a9 '+new Date().getFullYear()+' University of Baltimore. All rights reserved.');
+  st('refresh-date',new Date(DATA.refreshed).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));
+  st('footer-copy','\u00a9 '+new Date().getFullYear()+' University of Baltimore. All rights reserved.');
 }
 
 function renderSKPI(){
@@ -437,10 +448,10 @@ function renderSKPI(){
   var fg=o.slice().sort(function(a,b){return b.projGrowth-a.projGrowth;})[0];
   var bg=o.slice().sort(function(a,b){return b.talentGap-a.talentGap;})[0];
   var br=o.filter(function(x){return x.brightOutlook;}).length;
-  setText('s1',W(tw.median));setText('s1b',tw.title);
-  setText('s2','+'+P(fg.projGrowth));setText('s2b',fg.title);
-  setText('s3','+'+bg.talentGap.toLocaleString());
-  setText('s4',''+br);
+  st('s1',W(tw.median));st('s1b',tw.title);
+  st('s2','+'+P(fg.projGrowth));st('s2b',fg.title);
+  st('s3','+'+bg.talentGap.toLocaleString());
+  st('s4',''+br);
 }
 
 function renderFKPI(){
@@ -448,16 +459,15 @@ function renderFKPI(){
   var tl=inds.slice().sort(function(a,b){return b.lq-a.lq;})[0]||{};
   var fi=inds.slice().sort(function(a,b){return b.regGrowth-a.regGrowth;})[0]||{};
   var bp=DATA.programs.filter(function(p){return p.primary_bright;}).length;
-  setText('f1',tl.lq?tl.lq.toFixed(2):'\u2014');setText('f1b',tl.name||'\u2014');
-  setText('f2',''+DATA.programs.length);
-  setText('f3',''+bp);
-  setText('f4',fi.regGrowth!==undefined?'+'+fi.regGrowth.toFixed(1)+'%':'\u2014');
-  setText('f4b',fi.name||'\u2014');
+  st('f1',tl.lq?tl.lq.toFixed(2):'\u2014');st('f1b',tl.name||'\u2014');
+  st('f2',''+DATA.programs.length);
+  st('f3',''+bp);
+  st('f4',fi.regGrowth!==undefined?'+'+fi.regGrowth.toFixed(1)+'%':'\u2014');
+  st('f4b',fi.name||'\u2014');
 }
 
 function renderOccs(){
-  var g=document.getElementById('occ-grid');
-  if(!g)return;
+  var g=document.getElementById('occ-grid');if(!g)return;
   g.innerHTML='';
   DATA.occupations.forEach(function(o){
     var skills=(o.topSkills||[]).map(function(s){return '<span class=\"sk\">'+s+'</span>';}).join('');
@@ -465,43 +475,40 @@ function renderOccs(){
     var tasks=(o.tasks||[]).map(function(t){return '<li>'+t+'</li>';}).join('');
     var jobs=JS.map(function(j){
       var u=(o.jobPostings||{})[j.k];
-      return u?'<a href="'+u+'" target=\"_blank\" rel=\"noopener\" class=\"jl '+j.c+'\">'+j.l+' &#8599;</a>':'';
+      return u?'<a href="'+u+'" target=\"_blank\" rel=\"noopener\" class=\"jl '+j.c+'\">'+j.l+'</a>':'';
     }).join('');
-    var bright=o.brightOutlook?'<div class=\"bright-badge\">&#10022; Bright Outlook</div>':'';
-    var oc=o.outlook?'<span class=\"chip o\">'+o.outlook+'</span>':'';
+    var bright=o.brightOutlook?'<div class=\"bbadge\">&#10022; Bright Outlook</div>':'';
+    var oc=o.outlook&&o.brightOutlook?'<span class=\"chip o\">'+o.outlook+'</span>':'';
     var card=document.createElement('article');
-    card.className='occ-card '+o.demand+' fade-in';
-    card.setAttribute('role','listitem');
+    card.className='oc '+o.demand+' fi';card.setAttribute('role','listitem');
     card.innerHTML=
-      '<div class=\"occ-top\">'+bright+
-        '<div class=\"occ-title\">'+o.title+'</div>'+
-        '<div class=\"occ-ind\">'+o.industry+'</div>'+
-        (o.description?'<div class=\"occ-desc\">'+o.description+'</div>':'')+
+      '<div class=\"otop\">'+bright+
+        '<div class=\"otitle\">'+o.title+'</div>'+
+        '<div class=\"oind\">'+o.industry+'</div>'+
+        (o.description?'<div class=\"odesc\">'+o.description+'</div>':'')+
       '</div>'+
-      '<div class=\"occ-wages\">'+
+      '<div class=\"owages\">'+
         '<div class=\"wi\"><div class=\"wl\">Entry</div><div class=\"wv\">'+W(o.entry)+'</div></div>'+
         '<div class=\"wi\"><div class=\"wl\">Median</div><div class=\"wv\">'+W(o.median)+'</div></div>'+
         '<div class=\"wi\"><div class=\"wl\">Projected</div><div class=\"wv\">'+W(o.future)+'</div></div>'+
       '</div>'+
-      '<div class=\"occ-stats\">'+
-        '<span class=\"chip g\">+'+P(o.projGrowth)+' projected</span>'+
-        '<span class=\"chip d\">&#9889; +'+o.talentGap+' gap</span>'+oc+
+      '<div class=\"ostats\">'+
+        '<span class=\"chip g\">+'+P(o.projGrowth)+' growth</span>'+
+        '<span class=\"chip d\">+'+o.talentGap+' gap</span>'+oc+
       '</div>'+
-      (skills?'<div class=\"slabel\">Top skills</div><div class=\"pill-row\">'+skills+'</div>':'')+
-      (tech?'<div class=\"slabel\">Hot tech</div><div class=\"pill-row\">'+tech+'</div>':'')+
-      (tasks?'<div class=\"slabel\">Common tasks</div><ul class=\"occ-tasks\">'+tasks+'</ul>':'')+
-      '<div class=\"occ-meta\">'+
-        (o.education?'<span class=\"edu-b\">&#127891; '+o.education+'</span>':'')+
-        '<a href=\"'+o.onetUrl+'\" target=\"_blank\" rel=\"noopener\" class=\"onet-l\">O*NET profile &#8599;</a>'+
+      (skills?'<div class=\"slbl\">Top skills</div><div class=\"prow\">'+skills+'</div>':'')+
+      (tech?'<div class=\"slbl\">Hot tech</div><div class=\"prow\">'+tech+'</div>':'')+
+      (tasks?'<div class=\"slbl\">Common tasks</div><ul class=\"otasks\">'+tasks+'</ul>':'')+
+      '<div class=\"ometa\">&#127891; '+o.education+
+        '<a href=\"'+o.onetUrl+'\" target=\"_blank\" rel=\"noopener\" class=\"onetl\">O*NET &#8599;</a>'+
       '</div>'+
-      '<div class=\"jobs-bar\"><span class=\"jlbl\">Find jobs</span>'+jobs+'</div>';
+      '<div class=\"jbar\"><span class=\"jlbl\">Find jobs</span>'+jobs+'</div>';
     g.appendChild(card);
   });
 }
 
 function renderWage(){
-  var ctx=document.getElementById('wageChart');
-  if(!ctx)return;
+  var ctx=document.getElementById('wageChart');if(!ctx)return;
   if(ctx._c)ctx._c.destroy();
   ctx._c=new Chart(ctx,{
     type:'bar',
@@ -520,16 +527,15 @@ function renderWage(){
 }
 
 function renderBubble(){
-  var ctx=document.getElementById('bubbleChart');
-  if(!ctx)return;
+  var ctx=document.getElementById('bubbleChart');if(!ctx)return;
   if(ctx._c)ctx._c.destroy();
   ctx._c=new Chart(ctx,{
     type:'bubble',
-    data:{datasets:DATA.occupations.map(function(o,i){
-      return{label:o.title,
-        data:[{x:+(o.projGrowth*100).toFixed(1),y:Math.round(o.median/1000),r:Math.max(7,o.talentGap/40)}],
-        backgroundColor:PAL[i%PAL.length]+'BB',borderColor:PAL[i%PAL.length],borderWidth:1.5};
-    })},
+    data:{datasets:DATA.occupations.map(function(o,i){return{
+      label:o.title,
+      data:[{x:+(o.projGrowth*100).toFixed(1),y:Math.round(o.median/1000),r:Math.max(7,o.talentGap/40)}],
+      backgroundColor:PAL[i%PAL.length]+'BB',borderColor:PAL[i%PAL.length],borderWidth:1.5
+    };})},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.x+'% growth, '+W(c.parsed.y*1000)+' median';}}}},
       scales:{x:{title:{display:true,text:'Projected growth (%)',color:TC,font:{size:11}},ticks:{color:TC,font:{size:11}},grid:{color:GC}},
@@ -537,16 +543,62 @@ function renderBubble(){
   });
 }
 
-function setRegion(rgn,btn){
-  activeRgn=rgn;
-  var bs=document.querySelectorAll('.rgn-btn');
+/* ── Student region selector ─────────────────────────────────────────── */
+function setSRgn(rgn,btn){
+  sRgn=rgn;
+  var bs=document.querySelectorAll('.rgn-sel .rbtn');
   for(var i=0;i<bs.length;i++){bs[i].classList.remove('active');bs[i].setAttribute('aria-pressed','false');}
   btn.classList.add('active');btn.setAttribute('aria-pressed','true');
-  setText('lq-title','Industry concentration in '+rgn+' vs. nationally');
-  setText('g-sub','Blue = '+rgn+' \u00b7 Gray = national');
+  st('s-cmp-h1',rgn.replace(' Metro',''));
+  renderSCmp(rgn);
+}
+
+/* ── Student multi-region program table ──────────────────────────────── */
+function renderSCmp(rgn){
+  var tbody=document.getElementById('s-cmp-tbody');if(!tbody)return;
+  tbody.innerHTML='';
+  function chip(lq){
+    if(!lq)return '<span style=\"color:var(--ink3)\">\u2014</span>';
+    var cls=lq>=1.5?'lqs':lq>=1.0?'lqm':'lqb';
+    return '<span class=\"lqc '+cls+'\">'+lq.toFixed(2)+'</span>';
+  }
+  var byS={};
+  DATA.programs.forEach(function(p){if(!byS[p.school])byS[p.school]=[];byS[p.school].push(p);});
+  var RGNS=DATA.regions||['Baltimore Metro','Maryland','DC Metro','Virginia Metro'];
+  Object.keys(byS).forEach(function(sc){
+    var s=SC[sc]||{b:'#767676',bg:'#F5F8FA',t:'#444'};
+    var hr=document.createElement('tr');
+    hr.innerHTML='<td colspan=\"6\" style=\"padding:7px 12px;background:'+s.bg+';border-left:3px solid '+s.b+'\"><span style=\"font-size:12px;font-weight:700;color:'+s.t+'\">'+sc+'</span></td>';
+    tbody.appendChild(hr);
+    byS[sc].forEach(function(p){
+      var lqs=p.lq||{};
+      var lq=lqs[rgn]||0;
+      var bright=p.primary_bright?'<span class=\"bbadge\" style=\"font-size:9px;padding:1px 5px\">&#10022; Bright</span>':'';
+      var row=document.createElement('tr');
+      row.innerHTML=
+        '<td style=\"font-weight:500;color:var(--navy);font-size:13px\">'+p.program+'</td>'+
+        '<td style=\"font-size:12px;color:var(--ink3)\">'+p.school.split(' ').slice(0,2).join(' ')+'</td>'+
+        '<td style=\"font-size:12px;color:var(--ink2)\">'+(p.primary_title||'\u2014')+'</td>'+
+        '<td style=\"text-align:center\">'+chip(lq)+'</td>'+
+        '<td style=\"text-align:center\">'+bright+'<span style=\"font-size:12px;color:'+(p.primary_bright?'#007A6E':'#444')+'\">'+(p.primary_outlook||'\u2014')+'</span></td>'+
+        '<td style=\"text-align:center;font-weight:600;color:var(--navy)\">'+W(p.primary_median||0)+'</td>';
+      tbody.appendChild(row);
+    });
+  });
+}
+
+/* ── Faculty region selector ─────────────────────────────────────────── */
+function setFRgn(rgn,btn){
+  fRgn=rgn;
+  var bs=document.querySelectorAll('#view-faculty .rgn-sel .rbtn');
+  for(var i=0;i<bs.length;i++){bs[i].classList.remove('active');bs[i].setAttribute('aria-pressed','false');}
+  btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+  st('f-lq-title','Industry concentration in '+rgn+' vs. nationally');
+  st('f-g-sub','Blue = '+rgn+' \u00b7 Gray = national');
   renderLQ(rgn);renderGrowth(rgn);renderShare(rgn);
 }
 
+/* ── LQ bars ─────────────────────────────────────────────────────────── */
 function renderLQ(rgn){
   var div=document.getElementById('lq-bars');if(!div)return;
   div.innerHTML='';
@@ -557,17 +609,16 @@ function renderLQ(rgn){
     var col=lqC(ind.lq);
     var label=ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg';
     var bg=ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC';
-    var row=document.createElement('div');
-    row.className='lq-row';row.setAttribute('role','listitem');
-    row.innerHTML='<div class=\"lq-name\">'+ind.name+'</div>'+
-      '<div class=\"lq-track\"><div class=\"lq-ref\" aria-hidden=\"true\"></div>'+
-      '<div class=\"lq-fill\" style=\"width:'+pct+'%;background:'+col+'\"></div></div>'+
-      '<div class=\"lq-score\">'+ind.lq.toFixed(2)+'</div>'+
-      '<span class=\"lq-badge\" style=\"background:'+bg+';color:'+col+'\">'+label+'</span>';
+    var row=document.createElement('div');row.className='lrow';row.setAttribute('role','listitem');
+    row.innerHTML='<div class=\"lname\">'+ind.name+'</div>'+
+      '<div class=\"ltrack\"><div class=\"lref\" aria-hidden=\"true\"></div><div class=\"lfill\" style=\"width:'+pct+'%;background:'+col+'\"></div></div>'+
+      '<div class=\"lscore\">'+ind.lq.toFixed(2)+'</div>'+
+      '<span class=\"lbadge\" style=\"background:'+bg+';color:'+col+'\">'+label+'</span>';
     div.appendChild(row);
   }
 }
 
+/* ── Growth chart ────────────────────────────────────────────────────── */
 function renderGrowth(rgn){
   var ctx=document.getElementById('growthChart');if(!ctx)return;
   if(ctx._c)ctx._c.destroy();
@@ -585,6 +636,7 @@ function renderGrowth(rgn){
   });
 }
 
+/* ── Share chart ─────────────────────────────────────────────────────── */
 function renderShare(rgn){
   var ctx=document.getElementById('shareChart');if(!ctx)return;
   if(ctx._c)ctx._c.destroy();
@@ -598,12 +650,13 @@ function renderShare(rgn){
   });
 }
 
-function renderCmp(){
-  var tbody=document.getElementById('cmp-tbody');if(!tbody)return;
+/* ── Faculty multi-region program compare table ──────────────────────── */
+function renderFCmp(){
+  var tbody=document.getElementById('f-cmp-tbody');if(!tbody)return;
   tbody.innerHTML='';
   var RGNS=DATA.regions||['Baltimore Metro','Maryland','DC Metro','Virginia Metro'];
   function chip(lq){
-    if(!lq)return '<span style=\"color:var(--ink3);font-size:12px\">\u2014</span>';
+    if(!lq)return '<span style=\"color:var(--ink3)\">\u2014</span>';
     var cls=lq>=1.5?'lqs':lq>=1.0?'lqm':'lqb';
     return '<span class=\"lqc '+cls+'\">'+lq.toFixed(2)+'</span>';
   }
@@ -616,12 +669,11 @@ function renderCmp(){
     tbody.appendChild(hr);
     byS[sc].forEach(function(p){
       var lqs=p.lq||{};
-      var str=(p.regional_strength&&p.regional_strength!=='nan')?p.regional_strength:
-        RGNS.filter(function(r){return(lqs[r]||0)>=1.5;}).map(function(r){return r.replace(' Metro','');}).join(', ')||'\u2014';
+      var str=(p.regional_strength&&p.regional_strength!=='nan')?p.regional_strength:'\u2014';
       var row=document.createElement('tr');
       row.innerHTML=
         '<td style=\"font-weight:500;color:var(--navy);font-size:13px\">'+p.program+'</td>'+
-        '<td style=\"font-size:12px;color:var(--ink3)\">'+p.school.split(' ').slice(0,2).join(' ')+'</td>'+
+        '<td style=\"font-size:11px;color:var(--ink3)\">'+p.level+'</td>'+
         '<td style=\"font-size:12px;color:var(--ink2)\">'+(p.primary_title||'\u2014')+'</td>'+
         '<td style=\"text-align:center\">'+chip(lqs['Baltimore Metro'])+'</td>'+
         '<td style=\"text-align:center\">'+chip(lqs['Maryland'])+'</td>'+
@@ -633,6 +685,7 @@ function renderCmp(){
   });
 }
 
+/* ── Program cards ───────────────────────────────────────────────────── */
 function renderProgs(){
   var g=document.getElementById('prog-grid');if(!g)return;
   g.innerHTML='';
@@ -646,93 +699,104 @@ function renderProgs(){
     g.appendChild(h);
     byS[sc].forEach(function(p){
       var skills=(p.primary_skills||[]).map(function(sk){return '<span class=\"sk\" style=\"font-size:10px\">'+sk+'</span>';}).join('');
-      var bright=p.primary_bright?'<span class=\"bright-badge\" style=\"font-size:10px\">&#10022; Bright Outlook</span>':'';
+      var bright=p.primary_bright?'<span class=\"bbadge\" style=\"font-size:9px\">&#10022; Bright Outlook</span>':'';
       var lqs=p.lq||{};
       var blq=lqs['Baltimore Metro']?lqs['Baltimore Metro'].toFixed(2):'\u2014';
+      // Faculty insight rows
+      var frows='';
+      if(p.regional_strength&&p.regional_strength!=='nan'&&p.regional_strength!=='')
+        frows+='<div class=\"pfac rs\"><strong>Regional strength:</strong> '+p.regional_strength+'</div>';
+      if(p.curriculum_alignment&&p.curriculum_alignment!=='nan'&&p.curriculum_alignment!=='')
+        frows+='<div class=\"pfac ca\"><strong>Curriculum alignment:</strong> '+p.curriculum_alignment+'</div>';
+      if(p.recommendations&&p.recommendations!=='nan'&&p.recommendations!=='')
+        frows+='<div class=\"pfac rec\"><strong>Recommendation:</strong> '+p.recommendations+'</div>';
       var links=
         '<a href=\"'+(p.primary_jobs_url||'#')+'\" target=\"_blank\" rel=\"noopener\" class=\"jl p\" style=\"font-size:10px\">Find Jobs &#8599;</a>'+
         '<a href=\"'+(p.primary_onet_url||'#')+'\" target=\"_blank\" rel=\"noopener\" class=\"jl s\" style=\"font-size:10px\">O*NET &#8599;</a>'+
         '<a href=\"https://www.mynextmove.org/profile/summary/'+(p.primary_soc||'')+'.00\" target=\"_blank\" rel=\"noopener\" class=\"jl s\" style=\"font-size:10px\">My Next Move &#8599;</a>';
       var card=document.createElement('article');
-      card.className='prog-card fade-in';card.setAttribute('role','listitem');
+      card.className='pc fi';card.setAttribute('role','listitem');
       card.innerHTML=
         '<div class=\"pbar\" style=\"background:'+s.b+'\"></div>'+
-        '<div style=\"display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px\"><span class=\"pcred\">'+(p.level||'')+'</span>'+bright+'</div>'+
+        '<div style=\"display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px\">'+
+          '<span class=\"pcred\">'+p.level+'</span>'+bright+
+        '</div>'+
         '<div class=\"pname\">'+p.program+'</div>'+
-        '<div class=\"pspec\">'+(p.job_outlook||'')+'</div>'+
-        '<div class=\"ptarget\">Career target: <strong>'+(p.primary_title||'\u2014')+'</strong></div>'+
+        '<div style=\"font-size:11px;color:var(--ink3);margin-bottom:4px\">&#127891; Degree required: '+p.education_required+'</div>'+
+        (p.job_outlook&&p.job_outlook!=='nan'?'<div class=\"pspec\">'+p.job_outlook+'</div>':'')+
+        '<div class=\"ptgt\">Career target: <strong>'+(p.primary_title||'\u2014')+'</strong></div>'+
         '<div class=\"pstats\">'+
           '<div><div class=\"psv\">'+W(p.primary_median||0)+'</div><div class=\"psl\">Median wage</div></div>'+
           '<div><div class=\"psv\">'+blq+'</div><div class=\"psl\">Balt. LQ</div></div>'+
-          '<div><div class=\"psv\" style=\"font-size:13px;color:'+(p.primary_bright?'#007A6E':'#444')+'\">'+(p.primary_outlook||'\u2014')+'</div><div class=\"psl\">Outlook</div></div>'+
+          '<div><div class=\"psv\" style=\"font-size:12px;color:'+(p.primary_bright?'#007A6E':'#444')+'\">'+p.primary_outlook+'</div><div class=\"psl\">Outlook</div></div>'+
         '</div>'+
         (skills?'<div class=\"pskills\">'+skills+'</div>':'')+
+        frows+
         '<div class=\"plinks\">'+links+'</div>';
       g.appendChild(card);
     });
   });
 }
 
+/* ── Sources ─────────────────────────────────────────────────────────── */
 function renderSrc(){
-  var tbody=document.getElementById('src-tbody');if(!tbody)return;
-  tbody.innerHTML='';
+  var tbody=document.getElementById('src-tbody');if(!tbody)return;tbody.innerHTML='';
   (DATA.sources||[]).forEach(function(s){
     var row=document.createElement('tr');
     row.innerHTML='<td style=\"font-weight:600;color:var(--navy)\">'+s.name+'</td><td>'+s.use+'</td>'+
-      '<td><span class=\"fb\">'+s.freq+'</span></td>'+
-      '<td><a href=\"'+s.url+'\" target=\"_blank\" rel=\"noopener\">'+s.name+' &#8599;</a></td>';
+      '<td><span class=\"fb\">'+s.freq+'</span></td><td><a href=\"'+s.url+'\" target=\"_blank\" rel=\"noopener\">'+s.name+' &#8599;</a></td>';
     tbody.appendChild(row);
   });
 }
 
 function renderFm(){
-  var g=document.getElementById('fm-grid');if(!g)return;
-  g.innerHTML='';
+  var g=document.getElementById('fm-grid');if(!g)return;g.innerHTML='';
   (DATA.formulas||[]).forEach(function(f){
-    var c=document.createElement('div');c.className='fm-card fade-in';
-    c.innerHTML='<div class=\"fm-name\">'+f.name+'</div><div class=\"fm-use\">'+f.use+'</div><div class=\"fm-eq\">'+f.formula+'</div>';
+    var c=document.createElement('div');c.className='fcard fi';
+    c.innerHTML='<div class=\"fname\">'+f.name+'</div><div class=\"fuse\">'+f.use+'</div><div class=\"feq\">'+f.formula+'</div>';
     g.appendChild(c);
   });
 }
 
 function renderArch(){
-  var g=document.getElementById('arch-grid');if(!g)return;
-  g.innerHTML='';
+  var g=document.getElementById('arch-grid');if(!g)return;g.innerHTML='';
   [{n:'1',ti:'BLS API pull',de:'Fetches wages and QCEW employment for all 39 occupations every Monday at 6 AM UTC.',ta:'Python + BLS API'},
    {n:'2',ti:'O*NET API pull',de:'Fetches skills, hot technologies, tasks, education requirements, and Bright Outlook status.',ta:'O*NET Web Services'},
    {n:'3',ti:'Transform + write JSON',de:'Merges and writes data/labor_market.json including job posting links for 6 platforms.',ta:'pandas + GitHub Actions'},
-   {n:'4',ti:'Auto-deploy',de:'GitHub Actions commits the new JSON and redeploys to GitHub Pages in under 2 minutes.',ta:'GitHub Pages + free'}
+   {n:'4',ti:'Auto-deploy',de:'GitHub Actions commits the new JSON and redeploys to GitHub Pages in under 2 minutes.',ta:'GitHub Pages'}
   ].forEach(function(s){
-    var c=document.createElement('div');c.className='arch-card fade-in';
-    c.innerHTML='<div class=\"arch-num\">'+s.n+'</div><div class=\"arch-title\">'+s.ti+'</div><div class=\"arch-desc\">'+s.de+'</div><span class=\"arch-tag\">'+s.ta+'</span>';
+    var c=document.createElement('div');c.className='acard fi';
+    c.innerHTML='<div class=\"anum\">'+s.n+'</div><div class=\"atitle\">'+s.ti+'</div><div class=\"adesc\">'+s.de+'</div><span class=\"atag\">'+s.ta+'</span>';
     g.appendChild(c);
   });
 }
 
-function switchView(id,btn){
+/* ── Tab switching ───────────────────────────────────────────────────── */
+function sv(id,btn){
   var vs=document.querySelectorAll('.view');for(var i=0;i<vs.length;i++)vs[i].classList.remove('active');
-  var ts=document.querySelectorAll('.nav-tab,.mob-tab');
+  var ts=document.querySelectorAll('.ntab,.mtab');
   for(var i=0;i<ts.length;i++){ts[i].classList.remove('active');ts[i].setAttribute('aria-selected','false');}
   var v=document.getElementById('view-'+id);if(v)v.classList.add('active');
   btn.classList.add('active');btn.setAttribute('aria-selected','true');
-  var all=document.querySelectorAll('.nav-tab,.mob-tab');
+  var all=document.querySelectorAll('.ntab,.mtab');
   for(var i=0;i<all.length;i++){
     var oc=all[i].getAttribute('onclick')||'';
     if(oc.indexOf("'"+id+"'")>-1){all[i].classList.add('active');all[i].setAttribute('aria-selected','true');}
   }
-  triggerFades();
+  tfi();
 }
 
-function triggerFades(){
+/* ── Fade-in ─────────────────────────────────────────────────────────── */
+function tfi(){
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e,i){
       if(e.isIntersecting){
-        (function(el,d){setTimeout(function(){el.classList.add('visible');},d);})(e.target,i*60);
+        (function(el,d){setTimeout(function(){el.classList.add('v');},d);})(e.target,i*60);
         obs.unobserve(e.target);
       }
     });
   },{threshold:0.1});
-  var els=document.querySelectorAll('.fade-in:not(.visible)');
+  var els=document.querySelectorAll('.fi:not(.v)');
   for(var i=0;i<els.length;i++)obs.observe(els[i]);
 }
 
@@ -766,7 +830,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "Doctoral or professional degree",
       "onetUrl": "https://www.onetonline.org/link/summary/23-1011.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/23-1011.00",
       "jobPostings": {
@@ -821,8 +885,8 @@ var SAMPLE_DATA = {
       "projGrowth": 0.18,
       "talentGap": 180,
       "demand": "Moderate",
-      "brightOutlook": false,
-      "outlook": "Average",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
       "description": "",
       "topSkills": [
         "Healthcare",
@@ -830,7 +894,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "Master's degree",
       "onetUrl": "https://www.onetonline.org/link/summary/29-1171.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/29-1171.00",
       "jobPostings": {
@@ -1118,7 +1182,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "High school diploma",
       "onetUrl": "https://www.onetonline.org/link/summary/33-1012.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/33-1012.00",
       "jobPostings": {
@@ -1182,7 +1246,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "Master's degree",
       "onetUrl": "https://www.onetonline.org/link/summary/19-3051.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/19-3051.00",
       "jobPostings": {
@@ -1278,7 +1342,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "Doctoral or professional degree",
       "onetUrl": "https://www.onetonline.org/link/summary/25-1011.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/25-1011.00",
       "jobPostings": {
@@ -1310,7 +1374,7 @@ var SAMPLE_DATA = {
       ],
       "techSkills": [],
       "tasks": [],
-      "education": "Bachelor's degree",
+      "education": "High school diploma",
       "onetUrl": "https://www.onetonline.org/link/summary/33-3051.00",
       "myNextMoveUrl": "https://www.mynextmove.org/profile/summary/33-3051.00",
       "jobPostings": {
@@ -1333,8 +1397,8 @@ var SAMPLE_DATA = {
       "projGrowth": 0.13,
       "talentGap": 50,
       "demand": "Low",
-      "brightOutlook": false,
-      "outlook": "Average",
+      "brightOutlook": true,
+      "outlook": "Bright Outlook",
       "description": "",
       "topSkills": [
         "IT",
@@ -2121,8 +2185,10 @@ var SAMPLE_DATA = {
     {
       "school": "Merrick School of Business",
       "program": "Accounting (BS)",
+      "level": "Bachelor's",
       "primary_soc": "13-2011",
       "secondary_soc": "13-2051",
+      "primary_naics": "5412",
       "primary_title": "Accountants and Auditors",
       "secondary_title": "Financial Analysts",
       "primary_median": 77000,
@@ -2133,6 +2199,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/13-2011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2165,8 +2232,10 @@ var SAMPLE_DATA = {
     {
       "school": "Merrick School of Business",
       "program": "Business Administration (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-1021",
       "secondary_soc": "13-1111",
+      "primary_naics": "5416",
       "primary_title": "General and Operations Managers",
       "secondary_title": "Management Analysts",
       "primary_median": 105000,
@@ -2177,6 +2246,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2209,8 +2279,10 @@ var SAMPLE_DATA = {
     {
       "school": "Merrick School of Business",
       "program": "Entrepreneurship (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-1011",
       "secondary_soc": "11-1021",
+      "primary_naics": "5416",
       "primary_title": "Chief Executives",
       "secondary_title": "General and Operations Managers",
       "primary_median": 185000,
@@ -2221,6 +2293,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-1011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2246,15 +2319,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Merrick School of Business",
       "program": "Finance (BS)",
+      "level": "Bachelor's",
       "primary_soc": "13-2051",
       "secondary_soc": "13-2052",
+      "primary_naics": "5221",
       "primary_title": "Financial Analysts",
       "secondary_title": "Personal Financial Advisors",
       "primary_median": 95000,
@@ -2265,6 +2340,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/13-2051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-2051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2290,15 +2366,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: DC",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Merrick School of Business",
       "program": "Management (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-1021",
       "secondary_soc": "11-9199",
+      "primary_naics": "5416",
       "primary_title": "General and Operations Managers",
       "secondary_title": "Managers, All Other",
       "primary_median": 105000,
@@ -2309,6 +2387,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2334,15 +2413,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Merrick School of Business",
       "program": "Marketing (BS)",
+      "level": "Bachelor's",
       "primary_soc": "13-1161",
       "secondary_soc": "41-3099",
+      "primary_naics": "5418",
       "primary_title": "Market Research Analysts",
       "secondary_title": "Sales Representatives, Services, All Other",
       "primary_median": 68000,
@@ -2353,6 +2434,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/13-1161.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=13-1161&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2378,15 +2460,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Applied Psychology (BA)",
+      "level": "Bachelor's",
       "primary_soc": "21-1021",
       "secondary_soc": "19-3051",
+      "primary_naics": "6242",
       "primary_title": "Child, Family, School Social Workers",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 50000,
@@ -2397,6 +2481,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2422,15 +2507,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Community Studies (BA)",
+      "level": "Bachelor's",
       "primary_soc": "21-1021",
       "secondary_soc": "21-1091",
+      "primary_naics": "6242",
       "primary_title": "Child, Family, School Social Workers",
       "secondary_title": "Health Education Specialists",
       "primary_median": 50000,
@@ -2441,6 +2528,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2466,15 +2554,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Criminal Justice (BS)",
+      "level": "Bachelor's",
       "primary_soc": "33-3051",
       "secondary_soc": "33-1012",
+      "primary_naics": "9221",
       "primary_title": "Police and Sheriff Patrol Officers",
       "secondary_title": "First-Line Supervisors of Police",
       "primary_median": 67000,
@@ -2485,6 +2575,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "High school diploma",
       "primary_onet_url": "https://www.onetonline.org/link/summary/33-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2517,8 +2608,10 @@ var SAMPLE_DATA = {
     {
       "school": "College of Public Affairs",
       "program": "Forensic Studies (BS)",
+      "level": "Bachelor's",
       "primary_soc": "33-3051",
       "secondary_soc": "19-3051",
+      "primary_naics": "9221",
       "primary_title": "Police and Sheriff Patrol Officers",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 67000,
@@ -2529,6 +2622,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "High school diploma",
       "primary_onet_url": "https://www.onetonline.org/link/summary/33-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2554,15 +2648,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore, Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Government and Public Policy (BA)",
+      "level": "Bachelor's",
       "primary_soc": "19-3051",
       "secondary_soc": "13-1111",
+      "primary_naics": "9211",
       "primary_title": "Urban and Regional Planners",
       "secondary_title": "Management Analysts",
       "primary_median": 78000,
@@ -2573,6 +2669,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2598,15 +2695,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Health Systems Management (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-9199",
       "secondary_soc": "29-1141",
+      "primary_naics": "6221",
       "primary_title": "Managers, All Other",
       "secondary_title": "Registered Nurses",
       "primary_median": 110000,
@@ -2617,6 +2716,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-9199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-9199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2642,15 +2742,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Human Services Administration (BS)",
+      "level": "Bachelor's",
       "primary_soc": "21-1021",
       "secondary_soc": "11-9199",
+      "primary_naics": "6242",
       "primary_title": "Child, Family, School Social Workers",
       "secondary_title": "Managers, All Other",
       "primary_median": 50000,
@@ -2661,6 +2763,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2686,15 +2789,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Jurisprudence (BA)",
+      "level": "Bachelor's",
       "primary_soc": "23-2011",
       "secondary_soc": "19-3051",
+      "primary_naics": "5411",
       "primary_title": "Paralegals and Legal Assistants",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 56000,
@@ -2705,6 +2810,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Associate's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/23-2011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-2011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2730,15 +2836,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Nonprofit Management (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-9199",
       "secondary_soc": "13-1111",
+      "primary_naics": "6242",
       "primary_title": "Managers, All Other",
       "secondary_title": "Management Analysts",
       "primary_median": 110000,
@@ -2749,6 +2857,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-9199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-9199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2774,15 +2883,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Public Administration (BS)",
+      "level": "Bachelor's",
       "primary_soc": "11-1021",
       "secondary_soc": "19-3051",
+      "primary_naics": "9211",
       "primary_title": "General and Operations Managers",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 105000,
@@ -2793,6 +2904,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/11-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=11-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2818,15 +2930,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Public Safety and Security (BS)",
+      "level": "Bachelor's",
       "primary_soc": "33-1012",
       "secondary_soc": "33-3051",
+      "primary_naics": "9221",
       "primary_title": "First-Line Supervisors of Police",
       "secondary_title": "Police and Sheriff Patrol Officers",
       "primary_median": 92000,
@@ -2837,6 +2951,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "High school diploma",
       "primary_onet_url": "https://www.onetonline.org/link/summary/33-1012.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=33-1012&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2862,15 +2977,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore, Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Social Work (BSW)",
+      "level": "Bachelor's",
       "primary_soc": "21-1021",
       "secondary_soc": "21-1091",
+      "primary_naics": "6242",
       "primary_title": "Child, Family, School Social Workers",
       "secondary_title": "Health Education Specialists",
       "primary_median": 50000,
@@ -2881,6 +2998,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2906,15 +3024,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Simulation and Game Design (BS)",
+      "level": "Bachelor's",
       "primary_soc": "15-1252",
       "secondary_soc": "27-1024",
+      "primary_naics": "5112",
       "primary_title": "Software Developers",
       "secondary_title": "Graphic Designers",
       "primary_median": 120000,
@@ -2925,6 +3045,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2950,15 +3071,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Strategic Communication (BA)",
+      "level": "Bachelor's",
       "primary_soc": "27-3031",
       "secondary_soc": "27-3043",
+      "primary_naics": "5418",
       "primary_title": "Public Relations Specialists",
       "secondary_title": "Writers and Authors",
       "primary_median": 62000,
@@ -2969,6 +3092,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -2994,15 +3118,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Urban Studies (BA)",
+      "level": "Bachelor's",
       "primary_soc": "19-3051",
       "secondary_soc": "13-1111",
+      "primary_naics": "9211",
       "primary_title": "Urban and Regional Planners",
       "secondary_title": "Management Analysts",
       "primary_median": 78000,
@@ -3013,6 +3139,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3038,15 +3165,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Health Education (MS)",
+      "level": "Master's",
       "primary_soc": "21-1091",
       "secondary_soc": "29-1141",
+      "primary_naics": "6211",
       "primary_title": "Health Education Specialists",
       "secondary_title": "Registered Nurses",
       "primary_median": 60000,
@@ -3057,6 +3186,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1091.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1091&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3082,15 +3212,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "College of Public Affairs",
       "program": "Nursing (MS)",
+      "level": "Master's",
       "primary_soc": "29-1171",
       "secondary_soc": "29-1141",
+      "primary_naics": "6221",
       "primary_title": "Nurse Practitioners",
       "secondary_title": "Registered Nurses",
       "primary_median": 120000,
@@ -3099,8 +3231,9 @@ var SAMPLE_DATA = {
         "Healthcare",
         "Advanced Practice"
       ],
-      "primary_bright": false,
-      "primary_outlook": "Average",
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/29-1171.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=29-1171&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3126,15 +3259,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Applied Information Technology (BS)",
+      "level": "Bachelor's",
       "primary_soc": "15-1252",
       "secondary_soc": "15-1211",
+      "primary_naics": "5415",
       "primary_title": "Software Developers",
       "secondary_title": "Computer Systems Analysts",
       "primary_median": 120000,
@@ -3145,6 +3280,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3170,15 +3306,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Bioinformatics (BS)",
+      "level": "Bachelor's",
       "primary_soc": "15-1252",
       "secondary_soc": "15-1299",
+      "primary_naics": "5415",
       "primary_title": "Software Developers",
       "secondary_title": "Computer Occupations, All Other",
       "primary_median": 120000,
@@ -3189,6 +3327,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3214,15 +3353,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Communication Design (BFA)",
+      "level": "Bachelor's",
       "primary_soc": "27-1024",
       "secondary_soc": "27-3031",
+      "primary_naics": "5414",
       "primary_title": "Graphic Designers",
       "secondary_title": "Public Relations Specialists",
       "primary_median": 53000,
@@ -3233,6 +3374,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3258,15 +3400,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Creative Writing and Culture (BA)",
+      "level": "Bachelor's",
       "primary_soc": "27-3043",
       "secondary_soc": "25-1199",
+      "primary_naics": "5111",
       "primary_title": "Writers and Authors",
       "secondary_title": "Postsecondary Teachers, All Other",
       "primary_median": 69000,
@@ -3277,6 +3421,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-3043.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3043&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3302,15 +3447,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Cybersecurity (BS)",
+      "level": "Bachelor's",
       "primary_soc": "15-1212",
       "secondary_soc": "15-1299",
+      "primary_naics": "5415",
       "primary_title": "Information Security Analysts",
       "secondary_title": "Computer Occupations, All Other",
       "primary_median": 112000,
@@ -3321,6 +3468,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1212.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1212&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3353,8 +3501,10 @@ var SAMPLE_DATA = {
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Digital Communication (BA)",
+      "level": "Bachelor's",
       "primary_soc": "27-3031",
       "secondary_soc": "27-3043",
+      "primary_naics": "5418",
       "primary_title": "Public Relations Specialists",
       "secondary_title": "Writers and Authors",
       "primary_median": 62000,
@@ -3365,6 +3515,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3390,15 +3541,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "English (BA)",
+      "level": "Bachelor's",
       "primary_soc": "27-3043",
       "secondary_soc": "25-1199",
+      "primary_naics": "5111",
       "primary_title": "Writers and Authors",
       "secondary_title": "Postsecondary Teachers, All Other",
       "primary_median": 69000,
@@ -3409,6 +3562,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-3043.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3043&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3434,15 +3588,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "History (BA)",
+      "level": "Bachelor's",
       "primary_soc": "25-1199",
       "secondary_soc": "19-3051",
+      "primary_naics": "6113",
       "primary_title": "Postsecondary Teachers, All Other",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 78000,
@@ -3453,6 +3609,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3478,15 +3635,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Integrated Arts (BA)",
+      "level": "Bachelor's",
       "primary_soc": "27-1024",
       "secondary_soc": "27-3043",
+      "primary_naics": "7111",
       "primary_title": "Graphic Designers",
       "secondary_title": "Writers and Authors",
       "primary_median": 53000,
@@ -3497,6 +3656,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3522,15 +3682,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Interdisciplinary Studies (BA)",
+      "level": "Bachelor's",
       "primary_soc": "25-1199",
       "secondary_soc": "13-1111",
+      "primary_naics": "6113",
       "primary_title": "Postsecondary Teachers, All Other",
       "secondary_title": "Management Analysts",
       "primary_median": 78000,
@@ -3541,6 +3703,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3566,15 +3729,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Philosophy (BA)",
+      "level": "Bachelor's",
       "primary_soc": "25-1199",
       "secondary_soc": "23-1011",
+      "primary_naics": "6113",
       "primary_title": "Postsecondary Teachers, All Other",
       "secondary_title": "Lawyers",
       "primary_median": 78000,
@@ -3585,6 +3750,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3610,15 +3776,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Political Science (BA)",
+      "level": "Bachelor's",
       "primary_soc": "19-3051",
       "secondary_soc": "25-1199",
+      "primary_naics": "9211",
       "primary_title": "Urban and Regional Planners",
       "secondary_title": "Postsecondary Teachers, All Other",
       "primary_median": 78000,
@@ -3629,6 +3797,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3654,15 +3823,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Psychology (BA)",
+      "level": "Bachelor's",
       "primary_soc": "21-1021",
       "secondary_soc": "19-3051",
+      "primary_naics": "6242",
       "primary_title": "Child, Family, School Social Workers",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 50000,
@@ -3673,6 +3844,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/21-1021.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=21-1021&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3698,15 +3870,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Science (BS)",
+      "level": "Bachelor's",
       "primary_soc": "25-1199",
       "secondary_soc": "19-3051",
+      "primary_naics": "6113",
       "primary_title": "Postsecondary Teachers, All Other",
       "secondary_title": "Urban and Regional Planners",
       "primary_median": 78000,
@@ -3717,6 +3891,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/25-1199.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=25-1199&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3742,15 +3917,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Sociology (BA)",
+      "level": "Bachelor's",
       "primary_soc": "19-3051",
       "secondary_soc": "21-1021",
+      "primary_naics": "6242",
       "primary_title": "Urban and Regional Planners",
       "secondary_title": "Child, Family, School Social Workers",
       "primary_median": 78000,
@@ -3761,6 +3938,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Master's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/19-3051.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=19-3051&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3786,15 +3964,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Web Development (BS)",
+      "level": "Bachelor's",
       "primary_soc": "15-1252",
       "secondary_soc": "15-1299",
+      "primary_naics": "5415",
       "primary_title": "Software Developers",
       "secondary_title": "Computer Occupations, All Other",
       "primary_median": 120000,
@@ -3805,6 +3985,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3830,15 +4011,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Applied Information Technology (MS)",
+      "level": "Master's",
       "primary_soc": "15-1252",
       "secondary_soc": "15-1211",
+      "primary_naics": "5415",
       "primary_title": "Software Developers",
       "secondary_title": "Computer Systems Analysts",
       "primary_median": 120000,
@@ -3849,6 +4032,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1252.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1252&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3874,15 +4058,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Data Science (MS)",
+      "level": "Master's",
       "primary_soc": "15-1299",
       "secondary_soc": "13-1161",
+      "primary_naics": "5415",
       "primary_title": "Computer Occupations, All Other",
       "secondary_title": "Market Research Analysts",
       "primary_median": 100000,
@@ -3891,8 +4077,9 @@ var SAMPLE_DATA = {
         "IT",
         "Technology"
       ],
-      "primary_bright": false,
-      "primary_outlook": "Average",
+      "primary_bright": true,
+      "primary_outlook": "Bright Outlook",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/15-1299.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=15-1299&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3918,15 +4105,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Digital Communication (MA)",
+      "level": "Master's",
       "primary_soc": "27-3031",
       "secondary_soc": "27-3043",
+      "primary_naics": "5418",
       "primary_title": "Public Relations Specialists",
       "secondary_title": "Writers and Authors",
       "primary_median": 62000,
@@ -3937,6 +4126,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-3031.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-3031&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -3962,15 +4152,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, Maryland, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Emerging Media (MFA)",
+      "level": "Master's",
       "primary_soc": "27-1024",
       "secondary_soc": "15-1252",
+      "primary_naics": "5112",
       "primary_title": "Graphic Designers",
       "secondary_title": "Software Developers",
       "primary_median": 53000,
@@ -3981,6 +4173,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4006,15 +4199,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Interaction Design (MFA)",
+      "level": "Master's",
       "primary_soc": "27-1024",
       "secondary_soc": "15-1252",
+      "primary_naics": "5414",
       "primary_title": "Graphic Designers",
       "secondary_title": "Software Developers",
       "primary_median": 53000,
@@ -4025,6 +4220,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4050,15 +4246,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "Yale Gordon College of Arts & Sciences",
       "program": "Publications Design (MA)",
+      "level": "Master's",
       "primary_soc": "27-1024",
       "secondary_soc": "27-3043",
+      "primary_naics": "5111",
       "primary_title": "Graphic Designers",
       "secondary_title": "Writers and Authors",
       "primary_median": 53000,
@@ -4069,6 +4267,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Bachelor's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/27-1024.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=27-1024&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4094,15 +4293,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Moderate in: Baltimore, DC, Virginia",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "School of Law",
       "program": "Juris Doctor (JD)",
+      "level": "Doctoral",
       "primary_soc": "23-1011",
       "secondary_soc": "23-2011",
+      "primary_naics": "5411",
       "primary_title": "Lawyers",
       "secondary_title": "Paralegals and Legal Assistants",
       "primary_median": 135000,
@@ -4113,6 +4314,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Doctoral or professional degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/23-1011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-1011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4138,15 +4340,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "School of Law",
       "program": "LLM in Law",
+      "level": "Master's",
       "primary_soc": "23-1011",
       "secondary_soc": "23-2011",
+      "primary_naics": "5411",
       "primary_title": "Lawyers",
       "secondary_title": "Paralegals and Legal Assistants",
       "primary_median": 135000,
@@ -4157,6 +4361,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": true,
       "primary_outlook": "Bright Outlook",
+      "education_required": "Doctoral or professional degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/23-1011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-1011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4182,15 +4387,17 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     },
     {
       "school": "School of Law",
       "program": "MS in Legal Studies",
+      "level": "Bachelor's",
       "primary_soc": "23-2011",
       "secondary_soc": "13-1111",
+      "primary_naics": "5411",
       "primary_title": "Paralegals and Legal Assistants",
       "secondary_title": "Management Analysts",
       "primary_median": 56000,
@@ -4201,6 +4408,7 @@ var SAMPLE_DATA = {
       ],
       "primary_bright": false,
       "primary_outlook": "Average",
+      "education_required": "Associate's degree",
       "primary_onet_url": "https://www.onetonline.org/link/summary/23-2011.00",
       "primary_jobs_url": "https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx?keyword=23-2011&location=Baltimore%2C+MD&radius=25",
       "lq": {
@@ -4226,7 +4434,7 @@ var SAMPLE_DATA = {
       "median_salary": "",
       "job_outlook": "",
       "key_skills": "",
-      "regional_strength": "",
+      "regional_strength": "Strong in: Maryland",
       "curriculum_alignment": "",
       "recommendations": ""
     }
@@ -4234,13 +4442,13 @@ var SAMPLE_DATA = {
   "sources": [
     {
       "name": "BLS OEWS",
-      "use": "Occupation wages & employment",
+      "use": "Occupation wages & employment counts",
       "freq": "Annual (May)",
       "url": "https://www.bls.gov/oes/"
     },
     {
       "name": "BLS QCEW",
-      "use": "Regional industry employment for LQ",
+      "use": "Regional & national industry employment for LQ",
       "freq": "Quarterly",
       "url": "https://www.bls.gov/cew/"
     },
@@ -4252,7 +4460,7 @@ var SAMPLE_DATA = {
     },
     {
       "name": "O*NET Web Services",
-      "use": "Skills, tasks, technology, outlook",
+      "use": "Skills, tasks, technology, education, outlook",
       "freq": "Quarterly",
       "url": "https://services.onetcenter.org/"
     },
@@ -4270,13 +4478,13 @@ var SAMPLE_DATA = {
     },
     {
       "name": "CareerOneStop",
-      "use": "Job postings, local salary, training",
+      "use": "Job postings, local salary, training finder",
       "freq": "Weekly",
       "url": "https://www.careeronestop.org/"
     },
     {
       "name": "USAJobs",
-      "use": "Federal & state government postings",
+      "use": "Federal & state government job postings",
       "freq": "Daily",
       "url": "https://www.usajobs.gov/"
     },
