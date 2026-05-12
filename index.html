@@ -4919,7 +4919,11 @@ DATA.occupations.forEach(o => {
   grid.appendChild(card);
 });
 
-/* ─── REGION STATE + LQ BARS + CHARTS ──────────────────────────────── */
+/* ─── SHARED CHART CONSTANTS (declared once) ─────────────────────── */
+const UB_BLUE='#0076A8', UB_NAVY='#003D5C', TEAL='#007A6E', GRAY='#B0B8C1';
+const gridCol='rgba(0,0,0,0.06)', tickCol='#767676';
+
+/* ─── REGION STATE ────────────────────────────────────────────────── */
 let activeRegion = 'Baltimore Metro';
 
 function selectRegion(region, btn) {
@@ -4929,51 +4933,52 @@ function selectRegion(region, btn) {
   });
   btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
   const el = document.getElementById('lq-chart-title');
-  if (el) el.textContent = `How concentrated is each industry in ${region} vs. nationally?`;
+  if (el) el.textContent = 'How concentrated is each industry in ' + region + ' vs. nationally?';
   const gs = document.getElementById('growth-chart-sub');
-  if (gs) gs.textContent = `Blue = ${region} growth · Gray = national`;
+  if (gs) gs.textContent = 'Blue = ' + region + ' growth · Gray = national';
   renderLQBars(region);
   renderGrowthChart(region);
   renderShareChart(region);
+}
+
+function getInds(region) {
+  return (DATA.industries && DATA.industries[region]) ? DATA.industries[region] : [];
 }
 
 function renderLQBars(region) {
   const lqDiv = document.getElementById('lq-bars');
   if (!lqDiv) return;
   lqDiv.innerHTML = '';
-  const inds = (DATA.industries && DATA.industries[region]) ? DATA.industries[region] : [];
-  inds.forEach(ind => {
+  getInds(region).forEach(ind => {
     const pct = Math.min(95, (ind.lq / 2.0) * 100);
     const row = document.createElement('div');
     row.className = 'lq-row'; row.setAttribute('role','listitem');
-    row.innerHTML = `
-      <div class="lq-name">${ind.name}</div>
-      <div class="lq-track">
-        <div class="lq-ref" title="LQ = 1.0 (national average)" aria-hidden="true"></div>
-        <div class="lq-fill" style="width:${pct}%;background:${lqColor(ind.lq)}"></div>
-      </div>
-      <div class="lq-score">${ind.lq.toFixed(2)}</div>
-      <span class="lq-badge" style="background:${ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC'};color:${lqColor(ind.lq)}">
-        ${ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg'}
-      </span>`;
+    row.innerHTML =
+      '<div class="lq-name">' + ind.name + '</div>' +
+      '<div class="lq-track">' +
+        '<div class="lq-ref" title="LQ = 1.0 national average" aria-hidden="true"></div>' +
+        '<div class="lq-fill" style="width:' + pct + '%;background:' + lqColor(ind.lq) + '"></div>' +
+      '</div>' +
+      '<div class="lq-score">' + ind.lq.toFixed(2) + '</div>' +
+      '<span class="lq-badge" style="background:' + (ind.lq>=1.5?'#EEECFB':ind.lq>=1.0?'#E0F4F2':'#FEF3DC') + ';color:' + lqColor(ind.lq) + '">' +
+        (ind.lq>=1.5?'Strong':ind.lq>=1.0?'Moderate':'Below avg') +
+      '</span>';
     lqDiv.appendChild(row);
   });
 }
 
 function renderGrowthChart(region) {
-  const UB_BLUE='#0076A8', GRAY='#B0B8C1';
-  const gridCol='rgba(0,0,0,0.06)', tickCol='#767676';
-  const growCtx = document.getElementById('growthChart');
-  if (!growCtx) return;
-  if (growCtx._chart) growCtx._chart.destroy();
-  const inds = (DATA.industries && DATA.industries[region]) ? DATA.industries[region] : [];
-  growCtx._chart = new Chart(growCtx, {
+  const inds = getInds(region);
+  const ctx = document.getElementById('growthChart');
+  if (!ctx) return;
+  if (ctx._chart) ctx._chart.destroy();
+  ctx._chart = new Chart(ctx, {
     type:'bar',
     data:{
       labels: inds.map(i => i.name.split(' ').slice(0,2).join(' ')),
       datasets:[
-        { label:`${region} %`, data:inds.map(i=>i.regGrowth), backgroundColor:UB_BLUE, borderRadius:3 },
-        { label:'National %',  data:inds.map(i=>i.natGrowth), backgroundColor:GRAY,    borderRadius:3 }
+        { label: region + ' %', data: inds.map(i=>i.regGrowth), backgroundColor:UB_BLUE, borderRadius:3 },
+        { label:'National %',   data: inds.map(i=>i.natGrowth), backgroundColor:GRAY,    borderRadius:3 }
       ]
     },
     options:{
@@ -4981,24 +4986,22 @@ function renderGrowthChart(region) {
       plugins:{legend:{display:false}},
       scales:{
         x:{ticks:{color:tickCol,font:{size:10}},grid:{display:false}},
-        y:{ticks:{callback:v=>v+'%',color:tickCol,font:{size:11}},grid:{color:gridCol}}
+        y:{ticks:{callback:function(v){return v+'%'},color:tickCol,font:{size:11}},grid:{color:gridCol}}
       }
     }
   });
 }
 
 function renderShareChart(region) {
-  const UB_BLUE='#0076A8', UB_NAVY='#003D5C', TEAL='#007A6E';
-  const tickCol='#767676';
-  const shareCtx = document.getElementById('shareChart');
-  if (!shareCtx) return;
-  if (shareCtx._chart) shareCtx._chart.destroy();
-  const inds = (DATA.industries && DATA.industries[region]) ? DATA.industries[region] : [];
-  shareCtx._chart = new Chart(shareCtx, {
+  const inds = getInds(region);
+  const ctx = document.getElementById('shareChart');
+  if (!ctx) return;
+  if (ctx._chart) ctx._chart.destroy();
+  ctx._chart = new Chart(ctx, {
     type:'doughnut',
     data:{
       labels: inds.map(i=>i.name),
-      datasets:[{ data:inds.map(i=>i.empEnd),
+      datasets:[{ data: inds.map(i=>i.empEnd),
         backgroundColor:[UB_BLUE,UB_NAVY,TEAL,'#5B8DB8','#4E7A6A',
           '#8A5C00','#B71C1C','#1B5E20','#4A148C','#E65100',
           '#006064','#37474F','#558B2F','#6A1B9A','#0277BD',
@@ -5018,108 +5021,100 @@ function renderRegionCompareTable() {
   if (!tbody) return;
   tbody.innerHTML = '';
   const REGIONS = DATA.regions || ['Baltimore Metro','Maryland','DC Metro','Virginia Metro'];
-
-  function lqChip(lq) {
-    if (!lq || lq === 0) return '<span style="color:var(--ink-3);font-size:12px">—</span>';
-    const cls = lq>=1.5 ? 'lq-strong' : lq>=1.0 ? 'lq-moderate' : 'lq-below';
-    return `<span class="lq-chip ${cls}">${lq.toFixed(2)}</span>`;
-  }
-
   const SC = {
     'Merrick School of Business':             {border:'#1B5E20',bg:'#E8F5E9',text:'#1B5E20'},
     'College of Public Affairs':              {border:'#0076A8',bg:'#E5F3FA',text:'#003D5C'},
     'Yale Gordon College of Arts & Sciences': {border:'#4A148C',bg:'#F3E5F5',text:'#4A148C'},
     'School of Law':                          {border:'#B71C1C',bg:'#FFEBEE',text:'#B71C1C'},
   };
+  function lqChip(lq) {
+    if (!lq) return '<span style="color:var(--ink-3);font-size:12px">—</span>';
+    const cls = lq>=1.5 ? 'lq-strong' : lq>=1.0 ? 'lq-moderate' : 'lq-below';
+    return '<span class="lq-chip ' + cls + '">' + lq.toFixed(2) + '</span>';
+  }
   const bySchool = {};
-  DATA.programs.forEach(p => {
+  DATA.programs.forEach(function(p) {
     if (!bySchool[p.school]) bySchool[p.school] = [];
     bySchool[p.school].push(p);
   });
-
-  Object.entries(bySchool).forEach(([school, progs]) => {
+  Object.keys(bySchool).forEach(function(school) {
     const sc = SC[school] || {border:'#767676',bg:'#F5F8FA',text:'#444'};
     const hrow = document.createElement('tr');
-    hrow.innerHTML = `<td colspan="8" style="padding:8px 12px;background:${sc.bg};border-left:3px solid ${sc.border}"><span style="font-size:12px;font-weight:700;color:${sc.text}">${school}</span></td>`;
+    hrow.innerHTML = '<td colspan="8" style="padding:8px 12px;background:' + sc.bg + ';border-left:3px solid ' + sc.border + '"><span style="font-size:12px;font-weight:700;color:' + sc.text + '">' + school + '</span></td>';
     tbody.appendChild(hrow);
-
-    progs.forEach(p => {
+    bySchool[school].forEach(function(p) {
       const lqs = p.lq || {};
-      const strengths = REGIONS.filter(r=>(lqs[r]||0)>=1.5)
-        .map(r=>r.replace(' Metro',''));
-      const strengthText = p.regional_strength && p.regional_strength !== 'nan'
-        ? p.regional_strength
-        : strengths.length > 0 ? strengths.join(', ') : '—';
+      const strengths = REGIONS.filter(function(r){ return (lqs[r]||0)>=1.5; }).map(function(r){ return r.replace(' Metro',''); });
+      const str = (p.regional_strength && p.regional_strength !== 'nan') ? p.regional_strength : (strengths.length ? strengths.join(', ') : '—');
       const row = document.createElement('tr');
-      row.innerHTML = `
-        <td style="font-weight:500;color:var(--navy);font-size:13px">${p.program}</td>
-        <td style="font-size:12px;color:var(--ink-3)">${p.school.split(' ').slice(0,2).join(' ')}</td>
-        <td style="font-size:12px;color:var(--ink-2)">${p.primary_title||'—'}</td>
-        <td style="text-align:center">${lqChip(lqs['Baltimore Metro'])}</td>
-        <td style="text-align:center">${lqChip(lqs['Maryland'])}</td>
-        <td style="text-align:center">${lqChip(lqs['DC Metro'])}</td>
-        <td style="text-align:center">${lqChip(lqs['Virginia Metro'])}</td>
-        <td style="font-size:12px;color:var(--ink-2)">${strengthText}</td>`;
+      row.innerHTML =
+        '<td style="font-weight:500;color:var(--navy);font-size:13px">' + p.program + '</td>' +
+        '<td style="font-size:12px;color:var(--ink-3)">' + p.school.split(' ').slice(0,2).join(' ') + '</td>' +
+        '<td style="font-size:12px;color:var(--ink-2)">' + (p.primary_title||'—') + '</td>' +
+        '<td style="text-align:center">' + lqChip(lqs['Baltimore Metro']) + '</td>' +
+        '<td style="text-align:center">' + lqChip(lqs['Maryland']) + '</td>' +
+        '<td style="text-align:center">' + lqChip(lqs['DC Metro']) + '</td>' +
+        '<td style="text-align:center">' + lqChip(lqs['Virginia Metro']) + '</td>' +
+        '<td style="font-size:12px;color:var(--ink-2)">' + str + '</td>';
       tbody.appendChild(row);
     });
   });
 }
 
 /* ─── STUDENT CHARTS ─────────────────────────────────────────────── */
-const UB_BLUE='#0076A8', UB_NAVY='#003D5C', TEAL='#007A6E', GRAY='#B0B8C1';
-const gridCol='rgba(0,0,0,0.06)', tickCol='#767676';
-const occs = DATA.occupations;
-
-// Wage chart
-const wageCtx = document.getElementById('wageChart');
-if (wageCtx) {
-  if (wageCtx._chart) wageCtx._chart.destroy();
-  wageCtx._chart = new Chart(wageCtx, {
-    type:'bar',
-    data:{
-      labels: occs.map(o=>o.title.length>24?o.title.slice(0,24)+'…':o.title),
-      datasets:[
-        {label:'Entry', data:occs.map(o=>Math.round(o.entry/1000)),  backgroundColor:GRAY,    borderRadius:4},
-        {label:'Median',data:occs.map(o=>Math.round(o.median/1000)), backgroundColor:UB_BLUE, borderRadius:4}
-      ]
-    },
-    options:{
-      indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{ticks:{callback:v=>'$'+v+'K',color:tickCol,font:{size:11}},grid:{color:gridCol}},
-        y:{ticks:{color:tickCol,font:{size:11}},grid:{display:false}}
+(function() {
+  const occs = DATA.occupations;
+  const wageCtx = document.getElementById('wageChart');
+  if (wageCtx) {
+    if (wageCtx._chart) wageCtx._chart.destroy();
+    wageCtx._chart = new Chart(wageCtx, {
+      type:'bar',
+      data:{
+        labels: occs.map(function(o){ return o.title.length>22?o.title.slice(0,22)+'…':o.title; }),
+        datasets:[
+          {label:'Entry', data:occs.map(function(o){ return Math.round(o.entry/1000); }),  backgroundColor:GRAY,    borderRadius:4},
+          {label:'Median',data:occs.map(function(o){ return Math.round(o.median/1000); }), backgroundColor:UB_BLUE, borderRadius:4}
+        ]
+      },
+      options:{
+        indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{ticks:{callback:function(v){return '$'+v+'K';},color:tickCol,font:{size:11}},grid:{color:gridCol}},
+          y:{ticks:{color:tickCol,font:{size:11}},grid:{display:false}}
+        }
       }
-    }
-  });
-}
-
-// Bubble chart
-const bubbleCtx = document.getElementById('bubbleChart');
-if (bubbleCtx) {
-  if (bubbleCtx._chart) bubbleCtx._chart.destroy();
-  bubbleCtx._chart = new Chart(bubbleCtx, {
-    type:'bubble',
-    data:{datasets:occs.map((o,i)=>({
-      label:o.title,
-      data:[{x:+(o.projGrowth*100).toFixed(1),y:Math.round(o.median/1000),r:Math.max(7,o.talentGap/40)}],
-      backgroundColor:[UB_BLUE+'BB',UB_NAVY+'BB',TEAL+'BB','#5B8DB8BB','#4E7A6ABB','#8A5C00BB'][i%6],
-      borderColor:    [UB_BLUE,    UB_NAVY,    TEAL,    '#5B8DB8',   '#4E7A6A',  '#8A5C00' ][i%6],
-      borderWidth:1.5
-    }))},
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.x}% growth, ${fmt$(ctx.parsed.y*1000)} median`}}},
-      scales:{
-        x:{title:{display:true,text:'Projected growth (%)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}},
-        y:{title:{display:true,text:'Median wage ($K)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}}
+    });
+  }
+  const bubbleCtx = document.getElementById('bubbleChart');
+  if (bubbleCtx) {
+    if (bubbleCtx._chart) bubbleCtx._chart.destroy();
+    const palette = [UB_BLUE,UB_NAVY,TEAL,'#5B8DB8','#4E7A6A','#8A5C00'];
+    bubbleCtx._chart = new Chart(bubbleCtx, {
+      type:'bubble',
+      data:{datasets:occs.map(function(o,i){
+        return {
+          label:o.title,
+          data:[{x:+(o.projGrowth*100).toFixed(1), y:Math.round(o.median/1000), r:Math.max(7,o.talentGap/40)}],
+          backgroundColor:palette[i%6]+'BB',
+          borderColor:palette[i%6],
+          borderWidth:1.5
+        };
+      })},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(ctx){ return ctx.dataset.label+': '+ctx.parsed.x+'% growth, '+fmt$(ctx.parsed.y*1000)+' median'; }}}},
+        scales:{
+          x:{title:{display:true,text:'Projected growth (%)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}},
+          y:{title:{display:true,text:'Median wage ($K)',color:tickCol,font:{size:11}},ticks:{color:tickCol,font:{size:11}},grid:{color:gridCol}}
+        }
       }
-    }
-  });
-}
+    });
+  }
+})();
 
-// Initial region render
+/* ─── INITIAL RENDER ─────────────────────────────────────────────── */
 renderLQBars('Baltimore Metro');
 renderGrowthChart('Baltimore Metro');
 renderShareChart('Baltimore Metro');
