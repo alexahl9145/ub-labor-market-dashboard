@@ -1,97 +1,95 @@
-[README.md](https://github.com/user-attachments/files/27657415/README.md)
+[README.md](https://github.com/user-attachments/files/27713614/README.md)
 # UB Labor Market Intelligence Dashboard
 
-Weekly auto-refreshing public webpage for UB Career & Internship Center.
-
-## What this is
-
-A single-file static website (`index.html`) that reads `data/labor_market.json`
-and renders live labor market data for students and faculty. A Python script
-fetches from the BLS API every Monday and updates the JSON automatically.
+Weekly auto-refreshing public dashboard for the University of Baltimore Career & Internship Center.
+**Law School and all law-affiliated programs are excluded per policy.**
 
 ---
 
-## Folder structure
+## Package contents
 
 ```
 ub-dashboard/
-├── index.html                         # The public webpage
+├── index.html                          # Complete dashboard (students + faculty)
 ├── data/
-│   └── labor_market.json              # Auto-generated weekly — do not edit manually
+│   └── labor_market.json               # Live data — auto-updated weekly
 ├── scripts/
-│   └── weekly_refresh.py              # BLS data fetch + transform script
-└── .github/
-    └── workflows/
-        └── weekly_refresh.yml         # GitHub Actions cron job (Monday 6 AM)
+│   └── weekly_refresh.py               # BLS + O*NET data pipeline
+├── .github/
+│   └── workflows/
+│       └── weekly_refresh.yml          # GitHub Actions cron automation
+└── README.md
 ```
+
+---
+
+## Features
+
+### Student view
+- Occupation cards with **degree required**, Bright Outlook badge, top skills, wages
+- Clickable **O*NET job postings by region** link on every card
+- Direct job search links: CareerOneStop, USAJobs, LinkedIn, Indeed, Idealist, MD State Jobs
+- **Region selector** (Baltimore Metro / Maryland / DC Metro / Virginia Metro) switches the program alignment table
+- Program alignment table shows LQ, alignment strength, outlook, median wage, and job posting links for all 44 programs
+- CSV export: occupations, programs
+- JSON export: full dataset
+
+### Faculty view
+- **No cards** — table-only layout for dense data comparison
+- **Region selector** switches Location Quotient bars, growth chart, and employment share donut
+- Multi-region program alignment table: all 44 programs × 4 regions with color-coded LQ chips
+- Regional strength, curriculum alignment, and recommendations columns
+- CSV export: alignment data, industry data
+- WCAG 2 AA compliant throughout
 
 ---
 
 ## Deployment (GitHub Pages — free)
 
-1. Create a new GitHub repository (public)
-2. Upload all files in this folder
+1. Create a public GitHub repository
+2. Upload all files (index.html must be at root level)
 3. Go to **Settings → Pages → Source → Deploy from branch → main / root**
-4. Your site is live at `https://yourusername.github.io/ub-dashboard/`
-
-Optional: add a custom domain like `careers.ubalt.edu/market` via Settings → Pages → Custom domain.
+4. Site is live at `https://yourusername.github.io/ub-labor-market-dashboard/`
 
 ---
 
-## Setting up the BLS API key
+## GitHub Secrets (Settings → Secrets and variables → Actions)
 
-1. Register for a free API key at https://data.bls.gov/registrationEngine/
-2. In your GitHub repo, go to **Settings → Secrets and variables → Actions**
-3. Click **New repository secret**
-4. Name: `BLS_API_KEY` · Value: your key
-
-The GitHub Actions workflow automatically uses this secret every Monday.
+| Secret name  | Where to get it                                | Required? |
+|---|---|---|
+| `BLS_API_KEY`  | Register free: data.bls.gov/registrationEngine/ | Yes |
+| `ONET_API_KEY` | Register free: services.onetcenter.org/developer/ | Yes |
 
 ---
 
 ## Manual refresh
 
-To run the data refresh manually from your terminal:
-
 ```bash
-BLS_API_KEY=your_key_here python scripts/weekly_refresh.py
+BLS_API_KEY=your_key ONET_API_KEY=your_key python scripts/weekly_refresh.py
 ```
 
-Or trigger it from GitHub UI: **Actions → Weekly Labor Market Refresh → Run workflow**
-
----
-
-## Updating occupations or programs
-
-Edit the `OCCUPATION_META` and `PROGRAMS` dictionaries in `scripts/weekly_refresh.py`.
-The changes take effect on the next weekly run, or immediately after a manual run.
-
-To add a new occupation:
-1. Find its SOC code at https://www.onetonline.org/
-2. Look up its BLS OEWS series ID for Baltimore Metro at https://www.bls.gov/oes/
-3. Add a new entry to `OCCUPATION_SERIES` and `OCCUPATION_META`
-
----
-
-## Connecting to Lightcast (optional upgrade)
-
-If your institution has a Lightcast license, replace the `bls_fetch()` call
-with the Lightcast API to get real-time posting counts, talent gap scores,
-and emerging skills data. Contact your Lightcast rep for API credentials.
+Or trigger from GitHub: **Actions → Weekly Labor Market Refresh → Run workflow**
 
 ---
 
 ## Data sources
 
-| Source | What it provides | Frequency |
-|--------|-----------------|-----------|
-| BLS OEWS | Occupation wages & employment | Annual |
+| Source | Provides | Frequency |
+|---|---|---|
+| BLS OEWS | Occupation wages | Annual (May) |
 | BLS QCEW | Regional industry employment | Quarterly |
-| BLS Projections | Future demand | Biennial |
-| O*NET | Skills & education requirements | Quarterly |
-| Handshake/UBworks | Job posting counts | Weekly export |
-| Lightcast (optional) | Real-time postings & skills | Weekly |
+| BLS Projections | Future occupational demand | Biennial |
+| O*NET Web Services | Skills, education, Bright Outlook | Quarterly |
 
 ---
 
-*Built for UB Career & Internship Center · College of Public Affairs*
+## Schools included
+- Merrick School of Business
+- College of Public Affairs
+- Yale Gordon College of Arts & Sciences
+
+**School of Law excluded per dashboard policy.**
+
+---
+
+*University of Baltimore Career & Internship Center · careerservices@ubalt.edu*
