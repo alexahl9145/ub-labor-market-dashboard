@@ -42,21 +42,19 @@ jobs:
       - name: Run BLS refresh script
         env:
           BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
-        run: python weekly_refresh.py
+        run: python scripts/weekly_refresh.py
 
       - name: Commit updated data
         run: |
           git config user.name  "UB Labor Market Bot"
           git config user.email "bot@ubalt.edu"
-          git add labor_market_data_v3.json
+          git add data/labor_market.json
           git diff --staged --quiet || git commit -m "chore: weekly labor market refresh $(date +'%Y-%m-%d')"
           git push
 
   # ── Job 2: Deploy site to GitHub Pages ───────────────────────────────────
   deploy:
     runs-on: ubuntu-latest
-    needs: [refresh]
-    if: always()
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
