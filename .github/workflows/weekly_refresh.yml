@@ -7,22 +7,20 @@ on:
   push:
     branches: [main]        # Also deploy on every push to main
 
-# Required for GitHub Pages deployment
 permissions:
   contents: write
   pages: write
   id-token: write
 
-# Only allow one deployment at a time
 concurrency:
   group: pages
   cancel-in-progress: false
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Opt into Node.js 24 now
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ── Job 1: Refresh BLS data (schedule / manual only) ─────────────────────
+  # ── Job 1: Refresh BLS + O*NET + UBWorks data ─────────────────────────────
   refresh:
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -39,9 +37,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests pandas
 
-      - name: Run BLS refresh script
+      - name: Run data refresh script
         env:
-          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          BLS_API_KEY:         ${{ secrets.BLS_API_KEY }}
+          ONET_API_KEY:        ${{ secrets.ONET_API_KEY }}
+          SYMPLICITY_API_KEY:  ${{ secrets.SYMPLICITY_API_KEY }}
+          SYMPLICITY_BASE_URL: ${{ secrets.SYMPLICITY_BASE_URL }}
         run: python scripts/weekly_refresh.py
 
       - name: Commit updated data
@@ -51,12 +52,8 @@ jobs:
           git add data/labor_market.json
           git diff --staged --quiet || git commit -m "chore: weekly labor market refresh $(date +'%Y-%m-%d')"
           git push
-env:
-          BLS_API_KEY:          ${{ secrets.BLS_API_KEY }}
-          ONET_API_KEY:         ${{ secrets.ONET_API_KEY }}
-          SYMPLICITY_API_KEY:   ${{ secrets.SYMPLICITY_API_KEY }}
-          SYMPLICITY_BASE_URL:  ${{ secrets.SYMPLICITY_BASE_URL }}
-  # ── Job 2: Deploy site to GitHub Pages ───────────────────────────────────
+
+  # ── Job 2: Deploy to GitHub Pages ─────────────────────────────────────────
   deploy:
     runs-on: ubuntu-latest
     environment:
@@ -67,7 +64,7 @@ env:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Create .nojekyll (prevents Jekyll from blocking files)
+      - name: Create .nojekyll
         run: touch .nojekyll
 
       - name: Setup GitHub Pages
