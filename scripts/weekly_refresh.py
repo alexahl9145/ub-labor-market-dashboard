@@ -24,16 +24,17 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 log = logging.getLogger(__name__)
 
 # ── Credentials (set as GitHub Secrets) ──────────────────────────────────────
-BLS_API_KEY   = os.environ.get("BLS_API_KEY", "")
-ONET_API_KEY = os.environ.get("ONET_API_KEY", "")
+BLS_API_KEY         = os.environ.get("BLS_API_KEY", "")
+ONET_API_KEY        = os.environ.get("ONET_API_KEY", "")
+SYMPLICITY_KEY      = os.environ.get("SYMPLICITY_API_KEY", "")
+SYMPLICITY_BASE     = os.environ.get("SYMPLICITY_BASE_URL", "").rstrip("/")
 
 # ── API endpoints ─────────────────────────────────────────────────────────────
 BLS_URL        = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 ONET_BASE      = "https://services.onetcenter.org/ws"
 ONET_CAREER    = f"{ONET_BASE}/mnm/careers"          # My Next Move career report
 ONET_ONLINE    = f"{ONET_BASE}/online/occupations"   # O*NET OnLine full report
-SYMPLICITY_BASE = os.environ.get("SYMPLICITY_BASE_URL", "").rstrip("/")
-SYMPLICITY_KEY  = os.environ.get("SYMPLICITY_API_KEY", "")
+
 OUTPUT_FILE    = Path(__file__).parent.parent / "data" / "labor_market.json"
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -410,70 +411,97 @@ def build_programs(occupations: list) -> list:
             "secondary_growth":   sec.get("projGrowth", 0),
         })
     return result
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════════════════════════
+# SYMPLICITY / UBWORKS  —  Live job posting counts
+# Auth: Authorization: Token <key>  (note: "Token" not "Bearer")
+# Rate limit: 100 calls / 10 per second / 10,000 per 24 hours
+# ══════════════════════════════════════════════════════════════════════════════
+
 def fetch_ubworks_postings():
     """
     Pull active job posting counts from UBWorks (Symplicity CSM).
-    Returns dict: { soc_or_keyword: count } mapped to occupations.
-    Rate limit: 100 calls / 10 per second / 10,000 per 24 hours.
+    Returns dict with total count and breakdown by job type.
+    Gracefully skips if credentials are not set.
     """
     if not SYMPLICITY_BASE or not SYMPLICITY_KEY:
-        log.warning("No Symplicity credentials — UBWorks data skipped.")
-        return {}
+        log.warning("No Symplicity credentials — UBWorks posting counts skipped.")
+        return {"total": 0, "by_type": {}}
 
     headers = {
         "Authorization": f"Token {SYMPLICITY_KEY}",
         "Accept":        "application/json",
     }
 
-    try:
-        url = f"{SYMPLICITY_BASE}/api/public/v1/jobs"
-        params = {"status": "approved", "per_page": 500, "page": 1}
-        all_jobs = []
+    all_jobs = []
+    page     = 1
 
-        # Page through results
+    try:
         while True:
+            url    = f"{SYMPLICITY_BASE}/api/public/v1/jobs"
+            params = {"status": "approved", "per_page": 500, "page": page}
+
             r = requests.get(url, headers=headers, params=params, timeout=30)
+
             if r.status_code == 401:
-                log.error("Symplicity 401 — check SYMPLICITY_API_KEY and add 'Token ' prefix")
-                break
+                log.error("Symplicity 401 Unauthorized — verify SYMPLICITY_API_KEY is correct.")
+                return {"total": 0, "by_type": {}}
+
+            if r.status_code == 404:
+                log.error(f"Symplicity 404 — verify SYMPLICITY_BASE_URL is correct: {SYMPLICITY_BASE}")
+                return {"total": 0, "by_type": {}}
+
             if r.status_code == 429:
-                log.warning("Symplicity rate limit hit — waiting 10s")
-                import time; time.sleep(10)
+                log.warning("Symplicity rate limit — waiting 15s and retrying.")
+                time.sleep(15)
                 continue
+
             r.raise_for_status()
-            data  = r.json()
-            batch = data.get("data", data if isinstance(data, list) else [])
+            payload = r.json()
+
+            # API may return {"data": [...]} or a bare list
+            if isinstance(payload, list):
+                batch = payload
+            elif isinstance(payload, dict):
+                batch = payload.get("data", payload.get("jobs", payload.get("results", [])))
+            else:
+                batch = []
+
             all_jobs.extend(batch)
-            # Stop if no more pages
+            log.info(f"  UBWorks page {page}: {len(batch)} postings")
+
+            # Stop paging when we get a short page
             if len(batch) < 500:
                 break
-            params["page"] += 1
+            page += 1
 
-        log.info(f"UBWorks: {len(all_jobs)} active postings fetched")
+        log.info(f"UBWorks total: {len(all_jobs)} active postings fetched")
 
-        # Count by job type / category label
-        counts_by_type = {}
+        # Count by job type / category
+        by_type = {}
         for job in all_jobs:
-            # Try multiple possible field names Symplicity uses
             category = (
-                job.get("job_type", {}).get("label")
-                or job.get("position_type", {}).get("label")
-                or job.get("type", "")
-                or "General"
+                (job.get("job_type")   or {}).get("label")
+                or (job.get("position_type") or {}).get("label")
+                or job.get("type", "General")
             )
-            counts_by_type[category] = counts_by_type.get(category, 0) + 1
+            by_type[category] = by_type.get(category, 0) + 1
 
-        # Also count total
-        counts_by_type["_total"] = len(all_jobs)
-        return counts_by_type
+        return {"total": len(all_jobs), "by_type": by_type}
 
+    except requests.exceptions.ConnectionError:
+        log.error(f"Symplicity connection failed — check SYMPLICITY_BASE_URL: {SYMPLICITY_BASE}")
+        return {"total": 0, "by_type": {}}
     except Exception as e:
         log.error(f"Symplicity API error: {e}")
-        return {}
+        return {"total": 0, "by_type": {}}
 
-# ══════════════════════════════════════════════════════════════════════════════
-# MAIN
-# ══════════════════════════════════════════════════════════════════════════════
+
 def main():
     log.info("═" * 60)
     log.info("UB Labor Market weekly refresh — %s", datetime.now(timezone.utc).isoformat())
@@ -499,13 +527,21 @@ def main():
     occupations = build_occupations(bls_data, onet_cache)
     programs    = build_programs(occupations)
 
+    # ── Fetch UBWorks (Symplicity) live posting counts ────────────────────
+    ubworks = fetch_ubworks_postings()
+
     output = {
         "refreshed":    datetime.now(timezone.utc).isoformat(),
         "region":       "Baltimore Metro",
         "dataWindow":   "2022–2026",
         "apiSources":   {
-            "bls":  "https://www.bls.gov/developers/",
-            "onet": "https://services.onetcenter.org/",
+            "bls":        "https://www.bls.gov/developers/",
+            "onet":       "https://services.onetcenter.org/",
+            "symplicity": SYMPLICITY_BASE or "not configured",
+        },
+        "ubworks": {
+            "total":   ubworks.get("total", 0),
+            "by_type": ubworks.get("by_type", {}),
         },
         "occupations":  occupations,
         "programs":     programs,
@@ -518,10 +554,7 @@ def main():
     log.info("✓ Wrote %s — %d occupations, %d programs", OUTPUT_FILE, len(occupations), len(programs))
     log.info("  BLS live wages:  %d/%d series", len(bls_data), len(all_series))
     log.info("  O*NET records:   %d/%d occupations", len(onet_cache), len(unique_socs))
-ubworks = fetch_ubworks_postings()
-# Add to output data
-output_data["ubworks_total"]    = ubworks.get("_total", 0)
-output_data["ubworks_by_type"]  = {k: v for k, v in ubworks.items() if not k.startswith("_")}
+
 
 if __name__ == "__main__":
     main()
