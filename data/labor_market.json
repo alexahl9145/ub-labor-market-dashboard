@@ -1446,7 +1446,7 @@
         "Virginia Metro": "Strong (1.63)"
       },
       "regional_strength": "Strong across all regions",
-      "curriculum_alignment": "Excellent",
+      "curriculum_alignment": "Strong alignment with regional finance and consulting sector. Curriculum well-matched to CPA licensure pathways. Consider adding data analytics and forensic accounting modules to address growing employer demand.",
       "recommendations": "Consider adding data analytics module",
       "top_industries": "Accounting Services, Consulting",
       "top_occupations": "Accountants, Financial Analysts",
@@ -1500,7 +1500,7 @@
         "Virginia Metro": "Strong (1.28)"
       },
       "regional_strength": "Strongest in DC Metro",
-      "curriculum_alignment": "Strong",
+      "curriculum_alignment": "Well-aligned with DC Metro management consulting demand. Curriculum should emphasize data-driven decision making, digital transformation, and cross-functional project leadership to match current employer expectations.",
       "recommendations": "Emphasize consulting skills",
       "top_industries": "Management Consulting, Corporate HQ",
       "top_occupations": "Operations Managers, Analysts",
@@ -1554,7 +1554,7 @@
         "Virginia Metro": "Strong (1.28)"
       },
       "regional_strength": "Strong in Balt., DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate regional LQ but strong match for Baltimore's emerging startup and social enterprise ecosystem. Consider integrating fintech, impact investing, and small business development partnerships.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1608,7 +1608,7 @@
         "Virginia Metro": "Low (0.68)"
       },
       "regional_strength": "Strong in Balt., DC",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Good alignment with financial services and depository credit intermediation sector. Strong LQ in all four regions. Adding Bloomberg certification, ESG investing, and financial modeling competencies would strengthen placement rates.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1662,7 +1662,7 @@
         "Virginia Metro": "Strong (1.28)"
       },
       "regional_strength": "Strong in Balt., DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Aligned with management and technical consulting demand. Curriculum benefits from emphasizing operations management, supply chain resilience, and change management competencies valued by regional employers.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1716,7 +1716,7 @@
         "Virginia Metro": "Strong (1.29)"
       },
       "regional_strength": "Strong in MD, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate alignment with advertising and marketing services sector. Digital marketing analytics, SEO, and customer data platforms are high-demand skills not yet fully embedded in most curricula.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1770,7 +1770,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with social services and community mental health sector. Curriculum well-suited for case management and behavioral health careers. Recommend adding motivational interviewing and trauma-informed care modules.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1824,7 +1824,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Well-aligned with nonprofit and human resource programs sector across Maryland and DC Metro. Community-based practice emphasis matches employer expectations. Adding grant writing and program evaluation strengthens graduate outcomes.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1878,7 +1878,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong government presence",
-      "curriculum_alignment": "Good",
+      "curriculum_alignment": "Strong government and public safety presence across all four regions. Curriculum aligns with law enforcement, corrections, and court administration pathways. Consider adding cybercrime, restorative justice, and evidence-based policing tracks.",
       "recommendations": "Add cybercrime specialization",
       "top_industries": "Law Enforcement, Public Safety",
       "top_occupations": "Police Officers, Supervisors",
@@ -1932,7 +1932,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt., MD",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Solid alignment with justice and public safety sector. Laboratory methods, evidence processing, and digital forensics components are well-matched to regional crime lab and law enforcement demand. Recommend expanding crime scene simulation labs.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -1986,7 +1986,7 @@
         "Virginia Metro": "Strong (1.4)"
       },
       "regional_strength": "Strong in Balt., VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC Metro alignment with government and executive/legislative sectors. Policy analysis, regulatory affairs, and legislative research competencies are highly transferable. Recommend adding GIS and data visualization for policy presentation.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2040,7 +2040,7 @@
         "Virginia Metro": "Strong (1.28)"
       },
       "regional_strength": "Strong in Balt., MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong regional alignment with hospital and healthcare sector. Curriculum well-matched to healthcare administration pathways. Adding healthcare finance, quality improvement (CPHQ prep), and EHR systems training would increase placement rates.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2094,7 +2094,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Well-aligned with nonprofit, community, and social services sector across all regions. Administrative competencies in budgeting, HR, and program management match employer needs. Consider adding Salesforce Nonprofit and Apricot training.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2148,7 +2148,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with social services and community organization sector. Curriculum benefits from emphasizing impact measurement, board governance, donor relations, and federal grant compliance to match regional nonprofit employer needs.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2202,7 +2202,7 @@
         "Virginia Metro": "Strong (1.4)"
       },
       "regional_strength": "Strong in Balt., VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Aligned with government and HR programs sector. Strong DC and Maryland pathways for federal and state civil service. MPA articulation pathway recommended. Adding public budgeting and FOIA/transparency competencies strengthens positioning.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2256,7 +2256,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt., MD",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with justice and public safety sector across all four regions. Curriculum should integrate emergency management (FEMA), cybersecurity fundamentals, and homeland security policy to meet growing interdisciplinary employer demand.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2310,7 +2310,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with community and social services sector. CSWE-accredited pathway well-matched to licensure (LGSW) requirements. Field placement partnerships with Baltimore City agencies and community health centers strengthen graduate readiness.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2364,7 +2364,7 @@
         "Virginia Metro": "Strong (1.62)"
       },
       "regional_strength": "Strong in Balt., DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC/Virginia tech and federal contractor demand for simulation, training systems, and serious games. Unique regional opportunity in federal defense and education simulation markets. Unity, Unreal, and XR development skills are employer priorities.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2418,7 +2418,7 @@
         "Virginia Metro": "Strong (1.29)"
       },
       "regional_strength": "Strong in MD, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate alignment with advertising and public relations sector. Government and nonprofit communications pathways are strong in DC Metro. Adding digital analytics, crisis communications, and multimedia content production strengthens curriculum relevance.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2472,7 +2472,7 @@
         "Virginia Metro": "Strong (1.4)"
       },
       "regional_strength": "Strong in Balt., VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC and Maryland alignment with urban planning and government sector. GIS, community development finance, and housing policy competencies are highly valued by regional planning agencies and CDFIs. Recommend AICP exam preparation pathway.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2526,7 +2526,7 @@
         "Virginia Metro": "Strong (1.39)"
       },
       "regional_strength": "Strong in VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong regional alignment with healthcare and community health sector. MPH articulation and CHES certification preparation are key differentiators. Curriculum well-matched to health disparities, community outreach, and wellness program management roles.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2580,7 +2580,7 @@
         "Virginia Metro": "Strong (1.28)"
       },
       "regional_strength": "Strong in Balt., MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Exceptional alignment across all four regions. Nurse practitioner track directly matches regional healthcare workforce shortage. APRN licensure preparation, clinical placement partnerships, and telehealth competencies are critical curriculum components.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2634,7 +2634,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Strong in MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong regional alignment with computer systems design and software sector. Curriculum should emphasize cloud platforms (AWS/Azure), cybersecurity fundamentals, and Agile project management to meet employer expectations in the DC/VA tech corridor.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2688,7 +2688,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Strong in MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Unique intersection of technology and life sciences. Strong DC/VA biotech and NIH-adjacent corridor demand. Python, R, genomic data analysis, and bioinformatics pipelines are core employer competencies. STEM visa pathways available for international students.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2742,7 +2742,7 @@
         "Virginia Metro": "Moderate (1.08)"
       },
       "regional_strength": "Strong in MD, DC",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate regional LQ but UX/UI and visual design competencies are increasingly valued by tech employers and federal contractors. Figma, Adobe Creative Suite, and accessibility design (WCAG) skills should be embedded across all design courses.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2796,7 +2796,7 @@
         "Virginia Metro": "Moderate (1.21)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Lower direct industry LQ but strong pathway to publishing, content strategy, and graduate school. Digital storytelling, content marketing, and grant writing for arts organizations are transferable skills with regional demand.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2850,7 +2850,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Exceptional DC/VA demand",
-      "curriculum_alignment": "Excellent",
+      "curriculum_alignment": "Exceptional alignment in DC Metro and Virginia regions. Federal contractor and government agency demand is outstanding. CompTIA Security+, CISSP preparation, and hands-on lab environments (SIEM, penetration testing) are employer priorities.",
       "recommendations": "Partner with federal agencies",
       "top_industries": "IT Services, National Security",
       "top_occupations": "Information Security Analysts",
@@ -2904,7 +2904,7 @@
         "Virginia Metro": "Strong (1.29)"
       },
       "regional_strength": "Strong in MD, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with media, advertising, and government communications sectors. Curriculum should emphasize data analytics, social media strategy, SEO, and multimedia production to match evolving employer expectations across all four regions.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -2958,7 +2958,7 @@
         "Virginia Metro": "Moderate (1.21)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate direct industry LQ but strong foundation for graduate school, law, content strategy, and policy careers. Writing-intensive curriculum is highly transferable. Technical writing and UX writing modules would expand employment pathways.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3012,7 +3012,7 @@
         "Virginia Metro": "Low (0.7)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Lower direct industry LQ but strong preparation for government, education, archival, and policy careers. Research and analytical writing skills are valued in federal agencies. Public history and digital humanities tracks strengthen regional alignment.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3066,7 +3066,7 @@
         "Virginia Metro": "Low (0.91)"
       },
       "regional_strength": "Moderate in MD",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate regional alignment. Creative economy, arts administration, and nonprofit arts organization pathways are available in Baltimore-DC corridor. Adding arts entrepreneurship, grant writing, and digital production competencies enhances employability.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3120,7 +3120,7 @@
         "Virginia Metro": "Low (0.7)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Flexible alignment across multiple sectors. Strongest match for students combining business and liberal arts competencies. Recommend structured concentration advising to ensure students build a coherent employer-facing skills narrative.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3174,7 +3174,7 @@
         "Virginia Metro": "Low (0.7)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong critical reasoning and ethics skills are valued in consulting, policy, and technology ethics roles. Lower direct industry LQ. Logic, data ethics, and applied ethics in AI and healthcare are high-value curriculum additions for regional employers.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3228,7 +3228,7 @@
         "Virginia Metro": "Strong (1.4)"
       },
       "regional_strength": "Strong in Balt., VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC Metro alignment with government and legislative sector. Federal and state civil service, policy research, and campaign management are primary pathways. Adding policy data analysis (R/Python) and legislative drafting competencies strengthens positioning.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3282,7 +3282,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Good alignment with social services and healthcare sector. Pre-professional pathway for counseling, I/O psychology, and human factors. Research methods, statistics, and applied behavioral analysis components are highly valued by regional employers.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3336,7 +3336,7 @@
         "Virginia Metro": "Low (0.7)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong Maryland alignment with research, education, and healthcare sectors driven by NIH, FDA, and Johns Hopkins proximity. STEM pipeline preparation. Laboratory safety, scientific communication, and research methods are critical employer competencies.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3390,7 +3390,7 @@
         "Virginia Metro": "Low (0.98)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Aligned with community services and social research sector. Quantitative research methods, program evaluation, and community health competencies are valued in nonprofit and government roles. Data analysis and survey research skills strengthen graduate outcomes.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3444,7 +3444,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Strong in MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong regional tech sector alignment across all four regions. Full-stack development, responsive design, and API integration are core employer competencies. React, Node.js, cloud deployment, and accessibility standards (WCAG) should be curriculum priorities.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3498,7 +3498,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Strong in MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC and Virginia alignment with federal IT contractor market. Advanced cloud architecture, cybersecurity, and enterprise systems management are high-priority employer competencies. Certification alignment (AWS, Azure, CISSP) strengthens graduate outcomes.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3552,7 +3552,7 @@
         "Virginia Metro": "Strong (1.73)"
       },
       "regional_strength": "Strong in MD, DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "High demand across all four regions. Machine learning, predictive analytics, and data engineering are the most requested employer competencies. Python, SQL, Tableau, and cloud-based ML platforms (AWS SageMaker) should be core curriculum requirements.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3606,7 +3606,7 @@
         "Virginia Metro": "Strong (1.29)"
       },
       "regional_strength": "Strong in MD, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong alignment with media, consulting, and government communications sectors. Advanced research methods, strategic communication planning, and digital analytics competencies position graduates for senior communications and public affairs roles.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3660,7 +3660,7 @@
         "Virginia Metro": "Strong (1.62)"
       },
       "regional_strength": "Strong in Balt., DC, VA",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate regional LQ but unique differentiator for digital content, XR production, and federal communications roles. Immersive media, documentary production, and transmedia storytelling are growing demand areas in the DC region.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3714,7 +3714,7 @@
         "Virginia Metro": "Moderate (1.08)"
       },
       "regional_strength": "Strong in MD, DC",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Strong DC and Virginia tech sector alignment. UX research, information architecture, and accessibility design are in growing demand from federal agencies and contractors. Portfolio-based assessment and industry partnership projects are critical.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
@@ -3768,7 +3768,7 @@
         "Virginia Metro": "Moderate (1.21)"
       },
       "regional_strength": "Strong in Balt.",
-      "curriculum_alignment": "",
+      "curriculum_alignment": "Moderate alignment with publishing and marketing communications sectors. Digital-first content strategy, editorial design, and multimedia publishing competencies are increasingly required. Emphasis on accessible design and digital accessibility (Section 508) strengthens federal market alignment.",
       "recommendations": "",
       "top_industries": "",
       "top_occupations": "",
