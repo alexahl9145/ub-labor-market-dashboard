@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/27719436/README.md)
+[README.md](https://github.com/user-attachments/files/27760066/README.md)
 # UB Labor Market Intelligence Dashboard
 
 Weekly auto-refreshing public dashboard for the University of Baltimore Career & Internship Center.
