@@ -530,10 +530,21 @@ def main():
     # ── Fetch UBWorks (Symplicity) live posting counts ────────────────────
     ubworks = fetch_ubworks_postings()
 
+    # ── Load current labor_market.json to preserve industries/programs/sources/formulas ──
+    # The dashboard needs industries (by region), regions, sources, formulas
+    # These are static from the workbook — preserve them from the existing file
+    existing = {}
+    if OUTPUT_FILE.exists():
+        try:
+            with open(OUTPUT_FILE) as f:
+                existing = json.load(f)
+        except Exception:
+            existing = {}
+
     output = {
         "refreshed":    datetime.now(timezone.utc).isoformat(),
-        "region":       "Baltimore Metro",
-        "dataWindow":   "2022–2026",
+        "dataWindow":   "2022-2026",
+        "regions":      existing.get("regions", ["Baltimore Metro","Maryland","DC Metro","Virginia Metro"]),
         "apiSources":   {
             "bls":        "https://www.bls.gov/developers/",
             "onet":       "https://services.onetcenter.org/",
@@ -543,8 +554,13 @@ def main():
             "total":   ubworks.get("total", 0),
             "by_type": ubworks.get("by_type", {}),
         },
+        # Live-updated fields
         "occupations":  occupations,
         "programs":     programs,
+        # Preserved static fields from existing file
+        "industries":   existing.get("industries", {}),
+        "sources":      existing.get("sources", []),
+        "formulas":     existing.get("formulas", []),
     }
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
