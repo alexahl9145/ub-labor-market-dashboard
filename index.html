@@ -416,22 +416,42 @@ window.addEventListener('DOMContentLoaded',function(){
     throw new Error('not ok');
   }).then(function(d){
     // Merge: live data wins for fields it has; SAMPLE_DATA fills any gaps
+    // Validate each field — only use live data if it has real content
+    function hasItems(arr){ return Array.isArray(arr) && arr.length > 0; }
+    function hasRegions(obj){ return obj && typeof obj==='object' && !Array.isArray(obj) && Object.keys(obj).length >= 4; }
     DATA = {
       refreshed:   d.refreshed   || SAMPLE_DATA.refreshed,
       dataWindow:  d.dataWindow  || SAMPLE_DATA.dataWindow,
-      regions:     d.regions     || SAMPLE_DATA.regions,
-      occupations: (d.occupations && d.occupations.length) ? d.occupations : SAMPLE_DATA.occupations,
-      industries:  (d.industries  && typeof d.industries==='object' && !Array.isArray(d.industries)) ? d.industries : SAMPLE_DATA.industries,
-      programs:    (d.programs    && d.programs.length)    ? d.programs    : SAMPLE_DATA.programs,
-      sources:     d.sources   || SAMPLE_DATA.sources,
-      formulas:    d.formulas  || SAMPLE_DATA.formulas,
-      ubworks:     d.ubworks   || {total:0, by_type:{}},
+      regions:     hasItems(d.regions)     ? d.regions     : SAMPLE_DATA.regions,
+      occupations: hasItems(d.occupations) ? d.occupations : SAMPLE_DATA.occupations,
+      industries:  hasRegions(d.industries)? d.industries  : SAMPLE_DATA.industries,
+      programs:    hasItems(d.programs)    ? d.programs    : SAMPLE_DATA.programs,
+      sources:     hasItems(d.sources)     ? d.sources     : SAMPLE_DATA.sources,
+      formulas:    hasItems(d.formulas)    ? d.formulas    : SAMPLE_DATA.formulas,
+      ubworks:     (d.ubworks && typeof d.ubworks==='object') ? d.ubworks : {total:0,by_type:{}},
     };
     render();
   }).catch(function(){ /* keep SAMPLE_DATA */ });
 });
 function getInds(rgn){return(DATA.industries&&DATA.industries[rgn])?DATA.industries[rgn]:[];}
-function render(){renderMeta();renderSKPI();renderFKPI();renderOccs();renderWage();renderBubble();renderSCmp(sRgn);renderLQ(fRgn);renderGrowth(fRgn);renderShare(fRgn);renderFCmp();renderSrc();renderFm();renderArch();tfi();}
+function safe(fn,name){try{fn();}catch(e){console.warn('err in '+name+':',e.message);}}
+function render(){
+  safe(renderMeta,'meta');
+  safe(renderSKPI,'skpi');
+  safe(renderFKPI,'fkpi');
+  safe(renderOccs,'occs');
+  safe(renderWage,'wage');
+  safe(renderBubble,'bubble');
+  safe(function(){renderSCmp(sRgn);},'scmp');
+  safe(function(){renderLQ(fRgn);},'lq');
+  safe(function(){renderGrowth(fRgn);},'growth');
+  safe(function(){renderShare(fRgn);},'share');
+  safe(renderFCmp,'fcmp');
+  safe(renderSrc,'src');
+  safe(renderFm,'fm');
+  safe(renderArch,'arch');
+  tfi();
+}
 function renderMeta(){try{st('refresh-date',new Date(DATA.refreshed).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));st('footer-copy','© '+new Date().getFullYear()+' University of Baltimore. All rights reserved.');}catch(e){}}
 function renderSKPI(){var o=DATA.occupations||[];if(!o.length)return;var tw=o.slice().sort(function(a,b){return b.median-a.median;})[0];var fg=o.slice().sort(function(a,b){return b.projGrowth-a.projGrowth;})[0];var bg=o.slice().sort(function(a,b){return b.talentGap-a.talentGap;})[0];var br=o.filter(function(x){return x.brightOutlook;}).length;st('s1',W(tw.median));st('s1b',tw.title);st('s2','+'+P(fg.projGrowth));st('s2b',fg.title);st('s3','+'+bg.talentGap.toLocaleString());st('s4',''+br);var uw=(DATA.ubworks&&DATA.ubworks.total)||0;st('s5',uw>0?uw.toLocaleString():'--');st('ubworks-count',uw>0?'live job postings on UBWorks':'Connect UBWorks API');}
 function renderFKPI(){var inds=getInds('Baltimore Metro');var tl=inds.slice().sort(function(a,b){return b.lq-a.lq;})[0]||{};var fi=inds.slice().sort(function(a,b){return b.regGrowth-a.regGrowth;})[0]||{};var progs=DATA.programs||[];var bp=progs.filter(function(p){return p.primary_bright;}).length;st('f1',tl.lq?tl.lq.toFixed(2):'--');st('f1b',tl.name||'--');st('f2',''+progs.length);st('f3',''+bp);st('f4',fi.regGrowth!==undefined?'+'+fi.regGrowth.toFixed(1)+'%':'--');st('f4b',fi.name||'--');}
