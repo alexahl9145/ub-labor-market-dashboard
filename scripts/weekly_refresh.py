@@ -541,6 +541,14 @@ def main():
         except Exception:
             existing = {}
 
+    # ── Guard: only write if we have real data ───────────────────────────
+    if not occupations:
+        log.warning("No occupations produced — keeping existing data/labor_market.json unchanged.")
+        return
+    if not programs:
+        log.warning("No programs produced — keeping existing data/labor_market.json unchanged.")
+        return
+
     output = {
         "refreshed":    datetime.now(timezone.utc).isoformat(),
         "dataWindow":   "2022-2026",
