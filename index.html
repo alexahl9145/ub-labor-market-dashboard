@@ -433,14 +433,17 @@ window.addEventListener('DOMContentLoaded',function(){
 
     var mergedOccs=SAMPLE_DATA.occupations.map(function(o){
       var lw=liveWages[o.soc];
-      if(!lw) return o;
+      var liveOcc = (d.occupations||[]).filter(function(x){return x.soc===o.soc;})[0]||{};
       return {soc:o.soc,title:o.title,industry:o.industry,naics:o.naics,
-        entry:lw.entry||o.entry,median:lw.median||o.median,future:lw.future||o.future,
+        entry:lw?lw.entry||o.entry:o.entry,
+        median:lw?lw.median||o.median:o.median,
+        future:lw?lw.future||o.future:o.future,
         projGrowth:o.projGrowth,talentGap:o.talentGap,demand:o.demand,
         brightOutlook:o.brightOutlook,outlook:o.outlook,description:o.description,
         topSkills:o.topSkills,techSkills:o.techSkills,tasks:o.tasks,
         education:o.education,onetUrl:o.onetUrl,onetJobsUrl:o.onetJobsUrl,
-        myNextMoveUrl:o.myNextMoveUrl,jobPostings:o.jobPostings};
+        myNextMoveUrl:o.myNextMoveUrl,jobPostings:o.jobPostings,
+        atsPostings:liveOcc.atsPostings||{total:0,by_ats:{},top_employers:[],jobs:[]}};
     });
 
     var mergedProgs=SAMPLE_DATA.programs.map(function(p){
@@ -484,6 +487,61 @@ function render(){
 function renderMeta(){try{st('refresh-date',new Date(DATA.refreshed).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}));st('footer-copy','© '+new Date().getFullYear()+' University of Baltimore. All rights reserved.');}catch(e){}}
 function renderSKPI(){var o=DATA.occupations||[];if(!o.length)return;var tw=o.slice().sort(function(a,b){return b.median-a.median;})[0];var fg=o.slice().sort(function(a,b){return b.projGrowth-a.projGrowth;})[0];var bg=o.slice().sort(function(a,b){return b.talentGap-a.talentGap;})[0];var br=o.filter(function(x){return x.brightOutlook;}).length;st('s1',W(tw.median));st('s1b',tw.title);st('s2','+'+P(fg.projGrowth));st('s2b',fg.title);st('s3','+'+bg.talentGap.toLocaleString());st('s4',''+br);var uw=(DATA.ubworks&&DATA.ubworks.total)||0;st('s5',uw>0?uw.toLocaleString():'--');st('ubworks-count',uw>0?'live job postings on UBWorks':'Connect UBWorks API');}
 function renderFKPI(){var inds=getInds('Baltimore Metro');var tl=inds.slice().sort(function(a,b){return b.lq-a.lq;})[0]||{};var fi=inds.slice().sort(function(a,b){return b.regGrowth-a.regGrowth;})[0]||{};var progs=DATA.programs||[];var bp=progs.filter(function(p){return p.primary_bright;}).length;st('f1',tl.lq?tl.lq.toFixed(2):'--');st('f1b',tl.name||'--');st('f2',''+progs.length);st('f3',''+bp);st('f4',fi.regGrowth!==undefined?'+'+fi.regGrowth.toFixed(1)+'%':'--');st('f4b',fi.name||'--');}
+/* ── ATS live postings section builder ───────────────────────────────── */
+function buildATSSection(o){
+  var ap = o.atsPostings;
+  if(!ap || ap.total===0) return '';
+
+  // ATS label colors
+  var ATS_COLORS = {
+    adp:'#E3192D',taleo:'#D4280D',workday:'#2E4057',greenhouse:'#24A148',
+    lever:'#0E6B99',icims:'#0033A0',successfactors:'#0070F2',bamboohr:'#73B52C',
+    smartrecruiters:'#FF6630',rippling:'#FF5555',paycom:'#0057A8',paycor:'#003087',
+    dayforce:'#005F9E',ultipro:'#1B5FAD',jobvite:'#4A9C6F',oraclecloud:'#C74634',
+    pageup:'#E4312B',recruitee:'#1F54B4'
+  };
+  function atsColor(name){return ATS_COLORS[name]||'#767676';}
+  function atsLabel(name){
+    var MAP={adp:'ADP',taleo:'Taleo',workday:'Workday',greenhouse:'Greenhouse',
+             lever:'Lever',icims:'iCIMS',successfactors:'SuccessFactors',
+             bamboohr:'BambooHR',smartrecruiters:'SmartRecruiters',
+             rippling:'Rippling',paycom:'Paycom',paycor:'Paycor',
+             dayforce:'Dayforce',ultipro:'UltiPro',jobvite:'Jobvite',
+             oraclecloud:'Oracle',pageup:'PageUp',recruitee:'Recruitee'};
+    return MAP[name]||name;
+  }
+
+  // ATS breakdown chips (top 4)
+  var byAts = ap.by_ats||{};
+  var atsKeys = Object.keys(byAts).slice(0,4);
+  var chips = atsKeys.map(function(k){
+    return '<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;'+
+      'padding:2px 7px;border-radius:10px;background:'+atsColor(k)+'22;color:'+atsColor(k)+';'+
+      'border:1px solid '+atsColor(k)+'44">'+atsLabel(k)+': '+byAts[k]+'</span>';
+  }).join(' ');
+
+  // Top employer direct-apply links (up to 5)
+  var topJobs = ap.jobs||[];
+  var empLinks = topJobs.slice(0,5).map(function(j){
+    if(!j.url) return '';
+    var co = j.company.length>22 ? j.company.slice(0,22)+'…' : j.company;
+    return '<a href="'+j.url+'" target="_blank" rel="noopener noreferrer" '+
+      'style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;'+
+      'text-decoration:none;background:'+atsColor(j.ats)+'11;color:'+atsColor(j.ats)+';'+
+      'border:1px solid '+atsColor(j.ats)+'33;white-space:nowrap" '+
+      'title="'+j.title+' at '+j.company+' ('+atsLabel(j.ats)+')">'+
+      co+' &#8599;</a>';
+  }).join('');
+
+  return '<div style="padding:.5rem 1.25rem;border-top:1px solid var(--rule-lt);border-bottom:1px solid var(--rule-lt);margin-bottom:0">'+
+    '<div style="display:flex;align-items:center;gap:.375rem;margin-bottom:.375rem;flex-wrap:wrap">'+
+      '<span style="font-size:10px;font-weight:700;letter-spacing:.05rem;text-transform:uppercase;color:var(--ink3)">'+
+        ap.total+' live ATS postings</span>'+chips+
+    '</div>'+
+    (empLinks ? '<div style="display:flex;flex-wrap:wrap;gap:.25rem">'+empLinks+'</div>' : '')+
+  '</div>';
+}
+
 function renderOccs(){
   var g=document.getElementById('occ-grid');if(!g)return;g.innerHTML='';
   DATA.occupations.forEach(function(o){
@@ -510,6 +568,7 @@ function renderOccs(){
         '<a href="'+o.onetJobsUrl+'" target="_blank" rel="noopener noreferrer" class="jl onet">O*NET Jobs &#8599;</a>'+
         '<a href="'+o.myNextMoveUrl+'" target="_blank" rel="noopener noreferrer" class="jl s">My Next Move &#8599;</a>'+
       '</div>'+
+      buildATSSection(o)+
       '<div class="olinks"><span class="olbl">Find jobs</span>'+jobs+'</div>';
     g.appendChild(card);
   });
