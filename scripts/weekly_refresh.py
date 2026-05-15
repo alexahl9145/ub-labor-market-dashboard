@@ -17,7 +17,7 @@ Output: data/labor_market.json  (read by index.html on every page load)
 """
 
 import os, json, requests, logging, time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
@@ -28,7 +28,23 @@ BLS_API_KEY         = os.environ.get("BLS_API_KEY", "")
 ONET_API_KEY        = os.environ.get("ONET_API_KEY", "")
 SYMPLICITY_KEY      = os.environ.get("SYMPLICITY_API_KEY", "")
 SYMPLICITY_BASE     = os.environ.get("SYMPLICITY_BASE_URL", "").rstrip("/")
+APIFY_TOKEN         = os.environ.get("APIFY_TOKEN", "")
 
+# Fantastic.jobs actor on Apify — covers ADP, Taleo, Workday, Greenhouse,
+# Lever, iCIMS, SuccessFactors, Rippling, Paycom, BambooHR + 44 more ATS
+APIFY_ACTOR_ID      = "fantastic-jobs~career-site-job-listing-api"
+APIFY_RUN_URL       = f"https://api.apify.com/v2/acts/{APIFY_ACTOR_ID}/run-sync-get-dataset-items"
+
+# ATS platforms to include — covers the most common regional employers
+ATS_PLATFORMS = [
+    "adp", "taleo", "workday", "greenhouse", "lever",
+    "icims", "successfactors", "bamboohr", "smartrecruiters",
+    "jobvite", "ultipro", "paycom", "paycor", "rippling",
+    "dayforce", "oraclecloud", "pageup", "recruitee"
+]
+
+# Search locations for Baltimore-region employers
+SEARCH_LOCATIONS = ["Baltimore, MD", "Maryland", "Washington, DC"]
 # ── API endpoints ─────────────────────────────────────────────────────────────
 BLS_URL        = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 ONET_BASE      = "https://services.onetcenter.org/ws"
@@ -502,6 +518,128 @@ def fetch_ubworks_postings():
         return {"total": 0, "by_type": {}}
 
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# APIFY / FANTASTIC.JOBS — Multi-ATS live posting counts
+# Covers: ADP, Taleo, Workday, Greenhouse, Lever, iCIMS, SuccessFactors +44 more
+# Pricing: ~$4 per 1,000 jobs fetched  (20 occupations × 50 jobs = ~$4/month)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def fetch_ats_postings_for_occupation(title: str, soc: str) -> dict:
+    """
+    Query Fantastic.jobs via Apify for live ATS job postings matching one
+    occupation title in the Baltimore / DC / Maryland region.
+    Returns structured result: total count, top employers, ATS breakdown.
+    """
+    if not APIFY_TOKEN:
+        return {}
+
+    # Build search payload
+    payload = {
+        "keyword":              title,
+        "location":             "Baltimore, MD",
+        "radius":               75,                  # miles
+        "limit":                50,                  # 50 jobs × 20 occs = 1000 total ≈ $4
+        "atsPlatformsInclude":  ATS_PLATFORMS,
+        "datePostedAfter":      (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d"),
+    }
+
+    try:
+        r = requests.post(
+            APIFY_RUN_URL,
+            params={"token": APIFY_TOKEN},
+            json=payload,
+            timeout=120,           # sync run can take up to 2 minutes
+        )
+
+        if r.status_code == 401:
+            log.error("Apify 401 — check APIFY_TOKEN secret.")
+            return {}
+        if r.status_code == 402:
+            log.error("Apify 402 — insufficient credits. Add funds at apify.com/billing.")
+            return {}
+        r.raise_for_status()
+
+        jobs = r.json() if isinstance(r.json(), list) else r.json().get("data", [])
+        if not jobs:
+            return {"total": 0, "by_ats": {}, "top_employers": [], "jobs": []}
+
+        # Aggregate by ATS platform
+        by_ats = {}
+        employers_seen = {}
+        top_jobs = []
+
+        for job in jobs:
+            ats  = (job.get("ats") or job.get("platform") or "unknown").lower()
+            co   = job.get("company") or job.get("companyName") or ""
+            url  = job.get("url")    or job.get("applyUrl")    or job.get("jobUrl") or ""
+            loc  = job.get("location") or ""
+            sal  = job.get("salary")   or ""
+
+            by_ats[ats] = by_ats.get(ats, 0) + 1
+
+            if co and co not in employers_seen:
+                employers_seen[co] = True
+                if len(top_jobs) < 5 and url:
+                    top_jobs.append({
+                        "company": co,
+                        "title":   job.get("title", title),
+                        "ats":     ats,
+                        "url":     url,
+                        "location": loc,
+                        "salary":  sal,
+                    })
+
+        # Sort ATS by count descending
+        by_ats_sorted = dict(sorted(by_ats.items(), key=lambda x: -x[1]))
+
+        result = {
+            "total":         len(jobs),
+            "by_ats":        by_ats_sorted,
+            "top_employers": list(employers_seen.keys())[:8],
+            "jobs":          top_jobs,
+        }
+        log.info("  Apify %s (%s): %d postings [%s]",
+                 title, soc, len(jobs),
+                 ", ".join(f"{k}:{v}" for k, v in list(by_ats_sorted.items())[:4]))
+        return result
+
+    except requests.exceptions.Timeout:
+        log.warning("Apify timeout for %s — skipping.", title)
+        return {}
+    except Exception as e:
+        log.error("Apify error for %s: %s", title, e)
+        return {}
+
+
+def fetch_all_ats_postings(occupations: list) -> dict:
+    """
+    Fetch live ATS posting data for all occupations.
+    Returns dict keyed by SOC code.
+    Skips gracefully if APIFY_TOKEN is not set.
+    """
+    if not APIFY_TOKEN:
+        log.warning("No APIFY_TOKEN — multi-ATS posting counts skipped. "
+                    "Add secret at: github.com → Settings → Secrets → Actions")
+        return {}
+
+    log.info("Fetching multi-ATS postings via Apify/Fantastic.jobs (%d occupations)...", len(occupations))
+    results = {}
+    import time as _time
+
+    for occ in occupations:
+        soc   = occ["soc"]
+        title = occ["title"]
+        data  = fetch_ats_postings_for_occupation(title, soc)
+        if data:
+            results[soc] = data
+        _time.sleep(1)   # be polite to the API
+
+    total_found = sum(r.get("total", 0) for r in results.values())
+    log.info("Apify complete: %d live postings across %d occupations", total_found, len(results))
+    return results
+
+
 def main():
     log.info("═" * 60)
     log.info("UB Labor Market weekly refresh — %s", datetime.now(timezone.utc).isoformat())
@@ -529,6 +667,17 @@ def main():
 
     # ── Fetch UBWorks (Symplicity) live posting counts ────────────────────
     ubworks = fetch_ubworks_postings()
+
+    # ── Fetch multi-ATS live postings via Apify / Fantastic.jobs ─────────
+    ats_postings = fetch_all_ats_postings(occupations)
+
+    # Attach ATS posting data to each occupation object
+    for occ in occupations:
+        soc = occ["soc"]
+        if soc in ats_postings:
+            occ["atsPostings"] = ats_postings[soc]
+        else:
+            occ["atsPostings"] = {"total": 0, "by_ats": {}, "top_employers": [], "jobs": []}
 
     # ── Load current labor_market.json to preserve industries/programs/sources/formulas ──
     # The dashboard needs industries (by region), regions, sources, formulas
