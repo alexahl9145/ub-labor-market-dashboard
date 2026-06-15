@@ -1,5 +1,5 @@
 {
-  "refreshed": "2026-06-08T17:37:52.196077+00:00",
+  "refreshed": "2026-06-15T20:02:34.099323+00:00",
   "dataWindow": "2022-2026",
   "regions": [
     "Baltimore Metro",
@@ -46,8 +46,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -81,8 +83,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -116,8 +120,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -151,8 +157,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -186,8 +194,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -221,8 +231,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -256,8 +268,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -291,8 +305,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -326,8 +342,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -361,8 +379,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -396,8 +416,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -431,8 +453,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -466,8 +490,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -501,8 +527,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -536,8 +564,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -571,8 +601,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -606,8 +638,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -641,8 +675,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -676,8 +712,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -711,8 +749,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -746,8 +786,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -781,8 +823,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -816,8 +860,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -851,8 +897,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -886,8 +934,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -921,8 +971,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -956,8 +1008,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -991,8 +1045,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -1026,8 +1082,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -1061,8 +1119,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -1096,8 +1156,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -1131,8 +1193,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
@@ -1166,8 +1230,10 @@
         "maryland_state": "https://www.jobaps.com/MD/sup/BulList.aspx"
       },
       "atsPostings": {
-        "total": 0,
-        "by_ats": {},
+        "total": 50,
+        "by_ats": {
+          "unknown": 50
+        },
         "top_employers": [],
         "jobs": []
       }
